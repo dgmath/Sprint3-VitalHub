@@ -22,7 +22,7 @@ export const Prescricao = ({
 }) => {
 
     const [showModalCamera, setShowModalCamera] = useState(false)
-    // const [uriCameraCapture, setUriCameraCapture] = useState(null)
+    const [uriCameraCapture, setUriCameraCapture] = useState(null)
 
     return (
         <ContainerPerfil>
@@ -55,15 +55,18 @@ export const Prescricao = ({
 
                     <ContainerImageProntuario>
                         <TextTitleImage>Exames médicos</TextTitleImage>
-                        {/* {uriCameraCapture == null ?( */}
-                            <BoxImage>
-                                <FontAwesome name='image' size={25} color='#121212' />
-                                <TextImage>Nenhuma foto informada</TextImage>
-                            </BoxImage>
-                        {/* // ):(
-                            // <ImageProntuario source = {{uri: uriCameraCapture}}/>
-                            // <></>
-                        // )} */}
+                        {uriCameraCapture == null ? (
+                            <>
+                                <BoxImage>
+                                    <FontAwesome name='image' size={25} color='#121212' />
+                                    <TextImage>Nenhuma foto informada</TextImage>
+                                </BoxImage>
+                            </>
+                        ) : (
+                            <>
+                                <ImageProntuario source={{ uri: uriCameraCapture }} />
+                            </>
+                        )}
                     </ContainerImageProntuario>
 
                     <ContainerBoxPrescricao>
@@ -74,7 +77,7 @@ export const Prescricao = ({
                         </ButtonPrescricao>
 
 
-                        <LinkMediumPres>Cancelar</LinkMediumPres>
+                        <LinkMediumPres onPress={() => setUriCameraCapture(null)}>Cancelar</LinkMediumPres>
 
                     </ContainerBoxPrescricao>
 
@@ -92,9 +95,9 @@ export const Prescricao = ({
                 </ContainerInputPresc>
 
                 <ModalCamera
-                    visible = {showModalCamera}
-                    // setUriCameraCapture={setUriCameraCapture}
-                    setShowModalCamera = {setShowModalCamera}
+                    visible={showModalCamera}
+                    setUriCameraCapture={setUriCameraCapture}
+                    setShowModalCamera={setShowModalCamera}
                 />
 
 

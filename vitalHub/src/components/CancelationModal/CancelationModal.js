@@ -9,7 +9,7 @@ import { ModalContent, ModalText, PatientModal } from "./style"
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // import do audio
-import audiozap from "./assets/shooting-sound-fx-159024.wav"
+// import audiozap from "./assets/shooting-sound-fx-159024.wav"
 
 // 1º importar os recursos do expo notification
 import * as Notifications from "expo-notifications";
