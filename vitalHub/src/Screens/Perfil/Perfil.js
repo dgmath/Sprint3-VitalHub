@@ -5,8 +5,40 @@ import { SubTitlePerfil } from "../../components/Text/style";
 import { TitlePerfil } from "../../components/Title/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style"
 import { Button, ButtonEditPerfil, ButtonSairPerfil } from "../../components/Button/style"
+import { useEffect, useState } from "react";
+import { userDecodeToken } from "../../utils/Auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const Perfil = () => {
+export const Perfil = ({navigation}) => {
+
+    const [userName, setUserName] = useState('')
+    const [userEmail, setUserEmail] = useState('')
+
+    async function ProfileLoad() {
+        const token = await userDecodeToken();
+
+        if (token) {
+            console.log(token);
+            setUserName(token.name)
+            setUserEmail(token.email)
+        }
+    }
+    async function Logout() {
+        await AsyncStorage.removeItem("token");
+        const tokenAfterClear = await AsyncStorage.getItem("token")
+        if (tokenAfterClear === null) {
+            console.log("Token apagado");
+            // console.log(token);
+        }
+        else{
+            console.log("Token não apagado");
+        }
+        navigation.navigate("Login")
+    }
+
+    useEffect(() => {
+        ProfileLoad()
+    }, [])
     return (
         <ContainerPerfil>
             <MainContentScroll>
@@ -14,9 +46,9 @@ export const Perfil = () => {
 
                     <ImagePerfil source={require("../../assets/ImagePerfil.jpg")} />
 
-                    <TitlePerfil>Miguel Arteta</TitlePerfil>
+                    <TitlePerfil>{userName}</TitlePerfil>
 
-                    <SubTitlePerfil>miguel.arteta@gmail.com</SubTitlePerfil>
+                    <SubTitlePerfil>{userEmail}</SubTitlePerfil>
 
                     <ContainerInputPerfil>
                         <BoxInput
@@ -61,7 +93,7 @@ export const Perfil = () => {
                         <ButtonTitle>Editar</ButtonTitle>
                     </ButtonEditPerfil>
 
-                    <ButtonSairPerfil>
+                    <ButtonSairPerfil onPress={() => Logout()}>
                         <ButtonTitle>Sair</ButtonTitle>
                     </ButtonSairPerfil>
 
