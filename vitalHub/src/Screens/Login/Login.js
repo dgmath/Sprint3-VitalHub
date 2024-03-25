@@ -12,7 +12,7 @@ import { TextAccount } from "./style"
 import { useState } from "react"
 
 import api from "../../Services/Services"
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Login = ({ navigation }) => {
 
@@ -23,8 +23,9 @@ export const Login = ({ navigation }) => {
         await api.post('/Login' , {
             email: email,
             senha: senha
-        }).then(response => {
-            console.log(response);
+        }).then ( async (response) => {
+            await AsyncStorage.setItem("token", JSON.stringify(response.data))
+            navigation.navigate('Main')
         }).catch( error => {
             console.log(error);
         })
