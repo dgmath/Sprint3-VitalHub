@@ -16,7 +16,7 @@ import api from "../../Services/Services"
 
 export const Login = ({ navigation }) => {
 
-    const [email, setEmail] = useState('lucao@email.com')
+    const [email, setEmail] = useState('teste@email.com')
     const [senha, setSenha] = useState('1234')
 
     async function Logar() {
