@@ -25,6 +25,7 @@ export const Login = ({ navigation }) => {
             senha: senha
         }).then ( async (response) => {
             await AsyncStorage.setItem("token", JSON.stringify(response.data))
+            console.log(response);
             navigation.navigate('Main')
         }).catch( error => {
             console.log(error);
