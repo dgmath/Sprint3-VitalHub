@@ -47,11 +47,7 @@ export const Home = ({
     const [showModalSchedule, setShowModalSchedule] = useState(false);
     const [showModalDoctor, setShowModalDoctor] = useState(false);
     const [info, setInfo] = useState({})
-<<<<<<< HEAD
-    const [PacienteOuN, setPacienteOuN] = useState(false)
-=======
     const [PacienteOuN, setPacienteOuN] = useState(true)
->>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
 
     return (
         <ContainerPerfil>
@@ -142,10 +138,6 @@ export const Home = ({
             }
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
             <ScheduleModal
                 navigation={navigation}
                 visible={showModalSchedule}
