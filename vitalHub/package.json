@@ -21,11 +21,22 @@
     "@react-navigation/bottom-tabs": "^6.5.16",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
+<<<<<<< HEAD
     "axios": "^1.6.7",
     "expo": "~50.0.6",
     "expo-font": "~11.10.2",
     "expo-linear-gradient": "~12.7.1",
     "expo-location": "~16.5.5",
+=======
+    "axios": "^1.6.8",
+    "expo": "~50.0.6",
+    "expo-camera": "~14.1.1",
+    "expo-font": "~11.10.2",
+    "expo-linear-gradient": "~12.7.1",
+    "expo-location": "~16.5.5",
+    "expo-media-library": "~15.9.1",
+    "expo-notifications": "~0.27.6",
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
     "expo-status-bar": "~1.11.1",
     "moment": "^2.30.1",
     "react": "18.2.0",
@@ -37,8 +48,12 @@
     "react-native-maps-directions": "^1.9.0",
     "react-native-picker-select": "^9.0.1",
     "styled-components": "^6.1.8",
+<<<<<<< HEAD
     "expo-media-library": "~15.9.1",
     "expo-camera": "~14.1.1"
+=======
+    "@react-native-async-storage/async-storage": "1.21.0"
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

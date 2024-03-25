@@ -22,7 +22,11 @@ export const Prescricao = ({
 }) => {
 
     const [showModalCamera, setShowModalCamera] = useState(false)
+<<<<<<< HEAD
     // const [uriCameraCapture, setUriCameraCapture] = useState(null)
+=======
+    const [uriCameraCapture, setUriCameraCapture] = useState(null)
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
 
     return (
         <ContainerPerfil>
@@ -55,6 +59,7 @@ export const Prescricao = ({
 
                     <ContainerImageProntuario>
                         <TextTitleImage>Exames médicos</TextTitleImage>
+<<<<<<< HEAD
                         {/* {uriCameraCapture == null ?( */}
                             <BoxImage>
                                 <FontAwesome name='image' size={25} color='#121212' />
@@ -64,6 +69,20 @@ export const Prescricao = ({
                             // <ImageProntuario source = {{uri: uriCameraCapture}}/>
                             // <></>
                         // )} */}
+=======
+                        {uriCameraCapture == null ? (
+                            <>
+                                <BoxImage>
+                                    <FontAwesome name='image' size={25} color='#121212' />
+                                    <TextImage>Nenhuma foto informada</TextImage>
+                                </BoxImage>
+                            </>
+                        ) : (
+                            <>
+                                <ImageProntuario source={{ uri: uriCameraCapture }} />
+                            </>
+                        )}
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
                     </ContainerImageProntuario>
 
                     <ContainerBoxPrescricao>
@@ -74,7 +93,11 @@ export const Prescricao = ({
                         </ButtonPrescricao>
 
 
+<<<<<<< HEAD
                         <LinkMediumPres>Cancelar</LinkMediumPres>
+=======
+                        <LinkMediumPres onPress={() => setUriCameraCapture(null)}>Cancelar</LinkMediumPres>
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
 
                     </ContainerBoxPrescricao>
 
@@ -92,9 +115,15 @@ export const Prescricao = ({
                 </ContainerInputPresc>
 
                 <ModalCamera
+<<<<<<< HEAD
                     visible = {showModalCamera}
                     // setUriCameraCapture={setUriCameraCapture}
                     setShowModalCamera = {setShowModalCamera}
+=======
+                    visible={showModalCamera}
+                    setUriCameraCapture={setUriCameraCapture}
+                    setShowModalCamera={setShowModalCamera}
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
                 />
 
 

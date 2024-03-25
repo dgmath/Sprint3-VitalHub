@@ -20,7 +20,11 @@ export const ModalCamera = ({
 
     const [openModal, setOpenModal] = useState(false)
     const [photo, setPhoto] = useState(null)
+<<<<<<< HEAD
     const [tipoCamera, setTipoCamera] = useState(CameraType.front)
+=======
+    const [tipoCamera, setTipoCamera] = useState(CameraType.back)
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
 
     useEffect(() => {
         (async () => {
@@ -30,6 +34,7 @@ export const ModalCamera = ({
         })();
     }, [])
 
+<<<<<<< HEAD
     async function UploadPhoto() {
         await MediaLibrary.createAssetAsync(photo).then(() => {
             alert('salvo')
@@ -37,6 +42,15 @@ export const ModalCamera = ({
             alert('erro')
         })
     }
+=======
+    // async function UploadPhoto() {
+    //     await MediaLibrary.createAssetAsync(photo).then(() => {
+    //         alert('salvo')
+    //     }).catch(error => {
+    //         alert('erro')
+    //     })
+    // }
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
 
     async function CapturePhoto() {
         if (cameraRef) {
@@ -44,7 +58,11 @@ export const ModalCamera = ({
             setPhoto(photo.uri)
             setOpenModal(true)
 
+<<<<<<< HEAD
             SendFormPhoto()
+=======
+            // SendFormPhoto()
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
 
             console.log(photo);
 
@@ -62,10 +80,23 @@ export const ModalCamera = ({
         setOpenModal(false)
     }
 
+<<<<<<< HEAD
     async function SendFormPhoto(){
         await setUriCameraCapture(CapturePhoto)
     }
 
+=======
+    async function SendFormPhoto() {
+        await setUriCameraCapture(photo)
+
+        HandleClose()
+    }
+
+    function HandleClose(){
+        setShowModalCamera(false)
+      }
+
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
     return (
         <Modal
             {...rest}
@@ -78,9 +109,13 @@ export const ModalCamera = ({
                     ref={cameraRef}
                     style={styles.camera}
                     type={tipoCamera}
+<<<<<<< HEAD
 
 
                 // ratio='16.9'
+=======
+                    ratio='16:9'
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
                 >
 
                     <View style={styles.viewFlip}>
@@ -130,7 +165,11 @@ export const ModalCamera = ({
                                 <FontAwesome name='trash' size={35} color='#ff0000' />
                             </TouchableOpacity>
 
+<<<<<<< HEAD
                             <TouchableOpacity style={styles.btnUpload} onPress={() => UploadPhoto()}>
+=======
+                            <TouchableOpacity style={styles.btnUpload} onPress={() => SendFormPhoto() && ClearPhoto()}>
+>>>>>>> 1689217e5fcb9975a9e94e497a8cbc7148bf3e83
                                 <FontAwesome name='upload' size={35} color='#121212' />
                             </TouchableOpacity>
                         </View>
