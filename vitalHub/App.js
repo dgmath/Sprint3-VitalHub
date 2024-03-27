@@ -13,12 +13,12 @@ import { Cadastro } from './src/Screens/Cadastro/Cadastro';
 import { Perfil } from './src/Screens/Perfil/Perfil';
 import { Home } from './src/Screens/Home/Home';
 import { InsercaoProntuario } from './src/Screens/InsercaoProntuario/InsercaoProntuario';
-import { SelecionaClinica } from './src/Screens/SelecionaClinica/SelecionaClinica';
 import { SelecionarMedico } from './src/Screens/SelecionarMedico/SelecionarMedico';
 import { SelecionarData } from './src/Screens/SelecionarData/selecionarData';
 import { PlaceConsult } from './src/Screens/PlaceConsult/PlaceConsult';
 import { Prescricao } from './src/Screens/Prescricao/Prescricao';
 import { Main } from './src/Screens/Main/Main';
+import { SelecionarClinica } from './src/Screens/SelecionaClinica/SelecionaClinica';
 
 
 
@@ -109,9 +109,9 @@ export default function App() {
           options={{ title: "Home", headerShown: false  }}
         />
         <Stack.Screen
-          name="SelecionaClinica"
-          component={SelecionaClinica}
-          options={{ title: "SelecionaClinica", headerShown: false  }}
+          name="SelecionarClinica"
+          component={SelecionarClinica}
+          options={{ title: "SelecionarClinica", headerShown: false  }}
         />
         <Stack.Screen
           name="SelecionarMedico"

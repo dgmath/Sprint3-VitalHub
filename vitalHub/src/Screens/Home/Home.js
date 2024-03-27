@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BtnListAppointment } from "../../components/BtnListAppointment/BtnListAppointment"
 import { CalendarHome } from "../../components/CalendarHome/calendarHome"
 import { ContainerPerfil } from "../../components/Container/style"
@@ -11,6 +11,7 @@ import { ProntuarioModal } from "../../components/ProntuarioModal/ProntuarioModa
 import { Stethoscope } from "../../components/Stethoscope/Stethoscope"
 import { ScheduleModal } from "../../components/ScheduleModal/ScheduleModal"
 import { DoctorModal } from "../../components/DoctorModal/DoctorModal"
+import { userDecodeToken } from "../../utils/Auth"
 
 const Consultas = [
     { id: "1", name: "Dr.Claudio", situacao: "pendente" },
@@ -48,6 +49,22 @@ export const Home = ({
     const [showModalDoctor, setShowModalDoctor] = useState(false);
     const [info, setInfo] = useState({})
     const [PacienteOuN, setPacienteOuN] = useState(true)
+
+    const [role, setRole] = useState('')
+    
+    async function ProfileLoad() {
+        const token = await userDecodeToken();
+
+        if (token) {
+            console.log(token);
+            setRole(token.role)
+        }
+    }
+
+    useEffect(() => {
+        ProfileLoad()
+    }, [])
+
 
     return (
         <ContainerPerfil>
@@ -130,7 +147,7 @@ export const Home = ({
                 setShowModalAppointment={setShowModalAppointment}
             />
 
-            {PacienteOuN ? 
+            {role === 'Paciente' ?
                 <Stethoscope
                     onPress={() => setShowModalSchedule(true)}
                 /> 

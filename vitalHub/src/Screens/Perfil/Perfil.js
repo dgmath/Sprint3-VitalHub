@@ -32,6 +32,7 @@ export const Perfil = ({navigation}) => {
         }
         else{
             console.log("Token não apagado");
+            console.log(token);
         }
         navigation.navigate("Login")
     }

@@ -13,21 +13,30 @@ import { useState } from "react"
 
 import api from "../../Services/Services"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActivityIndicator } from "react-native"
+//validar input
+//travar o botao
+//icone de load no botao
+
 
 export const Login = ({ navigation }) => {
 
     const [email, setEmail] = useState('teste@email.com')
     const [senha, setSenha] = useState('1234')
+    const [loading, setLoading] = useState(false)
 
     async function Logar() {
+        setLoading(true)
         await api.post('/Login' , {
             email: email,
             senha: senha
         }).then ( async (response) => {
             await AsyncStorage.setItem("token", JSON.stringify(response.data))
             console.log(response);
-            navigation.navigate('Main')
+            setLoading(false)
+            navigation.replace('Main')
         }).catch( error => {
+            setLoading(false)
             console.log(error);
         })
         console.log(456);
@@ -46,18 +55,19 @@ export const Login = ({ navigation }) => {
                 placeholder="Usuario ou E-mail"
                 onChangeText={(txt) => setEmail(txt)}
                 value={email}
-                // onChange={event => {event.Na}}
+                inputMode='email'
             />
             <Input
                 onChangeText={(txt) => setSenha(txt)}
                 value={senha}
                 placeholder="Senha"
+                secureTextEntry={true}
             />
 
             <LinkMedium onPress={() => navigation.navigate("RecoverSenha")}>Esqueceu sua senha?</LinkMedium>
 
             <Button onPress={(e) => Logar()}>
-                <ButtonTitle>Entrar</ButtonTitle>
+                {loading ? <ActivityIndicator/> : <ButtonTitle>Entrar</ButtonTitle>}
             </Button>
 
             <ButtonGoogle>
@@ -67,7 +77,7 @@ export const Login = ({ navigation }) => {
             </ButtonGoogle>
 
             <ContentAccount>
-                <TextAccount>Nao tem conta?</TextAccount>
+                <TextAccount>Não tem conta?</TextAccount>
                 <LinkEnd onPress={() => navigation.navigate("Cadastro")}>Crie uma conta agora!</LinkEnd>
             </ContentAccount>
 

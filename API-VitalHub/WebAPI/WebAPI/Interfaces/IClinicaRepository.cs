@@ -9,5 +9,7 @@ namespace WebAPI.Interfaces
         public List<Clinica> ListarTodos();
 
         public Clinica BuscarPorId(int id);
+
+        public List<Clinica> ListarPorCidade(string cidade);
     }
 }

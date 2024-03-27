@@ -51,7 +51,7 @@ export const ScheduleModal = ({
                     </ContainerForm>
 
 
-                    <ModalButton onPress={() => navigation.navigate("SelecionaClinica")}>
+                    <ModalButton onPress={() => navigation.navigate("SelecionarClinica")}>
                         <ButtonTitle>Continuar</ButtonTitle>
                     </ModalButton>
 

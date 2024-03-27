@@ -44,7 +44,7 @@ namespace WebAPI.Repositories
 
         public List<Medico> ListarTodos()
         {
-            return ctx.Medicos.ToList();
+            return ctx.Medicos. .ToList();
         }
         public void Cadastrar(Usuario user)
         {

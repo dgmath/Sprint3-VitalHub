@@ -9,7 +9,7 @@ import { LinkEndModal } from "../../components/Link/style"
 
 
 
-export const SelecionaClinica = ({
+export const SelecionarClinica = ({
     navigation
 }) => {
     const [selected, setSelected] = useState("")
