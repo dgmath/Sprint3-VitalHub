@@ -13,27 +13,35 @@ import { useState } from "react"
 
 import api from "../../Services/Services"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ActivityIndicator } from "react-native"
 
 export const Login = ({ navigation }) => {
 
-    const [email, setEmail] = useState('teste@email.com')
+    const [email, setEmail] = useState('paciente@email.com')
     const [senha, setSenha] = useState('1234')
+    const [btnDisable, setBtnDisable] = useState(false)
 
     async function Logar() {
-        await api.post('/Login' , {
+        await api.post('/Login', {
             email: email,
             senha: senha
-        }).then ( async (response) => {
+        }).then(async (response) => {
+
+            setBtnDisable(true)
+
             await AsyncStorage.setItem("token", JSON.stringify(response.data))
             console.log(response);
             navigation.navigate('Main')
-        }).catch( error => {
+
+            setBtnDisable(false)
+
+        }).catch(error => {
             console.log(error);
         })
         console.log(456);
 
-        // navigation.navigate('Main')
     }
+
 
     return (
         <Container>
@@ -46,7 +54,7 @@ export const Login = ({ navigation }) => {
                 placeholder="Usuario ou E-mail"
                 onChangeText={(txt) => setEmail(txt)}
                 value={email}
-                // onChange={event => {event.Na}}
+            // onChange={event => {event.Na}}
             />
             <Input
                 onChangeText={(txt) => setSenha(txt)}
@@ -56,8 +64,15 @@ export const Login = ({ navigation }) => {
 
             <LinkMedium onPress={() => navigation.navigate("RecoverSenha")}>Esqueceu sua senha?</LinkMedium>
 
-            <Button onPress={(e) => Logar()}>
-                <ButtonTitle>Entrar</ButtonTitle>
+            <Button onPress={(e) => Logar()} disabled={btnDisable}>
+                {btnDisable ? (
+                    <ActivityIndicator
+                        size={20}
+                        color={"#FFFF"}
+                    />
+                ) : (
+                    <ButtonTitle>Entrar</ButtonTitle>
+                )}
             </Button>
 
             <ButtonGoogle>

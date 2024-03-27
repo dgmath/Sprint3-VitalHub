@@ -7,6 +7,9 @@ import { TitleModal, TitleSelect } from "../../components/Title/style";
 import { ListComponent } from "../../components/List/list";
 import { ButtonCardMedico } from "../../components/ButtonCardMedico/ButtonCardMedico";
 
+// criar state para receber a lista de medicos(array)
+// criar a funcao para obter a lista de medicos da api e setar no state
+// criar um effect 
 export const SelecionarMedico = ({navigation}) => {
 
     const [selected, setSelected] = useState("")

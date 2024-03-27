@@ -5,8 +5,14 @@ import { SubTitlePerfil } from "../../components/Text/style";
 import { TitlePerfil } from "../../components/Title/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style"
 import { Button, ButtonEditPerfil, ButtonSairPerfil } from "../../components/Button/style"
+import api from "../../Services/Services";
 
 export const Perfil = () => {
+
+    async function Logout() {
+        
+    }
+
     return (
         <ContainerPerfil>
             <MainContentScroll>
