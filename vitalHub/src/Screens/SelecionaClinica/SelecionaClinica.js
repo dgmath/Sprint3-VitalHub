@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ButtonCardClinica } from "../../components/ButtonCardClinica/ButtonCardClinica"
 import { ContainerPerfil, MainContent, MainContentScroll } from "../../components/Container/style"
 import { ListComponent } from "../../components/List/list"
@@ -6,15 +6,12 @@ import { TitleModal } from "../../components/Title/style"
 import { Button } from "../../components/Button/style"
 import { ButtonTitle } from "../../components/ButtonTitle/style"
 import { LinkEndModal } from "../../components/Link/style"
-
+import api from "../../Services/Services"
 
 
 export const SelecionaClinica = ({
     navigation
 }) => {
-    const [selected, setSelected] = useState("")
-    const [nameClinic, setNameClinic]= useState("")
-
     const [clinica, setClinica] = useState([
         {
             id: "1",
@@ -45,6 +42,27 @@ export const SelecionaClinica = ({
             operatingDays: "Seg-Sab",
         },
     ]);
+    
+    
+    const [selected, setSelected] = useState("")
+    const [nameClinic, setNameClinic] = useState("")
+
+    const [listaClinica, setListaClinica] = useState([])
+
+
+    async function ListarClinicas() {
+        await api.get('/Clinica/ListarTodas')
+        .then( response => {
+            setListaClinica( response.data)
+        }).catch( error =>{
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        ListarClinicas()
+    },[])
+    
 
     return (
         <ContainerPerfil>
@@ -53,19 +71,20 @@ export const SelecionaClinica = ({
                     <TitleModal>Selecionar Clinica</TitleModal>
 
                     <ListComponent
-                        data={clinica}
+                        data={listaClinica}
                         keyExtractor={(item) => item.id}
 
                         renderItem={({ item }) =>
                             <ButtonCardClinica
-                                name={item.name}
-                                stars={item.star}
-                                local={item.local}
-                                operatingDays={item.operatingDays}
+                                // name={item.name}
+                                // stars={item.star}
+                                // local={item.local}
+                                operatingDays={'seg-sex'}
                                 selected={item.name === selected}
                                 onPress={() => {
                                     setSelected(item.name);
                                 }}
+                                listaClinica={listaClinica}
                             />
                         }
 

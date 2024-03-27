@@ -3,12 +3,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ButtonContent, CalendarText, CalendarView, Container, DataProfileCard, DataProfileCard2, LocalText, StarText, StarView, TitleClinica } from './style';
 
 export const ButtonCardClinica = ({
-    name,
-    stars,
-    local,
+    // name,
+    // stars,
+    // local,
     operatingDays,
-    selected,
-    onPress
+    selected = true,
+    onPress,
+    listaClinica
 }) => {
     return (
         <Container>
@@ -17,14 +18,14 @@ export const ButtonCardClinica = ({
                 ClickButton={selected}
             >
                 <DataProfileCard>
-                    <TitleClinica>{name}</TitleClinica>
-                    <LocalText>{local}</LocalText>
+                    <TitleClinica>{listaClinica.nomeFantasia}</TitleClinica>
+                    <LocalText>{listaClinica.endereco.cidade}</LocalText>
                 </DataProfileCard>
                 <DataProfileCard2>
-                    <StarView>
+                    {/* <StarView>
                         <AntDesign name="star" size={20} color="#F9A620" />
                         <StarText>{stars}</StarText>
-                    </StarView>
+                    </StarView> */}
                     <CalendarView>
                         <MaterialCommunityIcons name="calendar-outline" size={14} color="#49B3BA" />
                         <CalendarText>{operatingDays}</CalendarText>
