@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, ButtonRecover } from "../../components/Button/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style";
 import { ContainerPerfil, MainContent, MainContentScroll } from "../../components/Container/style";
@@ -7,11 +7,31 @@ import { TitleModal, TitleSelect } from "../../components/Title/style";
 import { ListComponent } from "../../components/List/list";
 import { ButtonCardMedico } from "../../components/ButtonCardMedico/ButtonCardMedico";
 
-
+import api from "../../Services/Services";
 
 export const SelecionarMedico = ({ navigation }) => {
 
     const [selected, setSelected] = useState("")
+    //Array para receber a lista de medicos
+    const [medicoLista, setMedicoLista] = useState([]);
+
+    async function ListarMedico() {
+        //Instanciar a nossa conexao da api
+        //chamando o metodo via a api passando dentro do metodo o caminho da chamada
+       await api.get('/Medicos')
+        .then(response => {
+            //setando a lista com o response.data ou seja todo o retorno
+            setMedicoLista(response.data);
+            console.log(medicoLista);
+        })
+        .catch( error => {
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        ListarMedico();
+    }, [])
 
     const [medico, setMedico] = useState([
         {
@@ -31,7 +51,7 @@ export const SelecionarMedico = ({ navigation }) => {
         },
     ]);
 
-    //Criar state para recebr a lista de medicos (array)
+    //Criar state para receber a lista de medicos (array)
 
     //Criar função obter a lista de medicos da api e setar no state
     //receber dados = lista
@@ -51,19 +71,12 @@ export const SelecionarMedico = ({ navigation }) => {
                     <TitleSelect>Selecionar Medico</TitleSelect>
 
                     <ListComponent
-                        data={medico}
+                        data={medicoLista}
                         keyExtractor={(item) => item.id}
 
                         renderItem={({ item }) =>
-                            <ButtonCardMedico
-                            //medico={item.item}
-                                name={item.name}
-                                especialidade={item.especialidade}
-                                selected={item.name === selected}
-                                onPress={() => {
-                                    setSelected(item.name);
-                                }}
-                            />
+                        
+                            <ButtonCardMedico medico={item}/>
                         }
 
                         showsVerticalScrollIndicator={false}

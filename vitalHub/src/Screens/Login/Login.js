@@ -16,12 +16,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator } from "react-native"
 //validar input
 //travar o botao
-//icone de load no botao
 
 
 export const Login = ({ navigation }) => {
 
-    const [email, setEmail] = useState('teste@email.com')
+    const [email, setEmail] = useState('paciente@email.com')
+    // const [email, setEmail] = useState('medico@email.com')
     const [senha, setSenha] = useState('1234')
     const [loading, setLoading] = useState(false)
 

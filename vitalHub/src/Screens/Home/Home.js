@@ -12,34 +12,49 @@ import { Stethoscope } from "../../components/Stethoscope/Stethoscope"
 import { ScheduleModal } from "../../components/ScheduleModal/ScheduleModal"
 import { DoctorModal } from "../../components/DoctorModal/DoctorModal"
 import { userDecodeToken } from "../../utils/Auth"
+import api from "../../Services/Services"
 
-const Consultas = [
-    { id: "1", name: "Dr.Claudio", situacao: "pendente" },
-    { id: "2", name: "Dr.Gelipe", situacao: "realizado" },
-    { id: "3", name: "Dr.Felix", situacao: "cancelado" },
-    { id: "4", name: "Dr.Mumu", situacao: "cancelado" },
-    { id: "5", name: "Dr.Arteta", situacao: "cancelado" },
-    { id: "6", name: "Dr.Arteta", situacao: "cancelado" },
-    { id: "7", name: "Dr.Arteta", situacao: "cancelado" },
-    { id: "8", name: "Dr.Arteta", situacao: "cancelado" },
-    { id: "9", name: "Dr.Conha", situacao: "realizado" }
-]
+// const Consultas = [
+//     { id: "1", name: "Dr.Claudio", situacao: "pendente" },
+//     { id: "2", name: "Dr.Gelipe", situacao: "realizado" },
+//     { id: "3", name: "Dr.Felix", situacao: "cancelado" },
+//     { id: "4", name: "Dr.Mumu", situacao: "cancelado" },
+//     { id: "5", name: "Dr.Arteta", situacao: "cancelado" },
+//     { id: "6", name: "Dr.Arteta", situacao: "cancelado" },
+//     { id: "7", name: "Dr.Arteta", situacao: "cancelado" },
+//     { id: "8", name: "Dr.Arteta", situacao: "cancelado" },
+//     { id: "9", name: "Dr.Conha", situacao: "realizado" }
+// ]
 
-const Paciente = [
-    { id: "1", name: "Guilherme", situacao: "pendente" },
-    { id: "2", name: "Gelipe", situacao: "realizado" },
-    { id: "3", name: "Felix", situacao: "cancelado" },
-    { id: "4", name: "Mumu", situacao: "cancelado" },
-    { id: "5", name: "Arteta", situacao: "cancelado" },
-    { id: "6", name: "Arteta", situacao: "cancelado" },
-    { id: "7", name: "Arteta", situacao: "cancelado" },
-    { id: "8", name: "Arteta", situacao: "cancelado" },
-    { id: "9", name: "Conha", situacao: "realizado" }
-]
+// const Paciente = [
+//     { id: "1", name: "Guilherme", situacao: "pendente" },
+//     { id: "2", name: "Gelipe", situacao: "realizado" },
+//     { id: "3", name: "Felix", situacao: "cancelado" },
+//     { id: "4", name: "Mumu", situacao: "cancelado" },
+//     { id: "5", name: "Arteta", situacao: "cancelado" },
+//     { id: "6", name: "Arteta", situacao: "cancelado" },
+//     { id: "7", name: "Arteta", situacao: "cancelado" },
+//     { id: "8", name: "Arteta", situacao: "cancelado" },
+//     { id: "9", name: "Conha", situacao: "realizado" }
+// ]
 
 export const Home = ({
     navigation
 }) => {
+
+    const [consultaLista, setConsultaLista] = useState([])
+
+    async function ListarConsulta() {
+        await api.get('/Consultas')
+        .then(response => {
+            //setando a lista com o response.data ou seja todo o retorno
+            setConsultaLista(response.data);
+            console.log(consultaLista);
+        })
+        .catch( error => {
+            console.log(error);
+        })
+    }
 
     const [statusLista, setStatusLista] = useState("pendente")
 
@@ -48,7 +63,7 @@ export const Home = ({
     const [showModalSchedule, setShowModalSchedule] = useState(false);
     const [showModalDoctor, setShowModalDoctor] = useState(false);
     const [info, setInfo] = useState({})
-    const [PacienteOuN, setPacienteOuN] = useState(true)
+    // const [PacienteOuN, setPacienteOuN] = useState(true)
 
     const [role, setRole] = useState('')
     
@@ -62,7 +77,8 @@ export const Home = ({
     }
 
     useEffect(() => {
-        ProfileLoad()
+        ProfileLoad();
+        ListarConsulta();
     }, [])
 
 
@@ -95,7 +111,28 @@ export const Home = ({
 
             </FilterAppointment>
 
-            {PacienteOuN ?
+            <ListComponent
+                    data={consultaLista}
+                    keyExtractor={(item) => item.id}
+
+                    renderItem={({ item }) =>
+                        console.log(item)
+                        // statusLista == item.Situacao ? (
+                        //     <AppointmentCard
+                        //         situacao={item.situacao}
+                        //         informacao={item}
+                        //         onPressCancel={() => setShowModalCancel(true)}
+                        //         onPressDoctor={() => { setShowModalDoctor(true); setInfo(item) }}
+                        //         onPressAppointment={() => PacienteOuN ? navigation.navigate("Prescricao") : setShowModalAppointment(true)}
+
+                        //     />
+                        // ) : null
+                    }
+
+                    showsVerticalScrollIndicator={false}
+                />
+
+            {/* {PacienteOuN ?
                 <ListComponent
                     data={Consultas}
                     keyExtractor={(item) => item.id}
@@ -134,7 +171,7 @@ export const Home = ({
 
                     showsVerticalScrollIndicator={false}
                 />
-            }
+            } */}
 
             <CancelationModal
                 visible={showModalCancel}

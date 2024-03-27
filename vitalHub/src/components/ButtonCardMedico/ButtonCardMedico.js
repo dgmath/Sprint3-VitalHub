@@ -2,10 +2,9 @@ import { ContainerPerfil } from "../Container/style"
 import { ButtonContent, DataProfileCard, ImageCardMedico, NameMedico, SpecialtyText } from "./style"
 
 export const ButtonCardMedico = ({
-    name,
-    especialidade,
     selected,
-    onPress
+    onPress,
+    medico
 }) => {
     return (
         <ContainerPerfil>
@@ -17,8 +16,9 @@ export const ButtonCardMedico = ({
                 <ImageCardMedico source={require("../../../assets/Perfil.jpg")}/>
 
                 <DataProfileCard>
-                    <NameMedico>{name}</NameMedico>
-                    <SpecialtyText>{especialidade}</SpecialtyText>
+                    {/* Entrando na propriedade e trazendo oq for necessarios */}
+                    <NameMedico>{medico.idNavigation.nome}</NameMedico>
+                    <SpecialtyText>{medico.especialidade.especialidade1}</SpecialtyText>
                 </DataProfileCard>
 
             </ButtonContent>

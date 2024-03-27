@@ -45,8 +45,6 @@ namespace WebAPI.Controllers
                     new Claim(JwtRegisteredClaimNames.Email, usuarioBuscado.Email!),
                     new Claim(JwtRegisteredClaimNames.Name,usuarioBuscado.Nome!),
                     new Claim(JwtRegisteredClaimNames.Jti, usuarioBuscado.Id.ToString()),
-
-                //Claim personalizada
                     new Claim("role", usuarioBuscado.TipoUsuario!.TipoUsuario!)
                 };
 
