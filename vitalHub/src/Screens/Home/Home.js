@@ -11,8 +11,9 @@ import { ProntuarioModal } from "../../components/ProntuarioModal/ProntuarioModa
 import { Stethoscope } from "../../components/Stethoscope/Stethoscope"
 import { ScheduleModal } from "../../components/ScheduleModal/ScheduleModal"
 import { DoctorModal } from "../../components/DoctorModal/DoctorModal"
-import { userDecodeToken } from "../../utils/Auth"
+import { tokenClean, userDecodeToken } from "../../utils/Auth"
 import api from "../../Services/Services"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 // const Consultas = [
 //     { id: "1", name: "Dr.Claudio", situacao: "pendente" },
@@ -45,16 +46,118 @@ export const Home = ({
     const [consultaLista, setConsultaLista] = useState([])
 
     async function ListarConsulta() {
-        await api.get('/Consultas')
-        .then(response => {
-            //setando a lista com o response.data ou seja todo o retorno
-            setConsultaLista(response.data);
-            console.log(consultaLista);
-        })
-        .catch( error => {
+        try {
+            const token = await tokenClean();
+
+            if (token) {
+
+                // // Removendo as aspas do início e do final da string
+                // const tokenCodificado = tokenString.split(":")[1].trim();
+                // console.log('token cortado');
+                // console.log(tokenCodificado);
+
+                // const token = tokenCodificado.split('"')[1].trim()
+                // console.log(token);
+
+                const response = await api.get('/Consultas', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setConsultaLista(response.data);
+                console.log(response.data);
+
+            } else {
+                console.log("Token não encontrado.");
+            }
+        } catch (error) {
             console.log(error);
-        })
+        }
     }
+
+
+
+    // async function ListarConsulta() {
+    //     try {
+    //         const tokenString = await AsyncStorage.getItem("token");
+    //         console.log(tokenString);
+    //         console.log(123);
+    //         if (tokenString) {
+    //             // Dividindo a string pelo caractere ":" e pegando a segunda parte (índice 1)
+    //             const token = tokenString.split(":")[1].trim();
+    //             console.log(token);
+    //             const response = await api.get('/Consultas', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`
+    //                 }
+    //             });
+    //             setConsultaLista(response.data);
+    //             console.log(response.data);
+    //         } else {
+    //             console.log("Token não encontrado.");
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+
+    // async function ListarConsulta() {
+    //     try {
+    //         const response = await api.post('/Login', {
+    //             email: email,
+    //             senha: senha
+    //         });
+    //         const token = response.data.token; // Acessando a propriedade token do objeto de resposta
+    //         if (token) {
+    //             const consultaResponse = await api.get('/Consultas', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`
+    //                 }
+    //             });
+    //             setConsultaLista(consultaResponse.data);
+    //             console.log(consultaResponse.data);
+    //         } else {
+    //             console.log("Token não encontrado na resposta.");
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+    // async function ListarConsulta() {
+    //     try {
+    //         const token = await AsyncStorage.getItem("token");
+    //         console.log(token);
+    //         if (token) {
+    //             const response = await api.get('/Consultas', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`
+    //                 }
+    //             });
+    //             setConsultaLista(response.data);
+    //             console.log(response.data);
+    //         } else {
+    //             console.log("Token não encontrado.");
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+
+
+    // async function ListarConsulta() {
+    //     await api.get('/Consultas')
+    //     .then(response => {
+    //         //setando a lista com o response.data ou seja todo o retorno
+    //         setConsultaLista(response.data);
+    //         console.log(consultaLista);
+    //     })
+    //     .catch( error => {
+    //         console.log(error);
+    //     })
+    // }
 
     const [statusLista, setStatusLista] = useState("pendente")
 
@@ -66,7 +169,7 @@ export const Home = ({
     // const [PacienteOuN, setPacienteOuN] = useState(true)
 
     const [role, setRole] = useState('')
-    
+
     async function ProfileLoad() {
         const token = await userDecodeToken();
 
@@ -85,7 +188,7 @@ export const Home = ({
     return (
         <ContainerPerfil>
 
-            <Header/>
+            <Header />
 
             <CalendarHome />
 
@@ -112,25 +215,27 @@ export const Home = ({
             </FilterAppointment>
 
             <ListComponent
-                    data={consultaLista}
-                    keyExtractor={(item) => item.id}
+                data={consultaLista}
+                keyExtractor={(item) => item.id}
 
-                    renderItem={({ item }) =>
-                        console.log(item)
-                        // statusLista == item.Situacao ? (
-                        //     <AppointmentCard
-                        //         situacao={item.situacao}
-                        //         informacao={item}
-                        //         onPressCancel={() => setShowModalCancel(true)}
-                        //         onPressDoctor={() => { setShowModalDoctor(true); setInfo(item) }}
-                        //         onPressAppointment={() => PacienteOuN ? navigation.navigate("Prescricao") : setShowModalAppointment(true)}
+                renderItem={({ item }) =>
+                    // console.log(item)
+                    <AppointmentCard consulta={item}/>
+                    
+                    // statusLista == item.Situacao ? (
+                    //     <AppointmentCard
+                    //         situacao={item.situacao}
+                    //         informacao={item}
+                    //         onPressCancel={() => setShowModalCancel(true)}
+                    //         onPressDoctor={() => { setShowModalDoctor(true); setInfo(item) }}
+                    //         onPressAppointment={() => PacienteOuN ? navigation.navigate("Prescricao") : setShowModalAppointment(true)}
 
-                        //     />
-                        // ) : null
-                    }
+                    //     />
+                    // ) : null
+                }
 
-                    showsVerticalScrollIndicator={false}
-                />
+                showsVerticalScrollIndicator={false}
+            />
 
             {/* {PacienteOuN ?
                 <ListComponent
@@ -187,8 +292,8 @@ export const Home = ({
             {role === 'Paciente' ?
                 <Stethoscope
                     onPress={() => setShowModalSchedule(true)}
-                /> 
-                : null 
+                />
+                : null
             }
 
 
@@ -202,7 +307,7 @@ export const Home = ({
                 navigation={navigation}
                 visible={showModalDoctor}
                 setShowModalDoctor={setShowModalDoctor}
-                informacao={info}
+                // informacao={info}
             />
 
 

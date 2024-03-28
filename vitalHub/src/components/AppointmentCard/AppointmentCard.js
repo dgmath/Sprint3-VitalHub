@@ -17,35 +17,35 @@ export const AppointmentCard = ({
             <ContentCard>
                 <DataProfileCard>
 
-                    <ProfileName onPress={onPressDoctor}>{informacao.name}</ProfileName>
+                    <ProfileName onPress={onPressDoctor}>{consulta.medicoClinica.medico.idNavigation.nome}</ProfileName>
 
                     <ProfileData>
-                        <TextAge>22 Anos</TextAge>
-                        <TextBold>Rotina</TextBold>
+                        <TextAge>{consulta.medicoClinica.medico.especialidade.especialidade1}</TextAge>
+                        <TextBold>{consulta.prioridade.prioridade == '1' ? "Rotina" : consulta.prioridade.prioridade == "2" ? "Exame" : "Urgência"}</TextBold>
                     </ProfileData>
 
                 </DataProfileCard>
 
                 <ViewRow>
                     <ClockCard>
-                        <AntDesign name="clockcircle" size={14} color={situacao == "pendente" ? "#49b3ba" : "#8C8A97"} />
-                        <TextBold situacao={situacao} color={"#49B3BA"}>14:00</TextBold>
+                        <AntDesign name="clockcircle" size={14} color="#8C8A97" />
+                        <TextBold color={"#49B3BA"}>14:00</TextBold>
                     </ClockCard>
 
-                    {
-                        situacao == "cancelado" ? (
+                    {/* {
+                        consulta.situacao.situacao == "Canceladas" ? (
                             <>
                             </>
-                        ) : situacao == "pendente" ? (
+                        ) : consulta.situacao.situacao == "Agendadas" ? (
                             <ButtonCard>
-                                <ButtonText situacao={situacao} onPress={onPressCancel}>Cancelar</ButtonText>
+                                <ButtonText situacao={consulta.situacao.situacao} onPress={onPressCancel}>Cancelar</ButtonText>
                             </ButtonCard>
                         ) : (
                             <ButtonCard>
-                                <ButtonText situacao={situacao} onPress={onPressAppointment}>Ver Prontuario</ButtonText>
+                                <ButtonText situacao={consulta.situacao.situacao} onPress={onPressAppointment}>Ver Prontuario</ButtonText>
                             </ButtonCard> 
                         )
-                    }
+                    } */}
 
                 </ViewRow>
 

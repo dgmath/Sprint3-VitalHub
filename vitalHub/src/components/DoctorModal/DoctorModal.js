@@ -33,7 +33,7 @@ export const DoctorModal = ({
 
                     <ModalImage source={require("../../../assets/Perfil.jpg")} />
 
-                    <TitleModal>{informacao.name}</TitleModal>
+                    <TitleModal>.</TitleModal>
 
                     <BoxModal>
                         <ModalText>Cliníco geral</ModalText>
