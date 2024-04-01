@@ -12,38 +12,7 @@ import api from "../../Services/Services"
 export const SelecionarClinica = ({
     navigation
 }) => {
-    const [clinica, setClinica] = useState([
-        {
-            id: "1",
-            name: "Clínica Natureh",
-            star: "4,5",
-            local: "Sao Paulo, SP",
-            operatingDays: "Seg-Sex",
-        },
-        {
-            id: "2",
-            name: "Diamond Pró-Mulher",
-            star: "4,8",
-            local: "Sao Paulo, SP",
-            operatingDays: "Seg-Sex",
-        },
-        {
-            id: "3",
-            name: "Clinica Villa Lobos",
-            star: "4,2",
-            local: "Sao Paulo, SP",
-            operatingDays: "Seg-Sab",
-        },
-        {
-            id: "4",
-            name: "SP Oncologia Clínica",
-            star: "5,0",
-            local: "Sao Paulo, SP",
-            operatingDays: "Seg-Sab",
-        },
-    ]);
-    
-    
+       
     const [selected, setSelected] = useState("")
     const [nameClinic, setNameClinic] = useState("")
 
@@ -54,6 +23,7 @@ export const SelecionarClinica = ({
         await api.get('/Clinica/ListarTodas')
         .then( response => {
             setListaClinica( response.data)
+            console.log(response.data);
         }).catch( error =>{
             console.log(error);
         })
@@ -76,15 +46,8 @@ export const SelecionarClinica = ({
 
                         renderItem={({ item }) =>
                             <ButtonCardClinica
-                                // name={item.name}
-                                // stars={item.star}
-                                // local={item.local}
-                                operatingDays={'seg-sex'}
-                                selected={item.name === selected}
-                                onPress={() => {
-                                    setSelected(item.name);
-                                }}
-                                listaClinica={listaClinica}
+                                listaClinica={item}
+
                             />
                         }
 

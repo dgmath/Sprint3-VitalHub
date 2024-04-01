@@ -28,7 +28,7 @@ export const ButtonCardClinica = ({
                     </StarView> */}
                     <CalendarView>
                         <MaterialCommunityIcons name="calendar-outline" size={14} color="#49B3BA" />
-                        <CalendarText>{operatingDays}</CalendarText>
+                        <CalendarText>seg-sex</CalendarText>
                     </CalendarView>
                 </DataProfileCard2>
             </ButtonContent>

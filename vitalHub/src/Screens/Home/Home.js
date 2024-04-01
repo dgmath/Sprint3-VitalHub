@@ -11,47 +11,165 @@ import { ProntuarioModal } from "../../components/ProntuarioModal/ProntuarioModa
 import { Stethoscope } from "../../components/Stethoscope/Stethoscope"
 import { ScheduleModal } from "../../components/ScheduleModal/ScheduleModal"
 import { DoctorModal } from "../../components/DoctorModal/DoctorModal"
-import { userDecodeToken } from "../../utils/Auth"
+import { tokenClean, userDecodeToken } from "../../utils/Auth"
+import api from "../../Services/Services"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
-const Consultas = [
-    { id: "1", name: "Dr.Claudio", situacao: "pendente" },
-    { id: "2", name: "Dr.Gelipe", situacao: "realizado" },
-    { id: "3", name: "Dr.Felix", situacao: "cancelado" },
-    { id: "4", name: "Dr.Mumu", situacao: "cancelado" },
-    { id: "5", name: "Dr.Arteta", situacao: "cancelado" },
-    { id: "6", name: "Dr.Arteta", situacao: "cancelado" },
-    { id: "7", name: "Dr.Arteta", situacao: "cancelado" },
-    { id: "8", name: "Dr.Arteta", situacao: "cancelado" },
-    { id: "9", name: "Dr.Conha", situacao: "realizado" }
-]
+// const Consultas = [
+//     { id: "1", name: "Dr.Claudio", situacao: "pendente" },
+//     { id: "2", name: "Dr.Gelipe", situacao: "realizado" },
+//     { id: "3", name: "Dr.Felix", situacao: "cancelado" },
+//     { id: "4", name: "Dr.Mumu", situacao: "cancelado" },
+//     { id: "5", name: "Dr.Arteta", situacao: "cancelado" },
+//     { id: "6", name: "Dr.Arteta", situacao: "cancelado" },
+//     { id: "7", name: "Dr.Arteta", situacao: "cancelado" },
+//     { id: "8", name: "Dr.Arteta", situacao: "cancelado" },
+//     { id: "9", name: "Dr.Conha", situacao: "realizado" }
+// ]
 
-const Paciente = [
-    { id: "1", name: "Guilherme", situacao: "pendente" },
-    { id: "2", name: "Gelipe", situacao: "realizado" },
-    { id: "3", name: "Felix", situacao: "cancelado" },
-    { id: "4", name: "Mumu", situacao: "cancelado" },
-    { id: "5", name: "Arteta", situacao: "cancelado" },
-    { id: "6", name: "Arteta", situacao: "cancelado" },
-    { id: "7", name: "Arteta", situacao: "cancelado" },
-    { id: "8", name: "Arteta", situacao: "cancelado" },
-    { id: "9", name: "Conha", situacao: "realizado" }
-]
+// const Paciente = [
+//     { id: "1", name: "Guilherme", situacao: "pendente" },
+//     { id: "2", name: "Gelipe", situacao: "realizado" },
+//     { id: "3", name: "Felix", situacao: "cancelado" },
+//     { id: "4", name: "Mumu", situacao: "cancelado" },
+//     { id: "5", name: "Arteta", situacao: "cancelado" },
+//     { id: "6", name: "Arteta", situacao: "cancelado" },
+//     { id: "7", name: "Arteta", situacao: "cancelado" },
+//     { id: "8", name: "Arteta", situacao: "cancelado" },
+//     { id: "9", name: "Conha", situacao: "realizado" }
+// ]
 
 export const Home = ({
     navigation
 }) => {
 
-    const [statusLista, setStatusLista] = useState("pendente")
+    const [consultaLista, setConsultaLista] = useState([])
+
+    async function ListarConsulta() {
+        try {
+            const token = await tokenClean();
+
+            if (token) {
+
+                // // Removendo as aspas do início e do final da string
+                // const tokenCodificado = tokenString.split(":")[1].trim();
+                // console.log('token cortado');
+                // console.log(tokenCodificado);
+
+                // const token = tokenCodificado.split('"')[1].trim()
+                // console.log(token);
+
+                const response = await api.get('/Consultas', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setConsultaLista(response.data);
+                console.log(response.data);
+
+            } else {
+                console.log("Token não encontrado.");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
+    // async function ListarConsulta() {
+    //     try {
+    //         const tokenString = await AsyncStorage.getItem("token");
+    //         console.log(tokenString);
+    //         console.log(123);
+    //         if (tokenString) {
+    //             // Dividindo a string pelo caractere ":" e pegando a segunda parte (índice 1)
+    //             const token = tokenString.split(":")[1].trim();
+    //             console.log(token);
+    //             const response = await api.get('/Consultas', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`
+    //                 }
+    //             });
+    //             setConsultaLista(response.data);
+    //             console.log(response.data);
+    //         } else {
+    //             console.log("Token não encontrado.");
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+
+    // async function ListarConsulta() {
+    //     try {
+    //         const response = await api.post('/Login', {
+    //             email: email,
+    //             senha: senha
+    //         });
+    //         const token = response.data.token; // Acessando a propriedade token do objeto de resposta
+    //         if (token) {
+    //             const consultaResponse = await api.get('/Consultas', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`
+    //                 }
+    //             });
+    //             setConsultaLista(consultaResponse.data);
+    //             console.log(consultaResponse.data);
+    //         } else {
+    //             console.log("Token não encontrado na resposta.");
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+    // async function ListarConsulta() {
+    //     try {
+    //         const token = await AsyncStorage.getItem("token");
+    //         console.log(token);
+    //         if (token) {
+    //             const response = await api.get('/Consultas', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`
+    //                 }
+    //             });
+    //             setConsultaLista(response.data);
+    //             console.log(response.data);
+    //         } else {
+    //             console.log("Token não encontrado.");
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+
+
+    // async function ListarConsulta() {
+    //     await api.get('/Consultas')
+    //     .then(response => {
+    //         //setando a lista com o response.data ou seja todo o retorno
+    //         setConsultaLista(response.data);
+    //         console.log(consultaLista);
+    //     })
+    //     .catch( error => {
+    //         console.log(error);
+    //     })
+    // }
+
+    const [statusLista, setStatusLista] = useState("Agendadas")
 
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalAppointment, setShowModalAppointment] = useState(false);
     const [showModalSchedule, setShowModalSchedule] = useState(false);
     const [showModalDoctor, setShowModalDoctor] = useState(false);
     const [info, setInfo] = useState({})
-    const [PacienteOuN, setPacienteOuN] = useState(true)
+    // const [PacienteOuN, setPacienteOuN] = useState(true)
 
     const [role, setRole] = useState('')
-    
+
     async function ProfileLoad() {
         const token = await userDecodeToken();
 
@@ -62,14 +180,15 @@ export const Home = ({
     }
 
     useEffect(() => {
-        ProfileLoad()
+        ProfileLoad();
+        ListarConsulta();
     }, [])
 
 
     return (
         <ContainerPerfil>
 
-            <Header/>
+            <Header />
 
             <CalendarHome />
 
@@ -77,25 +196,39 @@ export const Home = ({
 
                 <BtnListAppointment
                     textButton={"Agendadas"}
-                    clickButton={statusLista === "pendente"}
-                    onPress={() => setStatusLista("pendente")}
+                    clickButton={statusLista === "Agendadas"}
+                    onPress={() => setStatusLista("Agendadas")}
                 />
 
                 <BtnListAppointment
                     textButton={"Realizadas"}
-                    clickButton={statusLista === "realizado"}
-                    onPress={() => setStatusLista("realizado")}
+                    clickButton={statusLista === "Realizadas"}
+                    onPress={() => setStatusLista("Realizadas")}
                 />
 
                 <BtnListAppointment
                     textButton={"Canceladas"}
-                    clickButton={statusLista === "cancelado"}
-                    onPress={() => setStatusLista("cancelado")}
+                    clickButton={statusLista === "Canceladas"}
+                    onPress={() => setStatusLista("Canceladas")}
                 />
 
             </FilterAppointment>
 
-            {PacienteOuN ?
+            <ListComponent
+                data={consultaLista}
+                keyExtractor={(item) => item.id}
+
+                renderItem={({ item }) =>
+                    // console.log(item)
+                    statusLista == item.situacao.situacao ? (
+                        <AppointmentCard consulta={item} />
+                    ) : null
+                }
+
+                showsVerticalScrollIndicator={false}
+            />
+
+            {/* {PacienteOuN ?
                 <ListComponent
                     data={Consultas}
                     keyExtractor={(item) => item.id}
@@ -134,7 +267,7 @@ export const Home = ({
 
                     showsVerticalScrollIndicator={false}
                 />
-            }
+            } */}
 
             <CancelationModal
                 visible={showModalCancel}
@@ -150,8 +283,8 @@ export const Home = ({
             {role === 'Paciente' ?
                 <Stethoscope
                     onPress={() => setShowModalSchedule(true)}
-                /> 
-                : null 
+                />
+                : null
             }
 
 
@@ -165,7 +298,7 @@ export const Home = ({
                 navigation={navigation}
                 visible={showModalDoctor}
                 setShowModalDoctor={setShowModalDoctor}
-                informacao={info}
+            // informacao={info}
             />
 
 

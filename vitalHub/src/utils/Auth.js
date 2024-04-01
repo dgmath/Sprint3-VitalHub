@@ -10,8 +10,17 @@ if( !global.btoa ){
     global.atob = decode
 }
 
+export const tokenClean = async () => {
+    const token = JSON.parse(await AsyncStorage.getItem("token")).token
+
+    if (token === null) {
+        return null;
+    }
+    return token;
+}
+
 export const userDecodeToken = async () => {
-    const token = await AsyncStorage.getItem("token")
+    const token = JSON.parse(await AsyncStorage.getItem("token")).token
     if (token === null) {
         return null;
     }
