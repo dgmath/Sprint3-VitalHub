@@ -159,7 +159,7 @@ export const Home = ({
     //     })
     // }
 
-    const [statusLista, setStatusLista] = useState("pendente")
+    const [statusLista, setStatusLista] = useState("Agendadas")
 
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalAppointment, setShowModalAppointment] = useState(false);
@@ -196,20 +196,20 @@ export const Home = ({
 
                 <BtnListAppointment
                     textButton={"Agendadas"}
-                    clickButton={statusLista === "pendente"}
-                    onPress={() => setStatusLista("pendente")}
+                    clickButton={statusLista === "Agendadas"}
+                    onPress={() => setStatusLista("Agendadas")}
                 />
 
                 <BtnListAppointment
                     textButton={"Realizadas"}
-                    clickButton={statusLista === "realizado"}
-                    onPress={() => setStatusLista("realizado")}
+                    clickButton={statusLista === "Realizadas"}
+                    onPress={() => setStatusLista("Realizadas")}
                 />
 
                 <BtnListAppointment
                     textButton={"Canceladas"}
-                    clickButton={statusLista === "cancelado"}
-                    onPress={() => setStatusLista("cancelado")}
+                    clickButton={statusLista === "Canceladas"}
+                    onPress={() => setStatusLista("Canceladas")}
                 />
 
             </FilterAppointment>
@@ -220,18 +220,9 @@ export const Home = ({
 
                 renderItem={({ item }) =>
                     // console.log(item)
-                    <AppointmentCard consulta={item}/>
-                    
-                    // statusLista == item.Situacao ? (
-                    //     <AppointmentCard
-                    //         situacao={item.situacao}
-                    //         informacao={item}
-                    //         onPressCancel={() => setShowModalCancel(true)}
-                    //         onPressDoctor={() => { setShowModalDoctor(true); setInfo(item) }}
-                    //         onPressAppointment={() => PacienteOuN ? navigation.navigate("Prescricao") : setShowModalAppointment(true)}
-
-                    //     />
-                    // ) : null
+                    statusLista == item.situacao.situacao ? (
+                        <AppointmentCard consulta={item} />
+                    ) : null
                 }
 
                 showsVerticalScrollIndicator={false}
@@ -307,7 +298,7 @@ export const Home = ({
                 navigation={navigation}
                 visible={showModalDoctor}
                 setShowModalDoctor={setShowModalDoctor}
-                // informacao={info}
+            // informacao={info}
             />
 
 

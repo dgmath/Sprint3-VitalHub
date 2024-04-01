@@ -21,6 +21,7 @@ export const AppointmentCard = ({
 
                     <ProfileData>
                         <TextAge>{consulta.medicoClinica.medico.especialidade.especialidade1}</TextAge>
+                        {/* <TextAge>{consulta.situacao.situacao}</TextAge> */}
                         <TextBold>{consulta.prioridade.prioridade == '1' ? "Rotina" : consulta.prioridade.prioridade == "2" ? "Exame" : "Urgência"}</TextBold>
                     </ProfileData>
 
