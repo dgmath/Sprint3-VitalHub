@@ -59,6 +59,7 @@ namespace WebAPI.Repositories
 
         public List<Medico> ListarTodos()
         {
+<<<<<<< HEAD
             return ctx.Medicos.
                 Include(m => m.IdNavigation)
                 .Select(m => new Medico
@@ -75,6 +76,9 @@ namespace WebAPI.Repositories
                     }
                 })
                 .ToList();
+=======
+            return ctx.Medicos. .ToList();
+>>>>>>> 48e010a8294ab3bbcbc806bc4f0e06d34e68dfd1
         }
 
         public void Cadastrar(Usuario user)

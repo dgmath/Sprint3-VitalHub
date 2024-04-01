@@ -39,6 +39,7 @@ export const SelecionarData = ({
             <ModalAgendarConsulta
                 visible={showModalAgendar}
                 setShowModalAgendar={setShowModalAgendar}
+                navigation={navigation}
             />
 
         </ContainerPerfil>

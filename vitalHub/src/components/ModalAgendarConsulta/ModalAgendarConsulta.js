@@ -8,6 +8,7 @@ import { ModalContent, ModalText, ModalTextForm, PatientModal, TitleForm, TitleM
 export const ModalAgendarConsulta = ({
     visible,
     setShowModalAgendar,
+    navigation
 }) => {
     return (
         <Modal visible={visible} transparent={true} animationType="fade">
@@ -33,7 +34,7 @@ export const ModalAgendarConsulta = ({
                     </ContainerForm>
 
                     <ModalButton>
-                        <ButtonTitle>Confirmar</ButtonTitle>
+                        <ButtonTitle onPress={() => navigation.navigate("Main")}>Confirmar</ButtonTitle>
                     </ModalButton>
 
                     <LinkEndModal onPress={() => setShowModalAgendar(false)}>Cancelar</LinkEndModal>

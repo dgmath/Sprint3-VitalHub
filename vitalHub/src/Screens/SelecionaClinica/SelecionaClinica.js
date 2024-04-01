@@ -9,7 +9,7 @@ import { LinkEndModal } from "../../components/Link/style"
 import api from "../../Services/Services"
 
 
-export const SelecionaClinica = ({
+export const SelecionarClinica = ({
     navigation
 }) => {
     const [clinica, setClinica] = useState([
