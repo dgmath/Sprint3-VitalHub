@@ -1,23 +1,24 @@
 import { AntDesign } from '@expo/vector-icons';
 import { ButtonCard, ButtonText, ClockCard, ContainerCardList, ContentCard, DataProfileCard, ProfileData, ProfileImage, ProfileName, TextAge, TextBold, ViewRow } from "./style";
+import { TouchableOpacity } from 'react-native';
 
 export const AppointmentCard = ({
     onPressCancel,
     onPressAppointment,
     onPressDoctor,
-    consulta
+    consulta,
 }) => {
 
 
     return (
         <ContainerCardList>
-
-            <ProfileImage source={require("../../../assets/Perfil.jpg")}/>
+            <TouchableOpacity onPress={onPressDoctor}>
+                <ProfileImage source={require("../../../assets/Perfil.jpg")} />
+            </TouchableOpacity>
 
             <ContentCard>
                 <DataProfileCard>
-
-                    <ProfileName onPress={onPressDoctor}>{consulta.medicoClinica.medico.idNavigation.nome}</ProfileName>
+                    <ProfileName>{consulta.medicoClinica.medico.idNavigation.nome}</ProfileName>
 
                     <ProfileData>
                         <TextAge>{consulta.medicoClinica.medico.especialidade.especialidade1}</TextAge>
@@ -28,12 +29,12 @@ export const AppointmentCard = ({
                 </DataProfileCard>
 
                 <ViewRow>
-                    <ClockCard>
-                        <AntDesign name="clockcircle" size={14} color="#8C8A97" />
-                        <TextBold color={"#49B3BA"}>14:00</TextBold>
+                    <ClockCard situacao={consulta.situacao.situacao}>
+                        <AntDesign name="clockcircle" size={14} color={consulta.situacao.situacao == 'Agendadas' ? "#49B3BA" : "#4E4B59"} />
+                        <TextBold situacao={consulta.situacao.situacao}>14:00</TextBold>
                     </ClockCard>
 
-                    {/* {
+                    {
                         consulta.situacao.situacao == "Canceladas" ? (
                             <>
                             </>
@@ -44,9 +45,9 @@ export const AppointmentCard = ({
                         ) : (
                             <ButtonCard>
                                 <ButtonText situacao={consulta.situacao.situacao} onPress={onPressAppointment}>Ver Prontuario</ButtonText>
-                            </ButtonCard> 
+                            </ButtonCard>
                         )
-                    } */}
+                    }
 
                 </ViewRow>
 

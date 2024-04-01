@@ -50,15 +50,6 @@ export const Home = ({
             const token = await tokenClean();
 
             if (token) {
-
-                // // Removendo as aspas do início e do final da string
-                // const tokenCodificado = tokenString.split(":")[1].trim();
-                // console.log('token cortado');
-                // console.log(tokenCodificado);
-
-                // const token = tokenCodificado.split('"')[1].trim()
-                // console.log(token);
-
                 const response = await api.get('/Consultas', {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -75,98 +66,13 @@ export const Home = ({
         }
     }
 
-
-
-    // async function ListarConsulta() {
-    //     try {
-    //         const tokenString = await AsyncStorage.getItem("token");
-    //         console.log(tokenString);
-    //         console.log(123);
-    //         if (tokenString) {
-    //             // Dividindo a string pelo caractere ":" e pegando a segunda parte (índice 1)
-    //             const token = tokenString.split(":")[1].trim();
-    //             console.log(token);
-    //             const response = await api.get('/Consultas', {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`
-    //                 }
-    //             });
-    //             setConsultaLista(response.data);
-    //             console.log(response.data);
-    //         } else {
-    //             console.log("Token não encontrado.");
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
-
-    // async function ListarConsulta() {
-    //     try {
-    //         const response = await api.post('/Login', {
-    //             email: email,
-    //             senha: senha
-    //         });
-    //         const token = response.data.token; // Acessando a propriedade token do objeto de resposta
-    //         if (token) {
-    //             const consultaResponse = await api.get('/Consultas', {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`
-    //                 }
-    //             });
-    //             setConsultaLista(consultaResponse.data);
-    //             console.log(consultaResponse.data);
-    //         } else {
-    //             console.log("Token não encontrado na resposta.");
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
-    // async function ListarConsulta() {
-    //     try {
-    //         const token = await AsyncStorage.getItem("token");
-    //         console.log(token);
-    //         if (token) {
-    //             const response = await api.get('/Consultas', {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`
-    //                 }
-    //             });
-    //             setConsultaLista(response.data);
-    //             console.log(response.data);
-    //         } else {
-    //             console.log("Token não encontrado.");
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
-
-
-    // async function ListarConsulta() {
-    //     await api.get('/Consultas')
-    //     .then(response => {
-    //         //setando a lista com o response.data ou seja todo o retorno
-    //         setConsultaLista(response.data);
-    //         console.log(consultaLista);
-    //     })
-    //     .catch( error => {
-    //         console.log(error);
-    //     })
-    // }
-
     const [statusLista, setStatusLista] = useState("Agendadas")
 
     const [showModalCancel, setShowModalCancel] = useState(false);
     const [showModalAppointment, setShowModalAppointment] = useState(false);
     const [showModalSchedule, setShowModalSchedule] = useState(false);
     const [showModalDoctor, setShowModalDoctor] = useState(false);
-    const [info, setInfo] = useState({})
-    // const [PacienteOuN, setPacienteOuN] = useState(true)
+
 
     const [role, setRole] = useState('')
 
@@ -221,7 +127,12 @@ export const Home = ({
                 renderItem={({ item }) =>
                     // console.log(item)
                     statusLista == item.situacao.situacao ? (
-                        <AppointmentCard consulta={item} />
+                        <AppointmentCard 
+                        consulta={item} 
+                        onPressAppointment={() => setShowModalAppointment(true)}
+                        onPressCancel={() => setShowModalCancel(true)}
+                        onPressDoctor={() => setShowModalDoctor(true)}
+                         />
                     ) : null
                 }
 
