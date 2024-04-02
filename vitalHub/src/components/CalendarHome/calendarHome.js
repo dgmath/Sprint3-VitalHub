@@ -6,7 +6,7 @@ import moment from "moment";
 // import component StyledCalendarStrip
 import { StyledCalendarStrip } from './style';
 
-export const CalendarHome = () => {
+export const CalendarHome = ({setDataConsulta}) => {
     //define padrão pt-br para calendário
     moment.updateLocale("pt-br", {
 
@@ -43,6 +43,9 @@ export const CalendarHome = () => {
 
     return (
         <StyledCalendarStrip
+
+            onDateSelected={date => setDataConsulta( moment(date).format('YYYY-MM-DD'))}
+
             // animação e seleção de cada data
             calendarAnimation={{ type: "sequence", duration: 30 }}
             daySelectionAnimation={styles.selectedAnimationStyle}

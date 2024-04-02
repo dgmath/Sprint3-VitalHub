@@ -9,6 +9,7 @@ export const ProntuarioModal = ({
     navigation,
     visible,
     setShowModalAppointment,
+    profile,
     ...rest
 }) => {
     return (
@@ -22,16 +23,16 @@ export const ProntuarioModal = ({
             <PatientModal>
                 <ModalContent>
 
-                    <ModalImage source={require("../../../assets/Perfil.jpg")} />
+                    <ModalImage source={profile.role == 'Paciente' ? require("../../../src/assets/Doctor.png") : require("../../../src/assets/ImagePerfil.jpg")} />
 
-                    <TitleModal>Gelipe Fois</TitleModal>
+                    <TitleModal>Gois</TitleModal>
 
                     <BoxModal>
                         <ModalText>68 anos</ModalText>
                         <ModalText>gelipe.fois@gmail.com</ModalText>
                     </BoxModal>
 
-                    <ModalButton onPress={() => navigation.navigate("InsercaoProntuario")}>
+                    <ModalButton onPress={profile.role == 'Medico' ? () => navigation.navigate("InsercaoProntuario") : () => navigation.navigate('Prescricao')}>
                         <ButtonTitle>Inserir Prontuario</ButtonTitle>
                     </ModalButton>
 

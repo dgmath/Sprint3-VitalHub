@@ -14,6 +14,7 @@ import { DoctorModal } from "../../components/DoctorModal/DoctorModal"
 import { tokenClean, userDecodeToken } from "../../utils/Auth"
 import api from "../../Services/Services"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import moment from "moment"
 
 // const Consultas = [
 //     { id: "1", name: "Dr.Claudio", situacao: "pendente" },
@@ -44,26 +45,41 @@ export const Home = ({
 }) => {
 
     const [consultaLista, setConsultaLista] = useState([])
+    const [dataConsulta, setDataConsulta] = useState('')
+
+    // async function ListarConsulta() {
+    //     try {
+    //         const token = await tokenClean();
+
+    //         if (token) {
+    //             const response = await api.get('/Consultas', {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`
+    //                 }
+    //             });
+    //             setConsultaLista(response.data);
+    //             console.log(response.data);
+
+    //         } else {
+    //             console.log("Token não encontrado.");
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     async function ListarConsulta() {
-        try {
-            const token = await tokenClean();
 
-            if (token) {
-                const response = await api.get('/Consultas', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+        const url = (profile.role == 'Medico' ? "Medicos" : "Pacientes");
+
+        await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
+            .then(response => {
                 setConsultaLista(response.data);
                 console.log(response.data);
-
-            } else {
-                console.log("Token não encontrado.");
-            }
-        } catch (error) {
-            console.log(error);
-        }
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     const [statusLista, setStatusLista] = useState("Agendadas")
@@ -74,21 +90,27 @@ export const Home = ({
     const [showModalDoctor, setShowModalDoctor] = useState(false);
 
 
-    const [role, setRole] = useState('')
+    const [profile, setProfile] = useState({})
 
     async function ProfileLoad() {
-        const token = await userDecodeToken();
+        const token =await userDecodeToken();
+        if (token != null) {
+            setProfile(token)
 
-        if (token) {
-            console.log(token);
-            setRole(token.role)
+            setDataConsulta(moment().format('YYYY-MM-DD'))
         }
     }
 
     useEffect(() => {
         ProfileLoad();
-        ListarConsulta();
     }, [])
+
+    useEffect(() => {
+        if (dataConsulta != '') {
+            ListarConsulta();
+            console.log(dataConsulta);
+        }
+    }, [dataConsulta])
 
 
     return (
@@ -96,7 +118,9 @@ export const Home = ({
 
             <Header />
 
-            <CalendarHome />
+            <CalendarHome
+                setDataConsulta={setDataConsulta}
+            />
 
             <FilterAppointment>
 
@@ -127,12 +151,13 @@ export const Home = ({
                 renderItem={({ item }) =>
                     // console.log(item)
                     statusLista == item.situacao.situacao ? (
-                        <AppointmentCard 
-                        consulta={item} 
-                        onPressAppointment={() => setShowModalAppointment(true)}
-                        onPressCancel={() => setShowModalCancel(true)}
-                        onPressDoctor={() => setShowModalDoctor(true)}
-                         />
+                        <AppointmentCard
+                            consulta={item}
+                            profile={profile}
+                            onPressAppointment={() => setShowModalAppointment(true)}
+                            onPressCancel={() => setShowModalCancel(true)}
+                            onPressDoctor={() => setShowModalDoctor(true)}
+                        />
                     ) : null
                 }
 
@@ -186,12 +211,13 @@ export const Home = ({
             />
 
             <ProntuarioModal
+                profile={profile}
                 navigation={navigation}
                 visible={showModalAppointment}
                 setShowModalAppointment={setShowModalAppointment}
             />
 
-            {role === 'Paciente' ?
+            {profile.role === 'Paciente' ?
                 <Stethoscope
                     onPress={() => setShowModalSchedule(true)}
                 />

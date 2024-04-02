@@ -42,6 +42,7 @@ export const ProfileName = styled(Title)`
 `
 export const ProfileData = styled.View`
     flex-direction: row;
+    align-items: center;
     gap: 15px;
 `
 export const TextAge = styled.Text`

@@ -57,6 +57,8 @@ namespace WebAPI.Repositories
         public List<Consulta> BuscarPorData(DateTime dataConsulta, Guid idPaciente)
         {
            return ctx.Consultas
+                .Include(x => x.MedicoClinica!.Medico!.IdNavigation)
+                .Include(x => x.MedicoClinica!.Medico!.Especialidade)
                 .Include(x => x.Situacao)
                 .Include(x => x.Prioridade)
                 .Include(x => x.Situacao)
