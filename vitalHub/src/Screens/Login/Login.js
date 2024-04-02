@@ -25,24 +25,32 @@ export const Login = ({ navigation }) => {
     const [senha, setSenha] = useState('1234')
     const [loading, setLoading] = useState(false)
 
-    async function Logar() {
-        setLoading(true)
-        await api.post('/Login' , {
-            email: email,
-            senha: senha
-        }).then ( async (response) => {
-            await AsyncStorage.setItem("token", JSON.stringify(response.data))
-            console.log(response);
-            setLoading(false)
-            navigation.replace('Main')
-        }).catch( error => {
-            setLoading(false)
-            console.log(error);
-        })
-        console.log(456);
+    // const [user, setUser] = useState({});
 
-        // navigation.navigate('Main')
+    async function Logar(e) {
+        e.preventDefault();
+
+        // email.length >= 8 && senha.length >= 3 ? 
+            
+            setLoading(true)
+
+            await api.post('/Login', {
+                email: email,
+                senha: senha
+            }).then(async (response) => {
+                await AsyncStorage.setItem("token", JSON.stringify(response.data))
+                console.log(response);
+                setLoading(false)
+                navigation.replace('Main')
+            }).catch(error => {
+                setLoading(false)
+                console.log(error);
+            })
+            console.log(456);
+
+            // : alert('Preencha os dados corretamente')
     }
+
 
     return (
         <Container>
@@ -55,6 +63,7 @@ export const Login = ({ navigation }) => {
                 placeholder="Usuario ou E-mail"
                 onChangeText={(txt) => setEmail(txt)}
                 value={email}
+                required={true}
                 inputMode='email'
             />
             <Input
@@ -67,7 +76,7 @@ export const Login = ({ navigation }) => {
             <LinkMedium onPress={() => navigation.navigate("RecoverSenha")}>Esqueceu sua senha?</LinkMedium>
 
             <Button onPress={(e) => Logar()} disabled={loading}>
-                {loading ? <ActivityIndicator/> : <ButtonTitle>Entrar</ButtonTitle>}
+                {loading ? <ActivityIndicator /> : <ButtonTitle>Entrar</ButtonTitle>}
             </Button>
 
             <ButtonGoogle>
