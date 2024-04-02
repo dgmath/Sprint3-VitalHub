@@ -35,7 +35,7 @@ export const ProntuarioModal = ({
                         <ButtonTitle>Inserir Prontuario</ButtonTitle>
                     </ModalButton>
 
-                    <LinkEndModal onPress={() => navigation.navigate("Home")}>Cancelar</LinkEndModal>
+                    <LinkEndModal onPress={() => setShowModalAppointment(false)}>Cancelar</LinkEndModal>
 
                 </ModalContent>
             </PatientModal>
