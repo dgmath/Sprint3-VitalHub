@@ -8,7 +8,8 @@ export const InputForm = ({
     fieldValue = null,
     onChangeText = null,
     keyType,
-    maxLength
+    maxLength,
+    value
 }) => {
     return (
         <InputPerfil
@@ -20,6 +21,7 @@ export const InputForm = ({
             maxLength={maxLength}
             value={fieldValue}
             onChangeText={onChangeText}
+
         />
     )
 }

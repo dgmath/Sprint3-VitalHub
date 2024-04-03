@@ -8,13 +8,13 @@ import { LinkEndModal } from "../Link/style"
 export const DoctorModal = ({
     navigation,
     visible,
-    setShowModalDoctor,
+    setShowModalLocal,
     informacao,
     ...rest
 }) => {
 
     async function handleClose(){
-        await setShowModalDoctor(false)
+        await setShowModalLocal(false)
 
         navigation.replace("PlaceConsult")
     }
@@ -44,7 +44,7 @@ export const DoctorModal = ({
                         <ButtonTitle>Ver local da consulta</ButtonTitle>
                     </ModalButton>
 
-                    <LinkEndModal onPress={() => setShowModalDoctor(false)}>Cancelar</LinkEndModal>
+                    <LinkEndModal onPress={() => setShowModalLocal(false)}>Cancelar</LinkEndModal>
 
                 </ModalContent>
             </PatientModal>

@@ -33,7 +33,31 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        
+        [HttpPost]
+        public IActionResult Post(Usuario usuario)
+        {
+            Usuario user = new Usuario();
+            user.Nome = usuario.Nome;
+            user.Email = usuario.Email; 
+            user.TipoUsuario = usuario.TipoUsuario;
+            user.Senha = usuario.Senha;
+
+            user.Paciente = new Paciente();
+
+            user.Paciente.DataNascimento = usuario.Paciente.DataNascimento;
+            user.Paciente.Rg = usuario.Paciente.Rg;
+            user.Paciente.Cpf = usuario.Paciente.Cpf;
+
+            user.Paciente.Endereco = new Endereco();
+
+            user.Paciente.Endereco.Logradouro = usuario.Paciente.Endereco.Logradouro;
+            user.Paciente.Endereco.Numero = usuario.Paciente.Endereco.Numero;
+            user.Paciente.Endereco.Cep = usuario.Paciente.Endereco.Cep;
+            user.Paciente.Endereco.Cidade = usuario.Paciente.Endereco.Cidade;
+
+            usuarioRepository.Cadastrar(user);
+            return Ok();
+        }
 
     }
 }

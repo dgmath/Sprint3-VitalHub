@@ -25,7 +25,7 @@ export const Cadastro = ({navigation}) => {
                 placeholder="Senha"
             />
             <Input
-                placeholder="Senha"
+                placeholder="Confirmar senha"
             />
 
             <Button onPress={() => navigation.navigate("Login")}>

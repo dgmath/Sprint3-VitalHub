@@ -45,28 +45,30 @@ export const Home = ({
 }) => {
 
     const [consultaLista, setConsultaLista] = useState([])
+    const [consultaSelecionada, setConsultaSelecionada] = useState()
     const [dataConsulta, setDataConsulta] = useState('')
 
-    // async function ListarConsulta() {
-    //     try {
-    //         const token = await tokenClean();
+    const [statusLista, setStatusLista] = useState("Agendadas")
 
-    //         if (token) {
-    //             const response = await api.get('/Consultas', {
-    //                 headers: {
-    //                     Authorization: `Bearer ${token}`
-    //                 }
-    //             });
-    //             setConsultaLista(response.data);
-    //             console.log(response.data);
+    const [showModalCancel, setShowModalCancel] = useState(false);
+    const [showModalAppointment, setShowModalAppointment] = useState(false);
+    const [showModalSchedule, setShowModalSchedule] = useState(false);
+    const [showModalLocal, setShowModalLocal] = useState(false);
 
-    //         } else {
-    //             console.log("Token não encontrado.");
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    function MostrarModal(modal, consulta) {
+
+        setConsultaSelecionada(consulta)
+
+        if (modal == 'cancelar') {
+            setShowModalCancel(true)
+        }
+        else if (modal == 'prontuario') {
+            setShowModalAppointment(true)
+        }
+        else {
+            setShowModalLocal(true)
+        }
+    }
 
     async function ListarConsulta() {
 
@@ -82,18 +84,12 @@ export const Home = ({
             })
     }
 
-    const [statusLista, setStatusLista] = useState("Agendadas")
-
-    const [showModalCancel, setShowModalCancel] = useState(false);
-    const [showModalAppointment, setShowModalAppointment] = useState(false);
-    const [showModalSchedule, setShowModalSchedule] = useState(false);
-    const [showModalDoctor, setShowModalDoctor] = useState(false);
 
 
     const [profile, setProfile] = useState({})
 
     async function ProfileLoad() {
-        const token =await userDecodeToken();
+        const token = await userDecodeToken();
         if (token != null) {
             setProfile(token)
 
@@ -154,9 +150,9 @@ export const Home = ({
                         <AppointmentCard
                             consulta={item}
                             profile={profile}
-                            onPressAppointment={() => setShowModalAppointment(true)}
-                            onPressCancel={() => setShowModalCancel(true)}
-                            onPressDoctor={() => setShowModalDoctor(true)}
+                            onPressAppointment={() => MostrarModal('prontuario', item)}
+                            onPressCancel={() => MostrarModal('cancelar', item)}
+                            onPressDoctor={() => MostrarModal('local', item)}
                         />
                     ) : null
                 }
@@ -211,6 +207,8 @@ export const Home = ({
             />
 
             <ProntuarioModal
+                consulta={consultaSelecionada}
+                situacao={statusLista}
                 profile={profile}
                 navigation={navigation}
                 visible={showModalAppointment}
@@ -233,8 +231,8 @@ export const Home = ({
 
             <DoctorModal
                 navigation={navigation}
-                visible={showModalDoctor}
-                setShowModalDoctor={setShowModalDoctor}
+                visible={showModalLocal}
+                setShowModalLocal={setShowModalLocal}
             // informacao={info}
             />
 

@@ -10,8 +10,13 @@ export const ProntuarioModal = ({
     visible,
     setShowModalAppointment,
     profile,
+    situacao,
+    consulta,
     ...rest
 }) => {
+    function HandlePress(rota) {
+        navigation.replace(rota, {clinicaId : consulta.medicoClinica.clinicaId })
+    }
     return (
         <Modal
             {...rest}
@@ -32,10 +37,15 @@ export const ProntuarioModal = ({
                         <ModalText>gelipe.fois@gmail.com</ModalText>
                     </BoxModal>
 
-                    <ModalButton onPress={profile.role == 'Medico' ? () => navigation.navigate("InsercaoProntuario") : () => navigation.navigate('Prescricao')}>
-                        <ButtonTitle>Inserir Prontuario</ButtonTitle>
-                    </ModalButton>
-
+                    {situacao === 'Realizadas' && profile.role == 'Medico' ?
+                        <ModalButton onPress={() => HandlePress("InsercaoProntuario")}>
+                            <ButtonTitle>Inserir Prontuario</ButtonTitle>
+                        </ModalButton>
+                        :
+                        <ModalButton onPress={() => HandlePress("PlaceConsult")}>
+                            <ButtonTitle>Ver local da consulta</ButtonTitle>
+                        </ModalButton>
+                    }
                     <LinkEndModal onPress={() => setShowModalAppointment(false)}>Cancelar</LinkEndModal>
 
                 </ModalContent>
