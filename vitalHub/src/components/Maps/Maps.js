@@ -12,10 +12,10 @@ import { useEffect, useRef, useState } from "react";
 import MapViewDirections from "react-native-maps-directions";
 import { mapskey } from "../../utils/mapsKey"
 
-export const Maps = () => {
+export const Maps = ({latitude, longitude, endereco}) => {
   const [finalPosition, setFinalPosition] = useState({
-    latitude: -23.6000,
-    longitude: -46.7187,
+    latitude: latitude,
+    longitude: longitude,
     latitudeDelta: 0.005,
     longitudeDelta: 0.005,
   });
@@ -77,6 +77,10 @@ export const Maps = () => {
     RecarregarVisualizacaoMapa();
   }, [initialPosition]);
 
+  useEffect(() => {
+    console.log(finalPosition);
+  }, [finalPosition]);
+
   return (
     <GpsBox>
       {initialPosition !== null ? (
@@ -112,8 +116,8 @@ export const Maps = () => {
 
           <Marker
             coordinate={finalPosition}
-            title="Exemplo de local"
-            description="MorumBis"
+            title={endereco}
+            description='Clinica'
             pinColor='red'
 
             // propriedade para alterar o ícone de localização

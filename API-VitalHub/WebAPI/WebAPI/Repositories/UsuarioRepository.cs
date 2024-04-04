@@ -63,9 +63,6 @@ namespace WebAPI.Repositories
 
         public void Cadastrar(Usuario usuario)
         {
-            usuario.Nome = usuario.Nome;
-            usuario.Email = usuario.Email;
-            usuario.TipoUsuario = usuario.TipoUsuario;
             usuario.Senha = Criptografia.GerarHash(usuario.Senha);
             ctx.Add(usuario);
             ctx.SaveChanges();

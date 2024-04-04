@@ -36,7 +36,11 @@ export const PlaceConsult = ({ navigation, route }) => {
                     <MainContentScroll>
                         <MainContent>
 
-                            <Maps />
+                            <Maps
+                                longitude={clinicaSelecionada.endereco.longitude}
+                                latitude={clinicaSelecionada.endereco.latitude}
+                                endereco={clinicaSelecionada.endereco.logradouro}
+                            />
 
                             <TitleMap>{clinicaSelecionada.nomeFantasia}</TitleMap>
                             <TextMap>{clinicaSelecionada.endereco.cidade}</TextMap>
@@ -45,7 +49,7 @@ export const PlaceConsult = ({ navigation, route }) => {
                                 fieldWidth={90}
                                 fieldHeight={55}
                                 textLabel='Endereço'
-                                placeholder={clinicaSelecionada.endereco.logradouro}
+                                fieldValue={clinicaSelecionada.endereco.logradouro}
                             />
 
                             <ViewInputRow>
@@ -60,7 +64,7 @@ export const PlaceConsult = ({ navigation, route }) => {
                                     fieldWidth={40}
                                     fieldHeight={55}
                                     textLabel='Número'
-                                    placeholder={clinicaSelecionada.endereco.numero}
+                                    fieldValue={JSON.stringify(clinicaSelecionada.endereco.numero)}
                                 />
 
                             </ViewInputRow>
