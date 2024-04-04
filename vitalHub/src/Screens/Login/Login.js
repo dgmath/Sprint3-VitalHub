@@ -28,7 +28,6 @@ export const Login = ({ navigation }) => {
     // const [user, setUser] = useState({});
 
     async function Logar(e) {
-        // email.length >= 8 && senha.length >= 3 ? 
             
             setLoading(true)
 
@@ -46,9 +45,8 @@ export const Login = ({ navigation }) => {
             })
             console.log(456);
 
-            // : alert('Preencha os dados corretamente')
     }
-
+        
 
     return (
         <Container>

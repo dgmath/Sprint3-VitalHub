@@ -6,13 +6,24 @@ import { TitlePerfil } from "../../components/Title/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style"
 import { Button, ButtonEditPerfil, ButtonSairPerfil } from "../../components/Button/style"
 import { useEffect, useState } from "react";
-import { userDecodeToken } from "../../utils/Auth";
+import { tokenClean, userDecodeToken } from "../../utils/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const Perfil = ({navigation}) => {
+import api from "../../Services/Services"
+import moment from "moment";
+
+export const Perfil = ({ navigation }) => {
 
     const [userName, setUserName] = useState('')
     const [userEmail, setUserEmail] = useState('')
+    const [userId, setUserId] = useState('')
+    const [userData, setUserData] = useState({})
+
+    const [logradouro, setLogradouro] = useState('')
+    const [cep, setCep] = useState('')
+    const [cidade, setCidade] = useState('')
+    const [cpf, setCpf] = useState('')
+    const [dataNascimento, setDataNascimento] = useState('')
 
     async function ProfileLoad() {
         const token = await userDecodeToken();
@@ -21,8 +32,55 @@ export const Perfil = ({navigation}) => {
             console.log(token);
             setUserName(token.name)
             setUserEmail(token.email)
+            setUserId(token.id);
+
+            // GetProfile(); // Chama GetProfile após setUserId
         }
     }
+
+    async function GetProfile() {
+        try {
+            const token = await tokenClean();
+
+            if (token) {
+                const response = await api.get('/Pacientes/PerfilLogado', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setUserData(response.data);
+                console.log(response.data);
+
+                console.log(123);
+
+                console.log(userData);
+
+            } else {
+                console.log("Token não encontrado.");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    // async function GetProfile() {
+    //     try {
+    //         const response = await api.get(`/Pacientes/BuscarPorId?id=${userId}`); // Passa o ID do usuário para a API
+
+    //         const data = response.data;
+
+    //         setUserData(data); // Atualiza o estado com os dados recebidos
+
+    //         setLogradouro(data.logradouro);
+    //         setDataNascimento(moment(data.dataNascimento).format("DD-MM-YYYY"));
+    //         setCpf(data.cpf);
+            
+    //     } catch (error) {
+    //         console.error("Erro ao buscar informações do paciente:", error);
+    //     }
+    // }
+
     async function Logout() {
         await AsyncStorage.removeItem("token");
         const tokenAfterClear = await AsyncStorage.getItem("token")
@@ -30,16 +88,22 @@ export const Perfil = ({navigation}) => {
             console.log("Token apagado");
             // console.log(token);
         }
-        else{
+        else {
             console.log("Token não apagado");
             console.log(token);
         }
         navigation.navigate("Login")
     }
 
+    // useEffect(() => {
+    //     ProfileLoad()
+    // }, [])
+
     useEffect(() => {
-        ProfileLoad()
-    }, [])
+          GetProfile();
+      }, []); 
+
+
     return (
         <ContainerPerfil>
             <MainContentScroll>
@@ -54,35 +118,32 @@ export const Perfil = ({navigation}) => {
                     <ContainerInputPerfil>
                         <BoxInput
                             textLabel='Data de nascimento:'
-                            placeholder='xx/xx/xxxx'
-                        // key='numeric'
-                        // maxLength={9}
-                        // editable={true}
-                        // fieldValue={cep}
-                        // onChangeText={e => setCep(cepMasked(e))}
+                            placeholder={moment(userData.dataNascimento).format('DD-MM-YYYY')}
+                            editable={false}
                         />
                         <BoxInput
                             textLabel='CPF:'
-                            placeholder='465********'
-                        // fieldValue={endereco.street}
+                            placeholder={userData.cpf}
+                            fieldValue={cpf}
                         />
                         <BoxInput
                             textLabel='Endereco:'
-                            placeholder='Av.Regente Feijo, 1900'
-                        // fieldValue={endereco.district}
+                            placeholder={logradouro}
+                            fieldValue={logradouro}
                         />
                     </ContainerInputPerfil>
                     <ContainerInputRow>
                         <BoxInput
                             fieldWidth={45}
                             textLabel='CEP:'
-                            placeholder='06548-909'
+                            placeholder=''
+                        // fieldValue={cep}
                         />
                         <BoxInput
                             fieldWidth={45}
                             textLabel='Cidade:'
-                            placeholder='Moema-sp'
-                        // fieldValue={endereco.district}
+                            placeholder=''
+                        // fieldValue={cidade}
                         />
                     </ContainerInputRow>
 
