@@ -32,6 +32,14 @@ namespace WebAPI.Controllers
             return Ok(_medicoRepository.BuscarPorId(id)); ;
         }
 
+        [HttpGet("PerfilLogado")]
+        public IActionResult BuscarLogado()
+        {
+            Guid idUsuario = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
+
+            return Ok(_medicoRepository.BuscarPorId(idUsuario));
+        }
+
         [Authorize]
         [HttpPut]
         public IActionResult AtualizarPerfil(MedicoViewModel medico)

@@ -39,8 +39,9 @@ export const ContainerInputPerfil = styled.View`
     justify-content: center;
     background-color: #ffff;
     /* margin-left: 25px; */
-    gap: 20px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 0px;
+    margin-top: 30px;
 `
 export const ContainerInputPresc = styled(ContainerInputPerfil)`
     flex: 1;
@@ -57,6 +58,11 @@ export const ContainerInputRow = styled(ContainerPerfil)`
     flex-direction: row;
     gap: 10px;
     margin-bottom: 30px;
+`
+export const ContainerInputRowOne = styled(ContainerPerfil)`
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: none;
 `
 
 export const MainContent = styled.View`

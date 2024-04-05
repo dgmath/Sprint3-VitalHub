@@ -1,5 +1,5 @@
 import { BoxInput } from "../../components/BoxInput";
-import { ContainerInputPerfil, ContainerInputRow, ContainerPerfil, MainContent, MainContentScroll } from "../../components/Container/style";
+import { ContainerInputPerfil, ContainerInputRow, ContainerInputRowOne, ContainerPerfil, MainContent, MainContentScroll } from "../../components/Container/style";
 import { ImagePerfil } from "../../components/Logo/style";
 import { SubTitlePerfil } from "../../components/Text/style";
 import { TitlePerfil } from "../../components/Title/style";
@@ -11,32 +11,24 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import api from "../../Services/Services"
 import moment from "moment";
+import { ActivityIndicator } from "react-native";
 
 export const Perfil = ({ navigation }) => {
 
     const [userName, setUserName] = useState('')
     const [userEmail, setUserEmail] = useState('')
     const [userId, setUserId] = useState('')
-    const [userData, setUserData] = useState({})
+    const [userData, setUserData] = useState(null)
+
+    const [medicoData, setMedicoData] = useState({})
 
     const [logradouro, setLogradouro] = useState('')
+    const [especialidade, setEspecialidade] = useState('')
+    const [crm, setCrm] = useState('')
     const [cep, setCep] = useState('')
     const [cidade, setCidade] = useState('')
-    const [cpf, setCpf] = useState('')
-    const [dataNascimento, setDataNascimento] = useState('')
 
-    async function ProfileLoad() {
-        const token = await userDecodeToken();
-
-        if (token) {
-            console.log(token);
-            setUserName(token.name)
-            setUserEmail(token.email)
-            setUserId(token.id);
-
-            // GetProfile(); // Chama GetProfile após setUserId
-        }
-    }
+    const [role, setRole] = useState('')
 
     async function GetProfile() {
         try {
@@ -53,7 +45,7 @@ export const Perfil = ({ navigation }) => {
 
                 console.log(123);
 
-                console.log(userData);
+                console.og(userData);
 
             } else {
                 console.log("Token não encontrado.");
@@ -64,22 +56,30 @@ export const Perfil = ({ navigation }) => {
     }
 
 
-    // async function GetProfile() {
-    //     try {
-    //         const response = await api.get(`/Pacientes/BuscarPorId?id=${userId}`); // Passa o ID do usuário para a API
+    async function GetProfileMedico() {
+        try {
+            const token = await tokenClean();
 
-    //         const data = response.data;
+            if (token) {
+                const response = await api.get('/Medicos/PerfilLogado', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setUserData(response.data);
+                console.log(response.data);
 
-    //         setUserData(data); // Atualiza o estado com os dados recebidos
+                console.log(123);
 
-    //         setLogradouro(data.logradouro);
-    //         setDataNascimento(moment(data.dataNascimento).format("DD-MM-YYYY"));
-    //         setCpf(data.cpf);
-            
-    //     } catch (error) {
-    //         console.error("Erro ao buscar informações do paciente:", error);
-    //     }
-    // }
+                console.og(userData);
+
+            } else {
+                console.log("Token não encontrado.");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     async function Logout() {
         await AsyncStorage.removeItem("token");
@@ -95,57 +95,136 @@ export const Perfil = ({ navigation }) => {
         navigation.navigate("Login")
     }
 
-    // useEffect(() => {
-    //     ProfileLoad()
-    // }, [])
-
     useEffect(() => {
-          GetProfile();
-      }, []); 
+        {role == 'Medico'?(
+            GetProfileMedico()
+        ):(
+            GetProfile()
+        )}
+    },[userData])
 
 
-    return (
-        <ContainerPerfil>
+
+return (
+    <ContainerPerfil>
+        {userData != null ? (
             <MainContentScroll>
                 <MainContent>
 
                     <ImagePerfil source={require("../../assets/ImagePerfil.jpg")} />
 
-                    <TitlePerfil>{userName}</TitlePerfil>
+                    {/* <TitlePerfil>{userName}</TitlePerfil>
 
-                    <SubTitlePerfil>{userEmail}</SubTitlePerfil>
+                        <SubTitlePerfil>{userEmail}</SubTitlePerfil> */}
 
-                    <ContainerInputPerfil>
-                        <BoxInput
-                            textLabel='Data de nascimento:'
-                            placeholder={moment(userData.dataNascimento).format('DD-MM-YYYY')}
-                            editable={false}
-                        />
-                        <BoxInput
-                            textLabel='CPF:'
-                            placeholder={userData.cpf}
-                            fieldValue={cpf}
-                        />
-                        <BoxInput
-                            textLabel='Endereco:'
-                            placeholder={logradouro}
-                            fieldValue={logradouro}
-                        />
-                    </ContainerInputPerfil>
-                    <ContainerInputRow>
-                        <BoxInput
-                            fieldWidth={45}
-                            textLabel='CEP:'
-                            placeholder=''
-                        // fieldValue={cep}
-                        />
-                        <BoxInput
-                            fieldWidth={45}
-                            textLabel='Cidade:'
-                            placeholder=''
-                        // fieldValue={cidade}
-                        />
-                    </ContainerInputRow>
+                    {role === 'Medico' ? (
+
+
+                        <ContainerInputPerfil>
+                            <BoxInput
+                                textLabel='Nome:'
+                                placeholder='Seu Nome'
+                                fieldValue={userData.idNavigation.nome}
+                            />
+                            <BoxInput
+                                textLabel='Especialidade:'
+                                placeholder=''
+                                fieldValue={userData.especialidade}
+                            />
+                            {/* <BoxInput
+                                textLabel='Data de nascimento:'
+                                placeholder='Ex.DD-MM-YYYY'
+                                fieldValue={moment(userData.dataNascimento).format('DD-MM-YYYY')}
+                            />
+                            <BoxInput
+                                textLabel='CPF:'
+                                placeholder='CPF'
+                                fieldValue={userData.cpf}
+                            />
+                            <ContainerInputRowOne>
+                                <BoxInput
+                                    fieldWidth={60}
+                                    textLabel='Endereco:'
+                                    placeholder='Endereco'
+                                    fieldValue={userData.endereco.logradouro}
+                                />
+                                <BoxInput
+                                    fieldWidth={40}
+                                    textLabel='Numero:'
+                                    placeholder='Numero'
+                                    fieldValue={JSON.stringify(userData.endereco.numero)}
+                                />
+                            </ContainerInputRowOne>
+
+                            <ContainerInputRow>
+                                <BoxInput
+                                    fieldWidth={50}
+                                    textLabel='CEP:'
+                                    placeholder='CEP'
+                                    fieldValue={userData.endereco.cep}
+                                />
+                                <BoxInput
+                                    fieldWidth={50}
+                                    textLabel='Cidade:'
+                                    placeholder='Cidade'
+                                    fieldValue={userData.endereco.cidade}
+                                />
+                            </ContainerInputRow> */}
+                        </ContainerInputPerfil>
+                    ) : (
+                        <ContainerInputPerfil>
+                            <BoxInput
+                                textLabel='Nome:'
+                                placeholder='Seu Nome'
+                                fieldValue={userData.idNavigation.nome}
+                            />
+                            <BoxInput
+                                textLabel='RG:'
+                                placeholder='Seu RG'
+                                fieldValue={userData.rg}
+                            />
+                            <BoxInput
+                                textLabel='Data de nascimento:'
+                                placeholder='Ex.DD-MM-YYYY'
+                                fieldValue={moment(userData.dataNascimento).format('DD-MM-YYYY')}
+                            />
+                            <BoxInput
+                                textLabel='CPF:'
+                                placeholder='CPF'
+                                fieldValue={userData.cpf}
+                            />
+                            <ContainerInputRowOne>
+                                <BoxInput
+                                    fieldWidth={60}
+                                    textLabel='Endereco:'
+                                    placeholder='Endereco'
+                                    fieldValue={userData.endereco.logradouro}
+                                />
+                                <BoxInput
+                                    fieldWidth={40}
+                                    textLabel='Numero:'
+                                    placeholder='Numero'
+                                    fieldValue={JSON.stringify(userData.endereco.numero)}
+                                />
+                            </ContainerInputRowOne>
+
+                            <ContainerInputRow>
+                                <BoxInput
+                                    fieldWidth={50}
+                                    textLabel='CEP:'
+                                    placeholder='CEP'
+                                    fieldValue={userData.endereco.cep}
+                                />
+                                <BoxInput
+                                    fieldWidth={50}
+                                    textLabel='Cidade:'
+                                    placeholder='Cidade'
+                                    fieldValue={userData.endereco.cidade}
+                                />
+                            </ContainerInputRow>
+                        </ContainerInputPerfil>
+
+                    )}
 
                     <Button>
                         <ButtonTitle>Salvar</ButtonTitle>
@@ -161,6 +240,9 @@ export const Perfil = ({ navigation }) => {
 
                 </MainContent>
             </MainContentScroll>
-        </ContainerPerfil>
-    )
+        ) : (
+            <ActivityIndicator />
+        )}
+    </ContainerPerfil>
+)
 }
