@@ -15,7 +15,8 @@ export const ProntuarioModal = ({
     ...rest
 }) => {
     function HandlePress(rota) {
-        navigation.replace(rota, {clinicaId : consulta.medicoClinica.clinicaId })
+        // console.log(consulta.id)
+        navigation.replace(rota, {consultaId : consulta.id })
     }
     return (
         <Modal
@@ -42,8 +43,8 @@ export const ProntuarioModal = ({
                             <ButtonTitle>Inserir Prontuario</ButtonTitle>
                         </ModalButton>
                         :
-                        <ModalButton onPress={() => HandlePress("PlaceConsult")}>
-                            <ButtonTitle>Ver local da consulta</ButtonTitle>
+                        <ModalButton onPress={() => HandlePress("Prescricao")}>
+                            <ButtonTitle>Ver Prontuário</ButtonTitle>
                         </ModalButton>
                     }
                     <LinkEndModal onPress={() => setShowModalAppointment(false)}>Cancelar</LinkEndModal>

@@ -8,15 +8,21 @@ import { LinkEndModal } from "../Link/style"
 export const DoctorModal = ({
     navigation,
     visible,
+    profile,
+    consulta,
     setShowModalLocal,
-    informacao,
     ...rest
 }) => {
 
-    async function handleClose(){
+    async function handleClose() {
         await setShowModalLocal(false)
 
         navigation.replace("PlaceConsult")
+    }
+
+
+    function HandlePress(rota) {
+        navigation.replace(rota, { clinicaId: consulta.medicoClinica.clinicaId })
     }
 
     return (
@@ -31,19 +37,25 @@ export const DoctorModal = ({
             <PatientModal>
                 <ModalContent>
 
-                    <ModalImage source={require("../../../assets/Perfil.jpg")} />
+                    <ModalImage source={profile.role == 'Paciente' ? require("../../../src/assets/Doctor.png") : require("../../../src/assets/ImagePerfil.jpg")} />
 
-                    <TitleModal>.</TitleModal>
+
+                    <TitleModal>Gois</TitleModal>
 
                     <BoxModal>
                         <ModalText>Cliníco geral</ModalText>
                         <ModalText>CRM-15286</ModalText>
                     </BoxModal>
 
-                    <ModalButton onPress={() => handleClose()}>
-                        <ButtonTitle>Ver local da consulta</ButtonTitle>
-                    </ModalButton>
+                    {profile.role == 'Medico' ?
+                        <>
+                        </>
 
+                        :
+                        <ModalButton onPress={() => HandlePress("PlaceConsult")}>
+                            <ButtonTitle>Ver local da consulta</ButtonTitle>
+                        </ModalButton>
+                    }
                     <LinkEndModal onPress={() => setShowModalLocal(false)}>Cancelar</LinkEndModal>
 
                 </ModalContent>

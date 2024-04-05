@@ -235,6 +235,8 @@ export const Home = ({
                 navigation={navigation}
                 visible={showModalLocal}
                 setShowModalLocal={setShowModalLocal}
+                profile={profile}
+                consulta={consultaSelecionada}
             // informacao={info}
             />
 

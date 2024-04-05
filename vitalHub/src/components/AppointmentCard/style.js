@@ -18,6 +18,7 @@ export const ContainerCardList = styled.View`
     shadow-radius: 15px;
     elevation: 10;
     /* border: 2px #496BBA; */
+    align-items: center;
 
 `
 export const ProfileImage = styled.Image`

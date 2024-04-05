@@ -9,12 +9,13 @@ export const InputForm = ({
     onChangeText = null,
     keyType,
     maxLength,
-    value
+    editable = false
 }) => {
     return (
         <InputPerfil
             BorderColor={BorderColor}
             placeholderColor={placeholderColor}
+            editable={editable}
             fieldHeight={fieldHeight}
             placeholder={placeholder}
             keyBoardType={keyType}

@@ -10,98 +10,129 @@ import { LinkEndModal, LinkMediumPres } from '../../components/Link/style';
 import { ImagePerfil } from '../../components/Logo/style';
 import { ButtonPrescricao } from '../../components/Button/style';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ModalCamera } from '../../components/ModalCamera/ModalCamera';
 
 import { FontAwesome } from '@expo/vector-icons'
+import api from '../../Services/Services';
+import { ActivityIndicator } from 'react-native';
 
 
 export const Prescricao = ({
-    navigation
+    navigation, route
 }) => {
 
     const [showModalCamera, setShowModalCamera] = useState(false)
     const [uriCameraCapture, setUriCameraCapture] = useState(null)
 
+    const [consultaSelecionada, setConsultaSelecionada] = useState(null)
+
+    async function BuscarProntuario() {
+        await api.get(`/Consultas/BuscaPorId?id=${route.params.consultaId}`)
+            .then(response => {
+                setConsultaSelecionada(response.data)
+                console.log(response.data);
+                console.log(1234);
+                console.log(consultaSelecionada.medicoClinica.clinicaId);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    useEffect(() => {
+        if (consultaSelecionada == null) {
+            BuscarProntuario();
+        }
+    }, [consultaSelecionada])
+
     return (
         <ContainerPerfil>
-            <MainContentScroll>
-                <ImagePerfil source={require("../../assets/Doctor.png")} />
+            {consultaSelecionada != null ? (
+                <MainContentScroll>
+                    <ImagePerfil source={require("../../assets/Doctor.png")} />
 
-                <TitlePresc> Dr.Gelipe Fois</TitlePresc>
-                <SubTitlePresc>         Cliníco geral      CRM-15286</SubTitlePresc>
+                    <TitlePresc>.</TitlePresc>
+                    <SubTitlePresc>         Cliníco geral      CRM-15286</SubTitlePresc>
 
-                <ContainerInputPresc>
-                    <BoxInput
-                        fieldWidth={90}
-                        textLabel={"Descrição da consulta"}
-                        placeholder={"Descrição da consulta..."}
-                        fieldHeight={"121"}
+                    <ContainerInputPresc>
+                        <BoxInput
+                            fieldWidth={90}
+                            textLabel={"Descrição da consulta"}
+                            fieldValue={consultaSelecionada.descricao}
+                            fieldHeight={"121"}
+                        />
+
+                        <BoxInput
+                            fieldWidth={90}
+                            textLabel={"Diagnóstico do paciente"}
+                            fieldValue={consultaSelecionada.diagnostico}
+                            placeholder={"Diagnóstico..."}
+                        />
+
+                        <BoxInput
+                            fieldWidth={90}
+                            textLabel={"Prescrição médica"}
+                            fieldValue={consultaSelecionada.receita.medicamento}
+                            fieldHeight={"133"}
+                        />
+
+                        <ContainerImageProntuario>
+                            <TextTitleImage>Exames médicos</TextTitleImage>
+                            {uriCameraCapture == null ? (
+                                <>
+                                    <BoxImage>
+                                        <FontAwesome name='image' size={25} color='#121212' />
+                                        <TextImage>Nenhuma foto informada</TextImage>
+                                    </BoxImage>
+                                </>
+                            ) : (
+                                <>
+                                    <ImageProntuario source={{ uri: uriCameraCapture }} />
+                                </>
+                            )}
+                        </ContainerImageProntuario>
+
+                        <ContainerBoxPrescricao>
+
+                            <ButtonPrescricao onPress={() => setShowModalCamera(true)}>
+                                <MaterialCommunityIcons name="camera-plus-outline" size={20} color="#fff" />
+                                <ButtonTitle>Enviar</ButtonTitle>
+                            </ButtonPrescricao>
+
+
+                            <LinkMediumPres onPress={() => setUriCameraCapture(null)}>Cancelar</LinkMediumPres>
+
+                        </ContainerBoxPrescricao>
+
+                        <Linha />
+
+                        {consultaSelecionada.exames.map((exame, index) => (
+                            <BoxInput
+                                key={index}
+                                fieldWidth={90}
+                                textLabel={"Exames médicos"}
+                                fieldValue={exame.descricao}
+                                fieldHeight={"103"}
+                            />
+                        ))}
+
+                        <LinkEndModal onPress={() => navigation.replace('Home')}>Voltar</LinkEndModal>
+
+                    </ContainerInputPresc>
+
+                    <ModalCamera
+                        visible={showModalCamera}
+                        setUriCameraCapture={setUriCameraCapture}
+                        setShowModalCamera={setShowModalCamera}
                     />
 
-                    <BoxInput
-                        fieldWidth={90}
-                        textLabel={"Diagnóstico do paciente"}
-                        placeholder={"Diagnóstico..."}
-                    />
 
-                    <BoxInput
-                        fieldWidth={90}
-                        textLabel={"Prescrição médica"}
-                        placeholder={"Prescrição médica..."}
-                        fieldHeight={"133"}
-                    />
-
-                    <ContainerImageProntuario>
-                        <TextTitleImage>Exames médicos</TextTitleImage>
-                        {uriCameraCapture == null ? (
-                            <>
-                                <BoxImage>
-                                    <FontAwesome name='image' size={25} color='#121212' />
-                                    <TextImage>Nenhuma foto informada</TextImage>
-                                </BoxImage>
-                            </>
-                        ) : (
-                            <>
-                                <ImageProntuario source={{ uri: uriCameraCapture }} />
-                            </>
-                        )}
-                    </ContainerImageProntuario>
-
-                    <ContainerBoxPrescricao>
-
-                        <ButtonPrescricao onPress={() => setShowModalCamera(true)}>
-                            <MaterialCommunityIcons name="camera-plus-outline" size={20} color="#fff" />
-                            <ButtonTitle>Enviar</ButtonTitle>
-                        </ButtonPrescricao>
-
-
-                        <LinkMediumPres onPress={() => setUriCameraCapture(null)}>Cancelar</LinkMediumPres>
-
-                    </ContainerBoxPrescricao>
-
-                    <Linha />
-
-                    <BoxInput
-                        fieldWidth={90}
-                        textLabel={"Exames médicos"}
-                        placeholder={"Resultado do exame de sangue:"}
-                        fieldHeight={"103"}
-                    />
-
-                    <LinkEndModal>Voltar</LinkEndModal>
-
-                </ContainerInputPresc>
-
-                <ModalCamera
-                    visible={showModalCamera}
-                    setUriCameraCapture={setUriCameraCapture}
-                    setShowModalCamera={setShowModalCamera}
-                />
-
-
-            </MainContentScroll>
+                </MainContentScroll>
+            ) : (
+                <ActivityIndicator />
+            )}
         </ContainerPerfil>
     )
 }
