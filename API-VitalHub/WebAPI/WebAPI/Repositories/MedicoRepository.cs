@@ -51,6 +51,8 @@ namespace WebAPI.Repositories
             //fazer logica para trazer medico e dados de seu usuario
             Medico medicoBuscado = ctx.Medicos.
                 Include(m => m.IdNavigation).
+                Include(x => x.Endereco).
+                Include(x => x.Especialidade).
                 FirstOrDefault(m => m.Id == Id)!;
 
             return medicoBuscado;
