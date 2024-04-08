@@ -118,7 +118,7 @@ export const Prescricao = ({
                             />
                         ))}
 
-                        <LinkEndModal onPress={() => navigation.replace('Home')}>Voltar</LinkEndModal>
+                        <LinkEndModal onPress={() => navigation.replace('Main')}>Voltar</LinkEndModal>
 
                     </ContainerInputPresc>
 

@@ -24,6 +24,7 @@ export const Cadastro = ({ navigation }) => {
             senha: senha2,
             idTipoUsuario: idTipoUsuario
         }).then( response => {
+            alert('Cadastrado com sucesso')
             console.log(response.data);
         }).catch(error => {
             console.log(error);

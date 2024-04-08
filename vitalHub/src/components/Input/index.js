@@ -1,8 +1,7 @@
-import { InputPerfil } from "./style"
+import { InputPerfil, InputPerfilCinza } from "./style"
 
 export const InputForm = ({
     placeholder,
-    placeholderColor = "#33303E",
     BorderColor="#F5F3F3",
     fieldHeight = 50,
     fieldValue = null,
@@ -14,7 +13,31 @@ export const InputForm = ({
     return (
         <InputPerfil
             BorderColor={BorderColor}
-            placeholderColor={placeholderColor}
+            editable={editable}
+            fieldHeight={fieldHeight}
+            placeholder={placeholder}
+            keyBoardType={keyType}
+            maxLength={maxLength}
+            value={fieldValue}
+            onChangeText={onChangeText}
+
+        />
+    )
+}
+
+export const InputForm2 = ({
+    placeholder,
+    BorderColor="#F5F3F3",
+    fieldHeight = 50,
+    fieldValue = null,
+    onChangeText = null,
+    keyType,
+    maxLength,
+    editable = false
+}) => {
+    return (
+        <InputPerfilCinza
+            BorderColor={BorderColor}
             editable={editable}
             fieldHeight={fieldHeight}
             placeholder={placeholder}
