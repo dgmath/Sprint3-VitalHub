@@ -13,6 +13,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // 1º importar os recursos do expo notification
 import * as Notifications from "expo-notifications";
+import api from "../../Services/Services"
 
 // 2º pedir permissão ao usuário para notificar
 Notifications.requestPermissionsAsync();
@@ -33,9 +34,30 @@ Notifications.setNotificationHandler({
 
 export const CancelationModal = ({
     visible,
+    consulta,
     setShowModalCancel,
+    route,
     ...rest
 }) => {
+
+
+    async function CancelarConsulta() {
+        await api.put(`/Consultas/Status`,{
+            id: consulta.id , situacaoId: '11215117-4485-4C02-82E7-C71AF491BA05'
+        })
+        .then(response => {
+            console.log(123);
+            console.log(response.data);
+            alert('Consulta cancelada')
+            console.log(456);
+            setShowModalCancel(false)
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
+
     return (
         <Modal
             {...rest}
@@ -51,7 +73,7 @@ export const CancelationModal = ({
 
                     <ModalText>Ao cancelar essa consulta, abrirá uma possível disponibilidade no seu horário, deseja mesmo cancelar essa consulta?</ModalText>
 
-                    <ModalButton>
+                    <ModalButton onPress={() => CancelarConsulta()}>
                         <ButtonTitle>Confirmar</ButtonTitle>
                     </ModalButton>
 

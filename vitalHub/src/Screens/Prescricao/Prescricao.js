@@ -53,8 +53,8 @@ export const Prescricao = ({
                 <MainContentScroll>
                     <ImagePerfil source={require("../../assets/Doctor.png")} />
 
-                    <TitlePresc>.</TitlePresc>
-                    <SubTitlePresc>         Cliníco geral      CRM-15286</SubTitlePresc>
+                    <TitlePresc>{route.params.mediconome.idNavigation.nome}</TitlePresc>
+                    <SubTitlePresc>         {consultaSelecionada.medicoClinica.medico.especialidade.especialidade1}      {consultaSelecionada.medicoClinica.medico.crm}</SubTitlePresc>
 
                     <ContainerInputPresc>
                         <BoxInput

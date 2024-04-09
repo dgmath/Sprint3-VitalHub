@@ -55,6 +55,7 @@ export const Home = ({
     const [showModalSchedule, setShowModalSchedule] = useState(false);
     const [showModalLocal, setShowModalLocal] = useState(false);
 
+
     function MostrarModal(modal, consulta) {
 
         setConsultaSelecionada(consulta)
@@ -110,6 +111,11 @@ export const Home = ({
         }
     }, [dataConsulta])
 
+    useEffect(() => {
+        if (showModalCancel == false) {
+            ListarConsulta()
+        }
+    },[showModalCancel])
 
     return (
         <ContainerPerfil>
@@ -204,6 +210,7 @@ export const Home = ({
             } */}
 
             <CancelationModal
+                consulta={consultaSelecionada}
                 visible={showModalCancel}
                 setShowModalCancel={setShowModalCancel}
             />

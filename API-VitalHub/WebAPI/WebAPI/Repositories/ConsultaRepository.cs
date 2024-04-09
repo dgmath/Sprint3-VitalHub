@@ -18,6 +18,7 @@ namespace WebAPI.Repositories
             .Include(x => x.Receita)
             .Include(x => x.Exames)
             .Include(x => x.MedicoClinica!.Medico!.IdNavigation)
+            .Include(x => x.MedicoClinica!.Medico!.Especialidade)
             .FirstOrDefault(x => x.Id == id)!;
         }
 
@@ -33,6 +34,7 @@ namespace WebAPI.Repositories
 
             buscada.Descricao = consulta.Descricao;
             buscada.Diagnostico = consulta.Diagnostico;
+           
             ctx.Update(buscada);
             ctx.SaveChanges();
         }

@@ -14,10 +14,12 @@ export const ProntuarioModal = ({
     consulta,
     ...rest
 }) => {
+
     function HandlePress(rota) {
         // console.log(consulta.id)
-        navigation.replace(rota, {consultaId : consulta.id })
+        navigation.replace(rota, {consultaId : consulta.id, mediconome: consulta.medicoClinica.medico})
     }
+
     return (
         <Modal
             {...rest}

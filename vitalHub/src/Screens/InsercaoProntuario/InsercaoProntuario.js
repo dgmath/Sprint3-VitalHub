@@ -15,7 +15,32 @@ export const InsercaoProntuario = ({ navigation, route }) => {
 
     const [consultaSelecionada, setConsultaSelecionada] = useState(null)
     const [preenchido, setPreenchido] = useState(false)
-    const [teste, setTeste] = useState('')
+    const [diagnostico, setDiagnostico] = useState('')
+    const [descricao, setDescricao] = useState('')
+
+
+
+    //   {
+    //     "id": "F4F930F8-0BCC-40FB-A69F-6470A42CDF0A",
+    //     "descricao": "teste2",
+    //     "diagnostico": "teste2"
+    //   }
+
+    async function EditarProntuario() {
+        await api.put(`/Consultas/Prontuario`, {
+            id: route.params.consultaId,
+            descricao: descricao,
+            diagnostico: diagnostico
+        }).then(response => {
+            console.log(response.data);
+            setPreenchido(true)
+            alert('Prontuário Alterado')
+            BuscarProntuario()
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
 
     async function BuscarProntuario() {
         await api.get(`/Consultas/BuscaPorId?id=${route.params.consultaId}`)
@@ -83,15 +108,18 @@ export const InsercaoProntuario = ({ navigation, route }) => {
                                         fieldHeight={121}
                                         textLabel='Descrição da consulta'
                                         placeholder='Descrição'
-                                        onChangeText={(txt) => setTeste(txt)}
+                                        onChangeText={(txt) => setDescricao(txt)}
                                         editable={true}
-                                        // fieldValue={consultaSelecionada.descricao}
+                                        fieldValue={descricao}
                                     />
                                     <BoxInput
                                         BorderColor={"#49B3BA"}
                                         fieldHeight={55}
                                         textLabel='Diagnóstico do paciente'
                                         placeholder='Diagnóstico'
+                                        editable={true}
+                                        onChangeText={(txt) => setDiagnostico(txt)}
+                                        fieldValue={diagnostico}
                                     />
                                     <BoxInput
                                         BorderColor={"#49B3BA"}
@@ -105,7 +133,7 @@ export const InsercaoProntuario = ({ navigation, route }) => {
 
                         </ContainerForm>
 
-                        <Button onPress={() => setPreenchido(true)}>
+                        <Button onPress={() => EditarProntuario()}>
                             <ButtonTitle>Salvar</ButtonTitle>
                         </Button>
                         <ButtonEditInsercao onPress={() => setPreenchido(false)}>
