@@ -36,11 +36,6 @@ namespace WebAPI.Controllers
                     return StatusCode(401, "Email ou senha inválidos!");
                 }
 
-                if(usuarioBuscado.Nome == null)
-                {
-                    usuarioBuscado.Nome = string.Empty;
-                }
-
 
                 //caso encontre, prossegue para a criação do token
 

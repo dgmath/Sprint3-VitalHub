@@ -6,23 +6,79 @@ import { TitlePerfil } from "../../components/Title/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style"
 import { Button, ButtonEditPerfil, ButtonSairPerfil } from "../../components/Button/style"
 import { useEffect, useState } from "react";
-import { userDecodeToken } from "../../utils/Auth";
+import { tokenClean, userDecodeToken } from "../../utils/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../../Services/Services";
+import { ActivityIndicator } from "react-native";
 
-export const Perfil = ({navigation}) => {
+export const Perfil = ({ navigation }) => {
 
     const [userName, setUserName] = useState('')
     const [userEmail, setUserEmail] = useState('')
+    const [userData, setUserData] = useState(null)
+    const [role, setRole] = useState()
 
-    async function ProfileLoad() {
-        const token = await userDecodeToken();
+    // async function ProfileLoad() {
+    //     const token = await userDecodeToken();
 
-        if (token) {
-            console.log(token);
-            setUserName(token.name)
-            setUserEmail(token.email)
+    //     if (token) {
+    //         console.log(token);
+    //         setUserName(token.name)
+    //         setUserEmail(token.email)
+    //     }
+    // }
+
+    async function GetProfile() {
+        const token = await tokenClean();
+
+        const tokenRole = await userDecodeToken();
+        setRole(tokenRole.role)
+
+
+
+        if (tokenRole.role == 'Paciente') {
+            await api.get('/Pacientes/PerfilLogado', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(response => {
+
+                console.log(response.data);
+                setUserData(response.data);
+
+                console.log(123);
+
+                console.log(userData);
+            }).catch(error => {
+                console.log(error);
+            })
+
+
+        } else if (tokenRole.role == 'Medico') {
+            await api.get('/Medicos/PerfilLogado', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(response => {
+
+                console.log(role);
+
+                setUserData(response.data);
+                console.log(response.data);
+
+                console.log(123);
+
+                console.log(userData);
+            }).catch(error => {
+                console.log(error);
+            })
+        } else {
+            console.log("Token não encontrado.");
         }
+
     }
+
+
     async function Logout() {
         await AsyncStorage.removeItem("token");
         const tokenAfterClear = await AsyncStorage.getItem("token")
@@ -30,7 +86,7 @@ export const Perfil = ({navigation}) => {
             console.log("Token apagado");
             // console.log(token);
         }
-        else{
+        else {
             console.log("Token não apagado");
             console.log(token);
         }
@@ -38,14 +94,18 @@ export const Perfil = ({navigation}) => {
     }
 
     useEffect(() => {
-        ProfileLoad()
+        if (userData == null) {
+            
+            GetProfile()
+        }
     }, [])
     return (
         <ContainerPerfil>
-            <MainContentScroll>
+            {
+            userData != null ? (            <MainContentScroll>
                 <MainContent>
 
-                    <ImagePerfil source={require("../../assets/ImagePerfil.jpg")} />
+                    <ImagePerfil source={{ uri: userData.foto }} />
 
                     <TitlePerfil>{userName}</TitlePerfil>
 
@@ -99,7 +159,11 @@ export const Perfil = ({navigation}) => {
                     </ButtonSairPerfil>
 
                 </MainContent>
-            </MainContentScroll>
+            </MainContentScroll>) : (<ActivityIndicator/>)
+
+            
+        }
+
         </ContainerPerfil>
     )
 }

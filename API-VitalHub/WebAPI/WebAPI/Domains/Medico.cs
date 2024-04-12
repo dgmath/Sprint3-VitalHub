@@ -15,7 +15,7 @@ public partial class Medico
 
     public virtual Endereco? Endereco { get; set; }
 
-    public virtual Especialidade Especialidade { get; set; }
+    public virtual Especialidade? Especialidade { get; set; }
 
     public virtual Usuario IdNavigation { get; set; } = null!;
 
