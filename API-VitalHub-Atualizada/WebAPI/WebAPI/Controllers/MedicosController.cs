@@ -5,6 +5,8 @@ using System.IdentityModel.Tokens.Jwt;
 using WebAPI.Domains;
 using WebAPI.Interfaces;
 using WebAPI.Repositories;
+using WebAPI.Utils.BlobStorage;
+using WebAPI.Utils.Mail;
 using WebAPI.ViewModels;
 
 namespace WebAPI.Controllers
@@ -14,9 +16,13 @@ namespace WebAPI.Controllers
     public class MedicosController : ControllerBase
     {
         private IMedicoRepository _medicoRepository;
-        public MedicosController()
+
+        private readonly EmailSendingService _emailSendingService;
+
+        public MedicosController( EmailSendingService emailSendingService)
         {
             _medicoRepository = new MedicoRepository();
+            _emailSendingService = emailSendingService;
         }
 
         [HttpGet]
@@ -47,28 +53,44 @@ namespace WebAPI.Controllers
 
 
         [HttpPost]
-        public IActionResult Post(MedicoViewModel medicoModel)
+        public async Task<IActionResult> Post([FromForm]MedicoViewModel medicoModel)
         {
-            Usuario user = new Usuario();
-            user.Nome = medicoModel.Nome;
-            user.Email = medicoModel.Email;
-            user.TipoUsuarioId = medicoModel.IdTipoUsuario;
-            user.Foto = medicoModel.Foto;
-            user.Senha = medicoModel.Senha;
+            try
+            {
+                Usuario user = new Usuario();
 
-            user.Medico = new Medico();
-            user.Medico.Crm = medicoModel.Crm;
-            user.Medico.EspecialidadeId = medicoModel.EspecialidadeId;
+                user.Nome = medicoModel.Nome;
+                user.Email = medicoModel.Email;
+                user.Senha = medicoModel.Senha;
+                user.TipoUsuarioId = medicoModel.IdTipoUsuario;
+
+                var containerName = "containervitalhubguilhermeg";
+
+                var connectionString = "DefaultEndpointsProtocol=https;AccountName=blobvitalhubguilhermeg;AccountKey=s2VgfWPbBwpEv0D6G5mRNfwtDSslf9o8GxJcJIFkdJOy7QueMUE0/ovnRbIWtF5+GK34tiwfKYbK+AStbzIPmQ==;EndpointSuffix=core.windows.net";
+
+                user.Foto = await AzureBlobStorageHelper.UploadImageBlobAsync(medicoModel.Arquivo!, connectionString, containerName);
+
+                user.Medico = new Medico();
+                user.Medico.Crm = medicoModel.Crm;
+                user.Medico.EspecialidadeId = medicoModel.EspecialidadeId;
 
 
-            user.Medico.Endereco = new Endereco();
-            user.Medico.Endereco.Logradouro = medicoModel.Logradouro;
-            user.Medico.Endereco.Numero = medicoModel.Numero;
-            user.Medico.Endereco.Cep = medicoModel.Cep;
+                user.Medico.Endereco = new Endereco();
+                user.Medico.Endereco.Logradouro = medicoModel.Logradouro;
+                user.Medico.Endereco.Numero = medicoModel.Numero;
+                user.Medico.Endereco.Cep = medicoModel.Cep;
 
-            _medicoRepository.Cadastrar(user);
+                _medicoRepository.Cadastrar(user);
 
-            return Ok();
+                await _emailSendingService.SendWelcome(user.Email!, user.Nome!);
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);  
+            }
+            
         }
 
         [HttpGet("BuscarPorIdClinica")]
