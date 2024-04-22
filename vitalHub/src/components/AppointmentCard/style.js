@@ -16,7 +16,7 @@ export const ContainerCardList = styled.View`
     shadow-opacity: 0.25;
     shadow-offset: 20px 20px;
     shadow-radius: 15px;
-    elevation: 10;
+    elevation: 10px;
     /* border: 2px #496BBA; */
 
 `

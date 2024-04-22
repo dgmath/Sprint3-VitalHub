@@ -15,13 +15,13 @@ namespace WebAPI.Controllers
     [ApiController]
     public class PacientesController : ControllerBase
     {
-        private IPacienteRepository pacienteRepository { get; set; }
+        private IPacienteRepository _pacienteRepository { get; set; }
 
         private readonly EmailSendingService _emailSendingService;
 
         public PacientesController(EmailSendingService emailSendingService)
         {
-            pacienteRepository = new PacienteRepository();
+            _pacienteRepository = new PacienteRepository();
             _emailSendingService = emailSendingService;
         }
 
@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
             {
                 Guid idUsuario = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
 
-                return Ok(pacienteRepository.BuscarPorId(idUsuario));
+                return Ok(_pacienteRepository.BuscarPorId(idUsuario));
 
             }
             catch (Exception ex)
@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
         [HttpGet("BuscarPorId")]
         public IActionResult BuscarPorId(Guid id)
         {
-            return Ok(pacienteRepository.BuscarPorId(id));
+            return Ok(_pacienteRepository.BuscarPorId(id));
         }
 
         //[HttpPost]
@@ -118,7 +118,7 @@ namespace WebAPI.Controllers
                 user.Paciente.Endereco.Cep = pacienteModel.Cep;
                 user.Paciente.Endereco.Cidade = pacienteModel.Cidade;
 
-                pacienteRepository.Cadastrar(user);
+                _pacienteRepository.Cadastrar(user);
 
                 await _emailSendingService.SendWelcome(user.Email!, user.Nome!);
 
@@ -136,7 +136,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                return Ok(pacienteRepository.BuscarPorData(data, id));
+                return Ok(_pacienteRepository.BuscarPorData(data, id));
             }
             catch (Exception ex)
             {
@@ -149,7 +149,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                return Ok(pacienteRepository.AtualizarPerfil(idUsuario, paciente));
+                return Ok(_pacienteRepository.AtualizarPerfil(idUsuario, paciente));
             }
             catch (Exception ex)
             {

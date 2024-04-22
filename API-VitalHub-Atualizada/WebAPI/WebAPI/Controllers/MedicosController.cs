@@ -25,6 +25,22 @@ namespace WebAPI.Controllers
             _emailSendingService = emailSendingService;
         }
 
+        [HttpGet("PerfilLogado")]
+        public IActionResult GetLogged()
+        {
+            try
+            {
+                Guid idUsuario = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
+
+                return Ok(_medicoRepository.BuscarPorId(idUsuario));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
