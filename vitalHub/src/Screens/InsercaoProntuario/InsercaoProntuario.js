@@ -43,7 +43,7 @@ export const InsercaoProntuario = ({ navigation, route }) => {
     }
 
     async function BuscarProntuario() {
-        await api.get(`/Consultas/BuscaPorId?id=${route.params.consultaId}`)
+        await api.get(`/Consultas/BuscaPorId?id='f4f930f8-0bcc-40fb-a69f-6470a42cdf0a'`)
             .then(response => {
                 setConsultaSelecionada(response.data)
                 setPreenchido(true)
