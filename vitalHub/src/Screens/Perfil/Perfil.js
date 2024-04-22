@@ -25,26 +25,25 @@ export const Perfil = ({ navigation }) => {
 
 
 
-        // if (tokenRole.role == 'Paciente') {
-        //     await api.get('/Pacientes/PerfilLogado', {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`
-        //         }
-        //     }).then(response => {
+        if (tokenRole.role == 'Paciente') {
+            await api.get('/Pacientes/PerfilLogado', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(response => {
 
-        //         console.log(response.data);
-        //         setUserData(response.data);
+                console.log(response.data);
+                setUserData(response.data);
 
-        //         console.log(123);
+                console.log(123);
 
-        //         console.log(userData);
-        //     }).catch(error => {
-        //         console.log(error);
-        //     })
+                console.log(userData);
+            }).catch(error => {
+                console.log(error);
+            })
 
 
-        // } else 
-        if (tokenRole.role == 'Medico') {
+        } else if (tokenRole.role == 'Medico') {
             await api.get(`/Medicos/BuscarPorId?id=${tokenRole.user}`
             ).then(response => {
 
