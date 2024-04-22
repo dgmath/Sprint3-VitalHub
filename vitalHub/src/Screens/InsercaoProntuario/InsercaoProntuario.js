@@ -43,7 +43,7 @@ export const InsercaoProntuario = ({ navigation, route }) => {
     }
 
     async function BuscarProntuario() {
-        await api.get(`/Consultas/BuscaPorId?id='f4f930f8-0bcc-40fb-a69f-6470a42cdf0a'`)
+        await api.get(`/Consultas/BuscarPorId?id=${route.params.consultaId}`)
             .then(response => {
                 setConsultaSelecionada(response.data)
                 setPreenchido(true)
@@ -112,8 +112,7 @@ export const InsercaoProntuario = ({ navigation, route }) => {
                                         editable={true}
                                         fieldValue={descricao}
                                     />
-                                    
-                                    {/* Teste */}
+                                    {/* Bom dia */}
                                     <BoxInput
                                         BorderColor={"#49B3BA"}
                                         fieldHeight={55}
