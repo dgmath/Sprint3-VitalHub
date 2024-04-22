@@ -83,6 +83,7 @@ namespace WebAPI.Repositories
             {
                 Medico medicoBuscado = ctx.Medicos
                     .Include(m => m.IdNavigation)
+                    .Include(m => m.Especialidade)
                     .Include(m => m.Endereco)
                     .FirstOrDefault(m => m.Id == Id)!;
 
