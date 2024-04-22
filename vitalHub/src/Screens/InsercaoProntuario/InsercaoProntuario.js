@@ -112,6 +112,8 @@ export const InsercaoProntuario = ({ navigation, route }) => {
                                         editable={true}
                                         fieldValue={descricao}
                                     />
+                                    
+                                    {/* Teste */}
                                     <BoxInput
                                         BorderColor={"#49B3BA"}
                                         fieldHeight={55}
