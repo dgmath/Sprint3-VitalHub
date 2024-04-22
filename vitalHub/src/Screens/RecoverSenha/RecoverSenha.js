@@ -8,9 +8,25 @@ import { InputRecover } from "../../components/Input/style";
 import { ButtonRecover } from "../../components/Button/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style";
 import { LinkEnd } from "../../components/Link/style";
+import { useState } from "react";
+import api from "../../Services/Services"
+
 
 
 export const RecoverSenha = ({navigation}) => {
+
+    const [email, setEmail] = useState('')
+
+
+    async function EnviarEmail() {
+        await api.post(`/RecuperarSenha?email=${email}`)
+        .then(() => {
+            navigation.replace('CheckEmail', {emailRecuperacao : email})
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
     return (
         <Container>
             <BoxArrow>
@@ -27,9 +43,11 @@ export const RecoverSenha = ({navigation}) => {
 
             <InputRecover
                 placeholder="Usuario ou E-mail"
+                onChangeText={(txt) => setEmail(txt)}
+                value={email}
             />
 
-            <ButtonRecover onPress={() => navigation.navigate("CheckEmail")}>
+            <ButtonRecover onPress={() => EnviarEmail()}>
                 <ButtonTitle>Continuar</ButtonTitle>
             </ButtonRecover>
 

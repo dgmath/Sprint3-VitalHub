@@ -62,7 +62,7 @@ namespace WebAPI.Controllers
         //Crie um controller para validar o codigo enviado para o email
         //Se o código for igual, resete o codigo anterior no banco e devolva um status code informando se o código é valido
 
-        [HttpPost("Recuperar senha")]
+        [HttpPost("ValidarCodigo")]
 
         public async Task<IActionResult> ValidationCode(string email, int codigo)
         {
