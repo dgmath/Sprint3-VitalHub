@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     },
     numberDateStyle: {
         color: "#5F5C6B",
-        fontSize: 16
+        fontSize: 16,
     },
     selectedDateNameStyle: {
         color: "white",
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     },
     selectedDateNumberStyle: {
         color: "white",
-        fontSize: 14
+        fontSize: 14,
     },
     selectedContainerStyle: {
         backgroundColor: `#60BFC5`

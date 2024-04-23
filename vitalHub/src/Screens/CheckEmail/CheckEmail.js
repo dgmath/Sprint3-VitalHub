@@ -34,7 +34,7 @@ export const CheckEmail = ({ navigation, route }) => {
     async function ValidarCodigo() {
         await api.post(`/RecuperarSenha/ValidarCodigo?email=${route.params.emailRecuperacao}&codigo=${codigo}`)
         .then( () => {
-            navigation.replace("ChangeSenha")
+            navigation.replace("ChangeSenha", {emailRecuperacao : route.params.emailRecuperacao})
         })
         .catch(error => {
             console.log(error);

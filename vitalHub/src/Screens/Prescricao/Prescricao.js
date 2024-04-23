@@ -29,7 +29,7 @@ export const Prescricao = ({
     const [consultaSelecionada, setConsultaSelecionada] = useState(null)
 
     async function BuscarProntuario() {
-        await api.get(`/Consultas/BuscaPorId?id=${route.params.consultaId}`)
+        await api.get(`/Consultas/BuscarPorId?id=${route.params.consultaId}`)
             .then(response => {
                 setConsultaSelecionada(response.data)
                 console.log(response.data);
@@ -124,8 +124,8 @@ export const Prescricao = ({
 
                     <ModalCamera
                         visible={showModalCamera}
-                        setUriCameraCapture={setUriCameraCapture}
-                        setShowModalCamera={setShowModalCamera}
+                        setCameraCapture={setUriCameraCapture}
+                        setShowCameraModal={setShowModalCamera}
                     />
 
 
