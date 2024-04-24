@@ -20,14 +20,24 @@ import { ActivityIndicator } from "react-native"
 
 export const Login = ({ navigation }) => {
 
+<<<<<<< HEAD
     // const [email, setEmail] = useState('paciente@email.com')
     const [email, setEmail] = useState('medico@email.com')
+=======
+    const [email, setEmail] = useState('paciente@email.com')
+    // const [email, setEmail] = useState('medico2@email.com')
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990
     const [senha, setSenha] = useState('1234')
     const [loading, setLoading] = useState(false)
 
     // const [user, setUser] = useState({});
 
     async function Logar(e) {
+<<<<<<< HEAD
+=======
+
+        // email.length >= 8 && senha.length >= 3 ? 
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990
             
             setLoading(true)
 

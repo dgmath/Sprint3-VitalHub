@@ -18,6 +18,7 @@ export const ContainerCardList = styled.View`
     shadow-radius: 15px;
     elevation: 10px;
     /* border: 2px #496BBA; */
+    align-items: center;
 
 `
 export const ProfileImage = styled.Image`
@@ -42,6 +43,7 @@ export const ProfileName = styled(Title)`
 `
 export const ProfileData = styled.View`
     flex-direction: row;
+    align-items: center;
     gap: 15px;
 `
 export const TextAge = styled.Text`

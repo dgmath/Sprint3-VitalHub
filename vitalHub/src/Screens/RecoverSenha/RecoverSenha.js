@@ -9,7 +9,10 @@ import { ButtonRecover } from "../../components/Button/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style";
 import { LinkEnd } from "../../components/Link/style";
 import { useState } from "react";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990
 import api from "../../Services/Services"
 
 
@@ -20,9 +23,15 @@ export const RecoverSenha = ({navigation}) => {
 
 
     async function EnviarEmail() {
+<<<<<<< HEAD
         await api.post (`/RecuperarSenha?email=${email}`)
         .then(() =>{
             navigation.replace("CheckEmail", { emailRecuperacao : email })
+=======
+        await api.post(`/RecuperarSenha?email=${email}`)
+        .then(() => {
+            navigation.replace('CheckEmail', {emailRecuperacao : email})
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990
         }).catch(error => {
             console.log(error);
         })
@@ -44,6 +53,7 @@ export const RecoverSenha = ({navigation}) => {
 
             <InputRecover
                 placeholder="Usuario ou E-mail"
+<<<<<<< HEAD
 
                 value={email}
                 onChangeText={(txt) => setEmail(txt)}
@@ -54,6 +64,13 @@ export const RecoverSenha = ({navigation}) => {
             </ButtonRecover> */}
             
             <ButtonRecover onPress={() => navigation.navigate("CheckEmail")}>
+=======
+                onChangeText={(txt) => setEmail(txt)}
+                value={email}
+            />
+
+            <ButtonRecover onPress={() => EnviarEmail()}>
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990
                 <ButtonTitle>Continuar</ButtonTitle>
             </ButtonRecover>
 

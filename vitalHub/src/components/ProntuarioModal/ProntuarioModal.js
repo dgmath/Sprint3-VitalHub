@@ -9,8 +9,17 @@ export const ProntuarioModal = ({
     navigation,
     visible,
     setShowModalAppointment,
+    profile,
+    situacao,
+    consulta,
     ...rest
 }) => {
+
+    function HandlePress(rota) {
+        // console.log(consulta.id)
+        navigation.replace(rota, {consultaId : consulta.id, mediconome: consulta.medicoClinica.medico})
+    }
+
     return (
         <Modal
             {...rest}
@@ -22,19 +31,24 @@ export const ProntuarioModal = ({
             <PatientModal>
                 <ModalContent>
 
-                    <ModalImage source={require("../../../assets/Perfil.jpg")} />
+                    <ModalImage source={profile.role == 'Paciente' ? require("../../../src/assets/Doctor.png") : require("../../../src/assets/ImagePerfil.jpg")} />
 
-                    <TitleModal>Gelipe Fois</TitleModal>
+                    <TitleModal>Gois</TitleModal>
 
                     <BoxModal>
                         <ModalText>68 anos</ModalText>
                         <ModalText>gelipe.fois@gmail.com</ModalText>
                     </BoxModal>
 
-                    <ModalButton onPress={() => navigation.navigate("InsercaoProntuario")}>
-                        <ButtonTitle>Inserir Prontuario</ButtonTitle>
-                    </ModalButton>
-
+                    {situacao === 'Realizadas' && profile.role == 'Medico' ?
+                        <ModalButton onPress={() => HandlePress("InsercaoProntuario")}>
+                            <ButtonTitle>Inserir Prontuario</ButtonTitle>
+                        </ModalButton>
+                        :
+                        <ModalButton onPress={() => HandlePress("Prescricao")}>
+                            <ButtonTitle>Ver Prontuário</ButtonTitle>
+                        </ModalButton>
+                    }
                     <LinkEndModal onPress={() => setShowModalAppointment(false)}>Cancelar</LinkEndModal>
 
                 </ModalContent>

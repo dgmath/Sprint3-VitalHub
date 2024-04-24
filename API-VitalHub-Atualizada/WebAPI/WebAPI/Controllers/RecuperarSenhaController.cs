@@ -32,7 +32,11 @@ namespace WebAPI.Controllers
 
                 if (user == null)
                 {
+<<<<<<< HEAD:API-VitalHub-Atualizada/WebAPI/WebAPI/Controllers/RecuperarSenhaController.cs
                     return NotFound("Usuário não encontrado!");
+=======
+                    return NotFound("Usuário não encontrado!");   
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990:API-VitalHub/WebAPI/WebAPI/Controllers/RecuperarSenhaController.cs
                 }
 
                 //Se for encontrado, vamos gerar um códico com 4 algarismos através do Random
@@ -62,7 +66,11 @@ namespace WebAPI.Controllers
         //Crie um controller para validar o codigo enviado para o email
         //Se o código for igual, resete o codigo anterior no banco e devolva um status code informando se o código é valido
 
+<<<<<<< HEAD:API-VitalHub-Atualizada/WebAPI/WebAPI/Controllers/RecuperarSenhaController.cs
         [HttpPost("RecoverPasswordWhithCode")]
+=======
+        [HttpPost("ValidarCodigo")]
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990:API-VitalHub/WebAPI/WebAPI/Controllers/RecuperarSenhaController.cs
 
         public async Task<IActionResult> ValidationCode(string email, int codigo)
         {
@@ -89,4 +97,8 @@ namespace WebAPI.Controllers
             }
         }
     }
+<<<<<<< HEAD:API-VitalHub-Atualizada/WebAPI/WebAPI/Controllers/RecuperarSenhaController.cs
 }
+=======
+}
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990:API-VitalHub/WebAPI/WebAPI/Controllers/RecuperarSenhaController.cs

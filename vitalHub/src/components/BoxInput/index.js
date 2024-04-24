@@ -1,11 +1,10 @@
 import { FieldContent } from "../BoxInput/style"
-import { InputForm } from "../Input"
+import { InputForm, InputForm2 } from "../Input"
 import { Label } from "../Label"
 
 export const BoxInput = ({
     fieldWidth = 100,
     fieldHeight = 50,
-    placeholderColor = "#33303E",
     BorderColor = "#F5F3F3",
     editable = false,
     textLabel,
@@ -13,7 +12,7 @@ export const BoxInput = ({
     fieldValue = null,
     onChangeText = null,
     keyType = 'default',
-    maxLength
+    maxLength,
 }) => {
     return (
         <FieldContent fieldWidth={fieldWidth}>
@@ -23,11 +22,41 @@ export const BoxInput = ({
 
             <InputForm
                 BorderColor={BorderColor}
-                placeholderColor={placeholderColor}
                 fieldHeight={fieldHeight}
                 editable={editable}
                 placeholder={placeholder}
-                keyType={keyType}
+                keyBoardType={keyType}
+                maxLength={maxLength}
+                fieldValue={fieldValue}
+                onChangeText={onChangeText}
+            />
+        </FieldContent>
+    )
+}
+export const BoxInput2 = ({
+    fieldWidth = 100,
+    fieldHeight = 50,
+    BorderColor = "#F5F3F3",
+    editable = false,
+    textLabel,
+    placeholder,
+    fieldValue = null,
+    onChangeText = null,
+    keyType = 'default',
+    maxLength,
+}) => {
+    return (
+        <FieldContent fieldWidth={fieldWidth}>
+            <Label
+                textLabel={textLabel}
+            />
+
+            <InputForm2
+                BorderColor={BorderColor}
+                fieldHeight={fieldHeight}
+                editable={editable}
+                placeholder={placeholder}
+                keyBoardType={keyType}
                 maxLength={maxLength}
                 fieldValue={fieldValue}
                 onChangeText={onChangeText}

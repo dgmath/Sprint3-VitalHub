@@ -17,14 +17,28 @@ export const Input = styled.TextInput.attrs({
 export const  InputRecover = styled(Input)`
     margin-top: 25px;
 `
-export const  InputPerfil = styled(Input).attrs({
-    placeholderTextColor: props => `${props.placeholderColor}`
+export const InputPerfilCinza = styled(Input).attrs({
+    placeholderTextColor: '#4E4B59'
 })`
     width: 100%;
+    color: #4E4B59;
     background-color: #F5F3F3;
-    color: #33303E;
     margin-top: 10px;
     margin-bottom: 20px;
+    font-size: 14px;
+    font-family: 'MontserratAlternates_500Medium';
+    height: ${props => `${props.fieldHeight}px`}; 
+    border: 2px solid #D9D9D9; 
+`
+export const  InputPerfil = styled(Input).attrs({
+    placeholderTextColor: '#34898F'
+})`
+    width: 100%;
+    color: #34898F;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-family: 'MontserratAlternates_500Medium';
     height: ${props => `${props.fieldHeight}px`}; 
     border: 2px solid ${props => `${props.BorderColor}`}; 
 `
@@ -42,5 +56,5 @@ export const InputVerify = styled.TextInput.attrs({
     font-family: 'MontserratAlternates_600SemiBold';
     color: #FFFFFF;
     text-align: center;
-    
+
 `

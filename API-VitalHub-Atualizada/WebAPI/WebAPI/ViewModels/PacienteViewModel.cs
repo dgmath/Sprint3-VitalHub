@@ -28,9 +28,17 @@ namespace WebAPI.ViewModels
 
         public Guid IdTipoUsuario { get; set; }
 
+<<<<<<< HEAD:API-VitalHub-Atualizada/WebAPI/WebAPI/ViewModels/PacienteViewModel.cs
         [NotMapped]
         [JsonIgnore]
         public IFormFile? Arquivo { get; set; }
+=======
+        //ignora qualquer json pois sera preciso apenas dcaptar a imagem
+        [NotMapped]
+        [JsonIgnore]
+        //É preciso de uma prop do tipo iformfile
+        public IFormFile? File { get; set; }
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990:API-VitalHub/WebAPI/WebAPI/ViewModels/PacienteViewModel.cs
         public string? Foto { get; set; }
 
     }

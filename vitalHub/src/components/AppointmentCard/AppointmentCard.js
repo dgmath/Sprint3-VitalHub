@@ -7,21 +7,22 @@ export const AppointmentCard = ({
     onPressAppointment,
     onPressDoctor,
     consulta,
+    profile
 }) => {
 
 
     return (
         <ContainerCardList>
             <TouchableOpacity onPress={onPressDoctor}>
-                <ProfileImage source={require("../../../assets/Perfil.jpg")} />
+                <ProfileImage source={profile.role == 'Paciente' ? require("../../../src/assets/Doctor.png") : require("../../../src/assets/ImagePerfil.jpg")} />
             </TouchableOpacity>
 
             <ContentCard>
                 <DataProfileCard>
-                    <ProfileName>{consulta.medicoClinica.medico.idNavigation.nome}</ProfileName>
+                    <ProfileName>{profile.role == 'Paciente' ? consulta.medicoClinica.medico.idNavigation.nome : consulta.paciente.idNavigation.nome}</ProfileName>
 
                     <ProfileData>
-                        <TextAge>{consulta.medicoClinica.medico.especialidade.especialidade1}</TextAge>
+                        <TextAge>{profile.role == 'Paciente' ? consulta.medicoClinica.medico.especialidade.especialidade1 : '22'}</TextAge>
                         {/* <TextAge>{consulta.situacao.situacao}</TextAge> */}
                         <TextBold>{consulta.prioridade.prioridade == '1' ? "Rotina" : consulta.prioridade.prioridade == "2" ? "Exame" : "Urgência"}</TextBold>
                     </ProfileData>

@@ -1,10 +1,19 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+<<<<<<< HEAD:API-VitalHub-Atualizada/WebAPI/WebAPI/Program.cs
+=======
+using WebAPI.Contexts;
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990:API-VitalHub/WebAPI/WebAPI/Program.cs
 using WebAPI.Interfaces;
 using WebAPI.Repositories;
 using WebAPI.Utils.Mail;
 using WebAPI.Utils.OCR;
+<<<<<<< HEAD:API-VitalHub-Atualizada/WebAPI/WebAPI/Program.cs
+=======
+using WebAPI.ViewModels;
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990:API-VitalHub/WebAPI/WebAPI/Program.cs
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -102,6 +111,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+<<<<<<< HEAD:API-VitalHub-Atualizada/WebAPI/WebAPI/Program.cs
+=======
+
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990:API-VitalHub/WebAPI/WebAPI/Program.cs
 // Configure EmailSettings
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection(nameof(EmailSettings)));
 
@@ -112,7 +125,14 @@ builder.Services.AddScoped<EmailSendingService>();
 
 builder.Services.AddScoped<IExameRepository, ExameRepository>();
 
+<<<<<<< HEAD:API-VitalHub-Atualizada/WebAPI/WebAPI/Program.cs
 builder.Services.AddScoped<OcrService>();
+=======
+builder.Services.AddScoped<OcrService , OcrService>();
+
+builder.Services.AddDbContext<VitalContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlDataBase")));
+>>>>>>> 755579f00525f43e92ff15b3a5bdcf38d56b9990:API-VitalHub/WebAPI/WebAPI/Program.cs
 
 // CORS
 builder.Services.AddCors(options =>
