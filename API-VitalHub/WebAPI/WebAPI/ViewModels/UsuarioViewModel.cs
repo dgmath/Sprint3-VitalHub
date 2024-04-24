@@ -7,7 +7,7 @@ namespace WebAPI.ViewModels
     {
         [NotMapped]
         [JsonIgnore]
-        public IFormFile? File { get; set; }
-        public string? Pic { get; set; }
+        public IFormFile? Arquivo { get; set; }
+        public string? Foto { get; set; }
     }
 }

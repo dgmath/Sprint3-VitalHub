@@ -1,222 +1,3 @@
-// import { StatusBar } from 'expo-status-bar';
-// import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-// import { Camera, CameraType } from 'expo-camera';
-// import * as MediaLibrary from 'expo-media-library'
-
-// import { useEffect, useRef, useState } from 'react';
-
-// import { FontAwesome } from '@expo/vector-icons'
-
-// export const ModalCamera = ({
-//     navigation,
-//     visible,
-//     setShowModalCamera,
-//     setUriCameraCapture,
-//     ...rest
-
-// }) => {
-//     const cameraRef = useRef(null)
-
-//     const [openModal, setOpenModal] = useState(false)
-//     const [photo, setPhoto] = useState(null)
-//     const [tipoCamera, setTipoCamera] = useState(CameraType.back)
-
-//     useEffect(() => {
-//         (async () => {
-//             const { status: cameraStatus } = await Camera.requestCameraPermissionsAsync()
-
-//             const { status: mediaStatus } = await MediaLibrary.requestPermissionsAsync()
-//         })();
-//     }, [])
-
-//     // async function UploadPhoto() {
-//     //     await MediaLibrary.createAssetAsync(photo).then(() => {
-//     //         alert('salvo')
-//     //     }).catch(error => {
-//     //         alert('erro')
-//     //     })
-//     // }
-
-//     async function CapturePhoto() {
-//         if (cameraRef) {
-//             const photo = await cameraRef.current.takePictureAsync()
-//             setPhoto(photo.uri)
-//             setOpenModal(true)
-
-//             // SendFormPhoto()
-
-//             console.log(photo);
-
-//         }
-//     }
-
-//     async function ClearPhoto() {
-//         await MediaLibrary.deleteAssetsAsync(photo).then(() => {
-//             alert("")
-//         }).catch(error => {
-//             alert("erro")
-//         })
-
-//         setPhoto(null)
-//         setOpenModal(false)
-//     }
-
-//     async function SendFormPhoto() {
-//         await setUriCameraCapture(photo)
-
-//         HandleClose()
-//     }
-
-//     function HandleClose(){
-//         setShowModalCamera(false)
-//       }
-
-//     return (
-//         <Modal
-//             {...rest}
-//             visible={visible}
-//             transparent={true}
-//             animationType="fade"
-//         >
-//             <View style={styles.container}>
-//                 <Camera
-//                     ref={cameraRef}
-//                     style={styles.camera}
-//                     type={tipoCamera}
-//                     ratio='16:9'
-//                 >
-
-//                     <View style={styles.viewFlip}>
-
-//                         <TouchableOpacity style={styles.btnFlip}
-//                             onPress={
-//                                 () => setTipoCamera(
-//                                     tipoCamera == CameraType.front ? CameraType.back : CameraType.front
-//                                 )
-//                             }>
-
-//                             <Text style={styles.textFlip}>Trocar</Text>
-
-//                         </TouchableOpacity>
-
-//                     </View>
-
-//                 </Camera>
-
-//                 <View style={styles.ViewRow}>
-
-//                     <TouchableOpacity style={styles.btnCapture}
-//                         onPress={() => CapturePhoto()}
-//                     >
-//                         <FontAwesome name='camera' size={23} color='#fff' />
-//                     </TouchableOpacity>
-
-//                     <TouchableOpacity style={styles.btnClose}
-//                         onPress={() => setShowModalCamera(false)}
-//                     >
-//                         <FontAwesome name='close' size={23} color='#fff' />
-//                     </TouchableOpacity>
-
-//                 </View>
-
-//                 <Modal animationType='slide' transparent={false} visible={openModal}>
-//                     <View style={{
-//                         flex: 1,
-//                         justifyContent: 'center',
-//                         alignItems: 'center',
-//                         margin: 20
-//                     }}>
-
-//                         <View style={{ margin: 10, flexDirection: 'row', gap: 20 }}>
-//                             {/* Botoes */}
-//                             <TouchableOpacity style={styles.btnClear} onPress={() => ClearPhoto()}>
-//                                 <FontAwesome name='trash' size={35} color='#ff0000' />
-//                             </TouchableOpacity>
-
-//                             <TouchableOpacity style={styles.btnUpload} onPress={() => SendFormPhoto() && ClearPhoto()}>
-//                                 <FontAwesome name='upload' size={35} color='#121212' />
-//                             </TouchableOpacity>
-//                         </View>
-
-//                         <Image
-//                             source={{ uri: photo }}
-//                             style={{ width: '100%', height: 500, borderRadius: 15 }}
-//                         />
-
-//                     </View>
-//                 </Modal>
-//             </View>
-//         </Modal>
-//     );
-// }
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         backgroundColor: '#fff',
-//         alignItems: 'center',
-//         justifyContent: 'center',
-//     },
-//     camera: {
-//         height: '70%',
-//         width: '90%'
-//     },
-//     viewFlip: {
-//         flex: 1,
-//         backgroundColor: 'transparent',
-//         flexDirection: 'row',
-//         alignItems: 'flex-end',
-//         justifyContent: 'center'
-//     },
-//     btnFlip: {
-//         padding: 20
-//     },
-//     textFlip: {
-//         fontSize: 20,
-//         color: '#fff',
-//         marginBottom: 20
-//     },
-//     btnCapture: {
-//         padding: 20,
-//         margin: 20,
-//         borderRadius: 10,
-//         backgroundColor: "#121212",
-
-//         justifyContent: 'center',
-//         alignItems: 'center'
-//     },
-//     btnClose: {
-//         padding: 20,
-//         margin: 20,
-//         borderRadius: 10,
-//         backgroundColor: "#ff0000",
-
-//         justifyContent: 'center',
-//         alignItems: 'center'
-//     },
-//     btnClear: {
-//         padding: 20,
-//         backgroundColor: "transparent",
-
-//         justifyContent: 'center',
-//         alignItems: 'center'
-//     },
-//     btnUpload: {
-//         padding: 20,
-//         backgroundColor: "transparent",
-
-//         justifyContent: 'center',
-//         alignItems: 'center'
-//     },
-//     ViewRow: {
-//         flexDirection: "row",
-//         justifyContent: "center",
-//         alignItems: "center"
-//     }
-// });
-
-import { StatusBar } from 'expo-status-bar';
 import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Camera, CameraType } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library'
@@ -224,36 +5,69 @@ import { useEffect, useState, useRef } from 'react';
 import { FontAwesome, Feather } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
 import { ButtonTitleCamera, ButtonAppointmentSecondary, ButtonModalAppointment, ButtonSecondaryText } from '../Button/style';
+import { LastPhoto } from './style';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons';
 
 
-/*
 
-  1 - quando salvar a foto e clicar na lixeira remover da galeria
-  2 - permitir foto com flash ✅  
-  3 - botao para recarregar o autofocus
-  4 - Capturar e salvar video
-
-*/
-
-export function ModalCamera({
+export const ModalCamera = ({
+  navigation,
   visible,
   setShowCameraModal,
-  setCameraCapture
-}) {
+  setCameraCapture,
+  getMediaLibrary = false,
+  ...rest
+
+}) => {
   const cameraRef = useRef(null)
-  const [tipoCamera, setTipoCamera] = useState(CameraType.back)
-  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off)
+
   const [openModal, setOpenModal] = useState(false)
   const [photo, setPhoto] = useState(null)
-  // const [imageUri, setImageUri] = useState(null)
+  const [tipoCamera, setTipoCamera] = useState(CameraType.back)
+  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off)
+
+  const [lastPhoto, setLastPhoto] = useState(null)
+
+
+  async function GetLatestPhoto() {
+    const { assets } = await MediaLibrary.getAssetsAsync({ sortBy: [[MediaLibrary.SortBy.creationTime, false]], first: 1 });
+
+    if (assets.length > 0) {
+      setLastPhoto(assets[0].uri)
+    }
+
+    console.log(assets);
+  }
 
   useEffect(() => {
     (async () => {
       const { status: cameraStatus } = await Camera.requestCameraPermissionsAsync()
 
       const { status: mediaStatus } = await MediaLibrary.requestPermissionsAsync()
+
     })();
+
+    if (getMediaLibrary) {
+      GetLatestPhoto()
+    }
+
+
+
   }, [])
+
+  async function SelectImageGallery() {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1
+    });
+
+    if (!result.canceled) {
+      setPhoto(result.assets[0].uri)
+      setOpenModal(true)
+    }
+  }
 
   async function CapturePhoto() {
     if (cameraRef) {
@@ -267,17 +81,15 @@ export function ModalCamera({
     }
   }
 
-  async function obterImagem(){
+  async function obterImagem() {
     await setCameraCapture(photo)
 
     HandleClose()
   }
 
-  function HandleClose(){
+  function HandleClose() {
     setShowCameraModal(false)
   }
-
-
 
   async function ClearPhoto() {
 
@@ -295,7 +107,6 @@ export function ModalCamera({
       })
   }
 
-
   return (
     <Modal visible={visible} style={styles.container}>
       <Camera
@@ -304,33 +115,69 @@ export function ModalCamera({
         style={styles.camera}
         type={tipoCamera}
       >
-        <TouchableOpacity onPress={() => setFlash(flash == Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)} style={styles.btnFlash}>
-          <Feather name={flash === Camera.Constants.FlashMode.on ? "zap" : "zap-off"} size={24} color="#fff" />
-        </TouchableOpacity>
-
-        <View style={styles.viewFlip}>
-          <TouchableOpacity onPress={() => setTipoCamera(tipoCamera == CameraType.back ? CameraType.front : CameraType.back)} style={styles.btnFlip}>
-            <Text style={styles.textFlip}>Trocar</Text>
+        <View style={
+          { flexDirection: 'row', width: '100%',  justifyContent: 'space-between', alignItems:'center'}
+        }>
+          <TouchableOpacity onPress={() => setFlash(flash == Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)} style={styles.btnFlash}>
+            <Feather name={flash === Camera.Constants.FlashMode.on ? "zap" : "zap-off"} size={24} color="#fff" />
           </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => HandleClose()} style={styles.btnClose}>
+            <AntDesign name="close" size={30} color="white" />
+          </TouchableOpacity>
+
         </View>
+
+        <View style={styles.ViewButton}>
+          <View style={{ flexDirection: 'row', backgroundColor: 'rgba(0, 0, 0, 0.3)', width: '90%', alignItems: 'center', justifyContent: 'space-around', height: 90, borderRadius: 50, marginBottom: 20 }}>
+
+
+
+            <TouchableOpacity onPress={() => SelectImageGallery()} style={styles.btnLastPhoto}>
+              {
+                lastPhoto != null ? (
+                  <LastPhoto
+                    source={{ uri: lastPhoto }}
+                  />
+                ) : (
+                  <></>
+                )
+              }
+
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => CapturePhoto()} style={styles.btnCapture}>
+              <FontAwesome name="camera" size={24} color="transparent" />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => setTipoCamera(tipoCamera == CameraType.back ? CameraType.front : CameraType.back)} style={styles.btnFlip}>
+              <MaterialCommunityIcons
+                name="camera-retake"
+                size={40}
+                color='#fff'
+              />
+            </TouchableOpacity>
+
+          </View>
+
+        </View>
+
       </Camera>
 
-      <TouchableOpacity onPress={() => CapturePhoto()} style={styles.btnCapture}>
-        <FontAwesome name="camera" size={24} color="#fff" />
-      </TouchableOpacity>
+
 
 
       <Modal animationType='slide' transparent={false} visible={openModal}>
 
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', margin: 20 }}>
-        <Image
+          <Image
             style={{ width: '100%', height: 500, borderRadius: 15, marginTop: 50 }}
             source={{ uri: photo }}
           />
           <View style={{ margin: 10, flexDirection: 'row', gap: 20 }}>
 
             {/* Botão */}
-            <View style={{ flex: 1 ,flexDirection: 'column', alignItems: 'center',}}>
+            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', }}>
               <ButtonModalAppointment onPress={() => obterImagem() && ClearPhoto()}>
                 <ButtonTitleCamera>Confirmar</ButtonTitleCamera>
               </ButtonModalAppointment>
@@ -341,15 +188,15 @@ export function ModalCamera({
             </View>
 
             {/* <TouchableOpacity onPress={() => ClearPhoto()} style={styles.btnClear}>
-              <FontAwesome name="trash" size={35} color="#ff0000" />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => UploadPhoto() && ClearPhoto()} style={styles.btnUpload}>
-              <FontAwesome name="upload" size={35} color="#121212" />
-            </TouchableOpacity> */}
+                  <FontAwesome name="trash" size={35} color="#ff0000" />
+                </TouchableOpacity>
+    
+                <TouchableOpacity onPress={() => UploadPhoto() && ClearPhoto()} style={styles.btnUpload}>
+                  <FontAwesome name="upload" size={35} color="#121212" />
+                </TouchableOpacity> */}
 
           </View>
-      
+
         </View>
       </Modal>
     </Modal>
@@ -366,30 +213,7 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
     width: '100%',
-    height: '%80'
-  },
-  viewFlip: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-  },
-  btnFlip: {
-    padding: 20,
-  },
-  textFlip: {
-    fontSize: 20,
-    color: '#fff',
-    marginBottom: 20,
-  },
-  btnCapture: {
-    padding: 20,
-    margin: 20,
-    borderRadius: 10,
-    backgroundColor: '#121212',
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: '100%'
   },
   btnClear: {
     padding: 20,
@@ -407,4 +231,34 @@ const styles = StyleSheet.create({
     padding: 25,
     marginTop: 20
   },
-});
+  btnClose: {
+    padding: 19,
+    marginTop: 20
+  },
+  ViewButton: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+
+  },
+
+  btnFlip: {
+    padding: 8,
+
+  },
+  btnLastPhoto: {
+    padding: 20,
+
+  },
+
+  btnCapture: {
+    padding: 20,
+    width: 60,
+    borderRadius: 70,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})

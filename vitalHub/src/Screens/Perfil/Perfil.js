@@ -9,13 +9,25 @@ import { useEffect, useState } from "react";
 import { tokenClean, userDecodeToken } from "../../utils/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 import api from "../../Services/Services"
 import moment from "moment";
 import { ActivityIndicator } from "react-native";
 
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { ButtonCamera, ViewImageProfile } from "./style";
+import { ModalCamera } from "../../components/ModalCamera/ModalCamera";
+
+import * as MediaLibrary from 'expo-media-library'
+import * as ImagePicker from 'expo-image-picker'
+
 export const Perfil = ({ navigation }) => {
     const [userData, setUserData] = useState(null)
     const [role, setRole] = useState('')
+    const [user, setUser] = useState('')
+
+    const [showModalCamera, setShowModalCamera] = useState(false)
+    const [uriCameraCapture, setUriCameraCapture] = useState(null)
 
     async function GetProfile() {
         const token = await tokenClean();
@@ -23,28 +35,29 @@ export const Perfil = ({ navigation }) => {
         const tokenRole = await userDecodeToken();
         setRole(tokenRole.role)
 
+        setUser(tokenRole.user)
 
 
-        // if (tokenRole.role == 'Paciente') {
-        //     await api.get('/Pacientes/PerfilLogado', {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`
-        //         }
-        //     }).then(response => {
 
-        //         console.log(response.data);
-        //         setUserData(response.data);
+        if (tokenRole.role == 'Paciente') {
+            await api.get('/Pacientes/PerfilLogado', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).then(response => {
 
-        //         console.log(123);
+                console.log(response.data);
+                setUserData(response.data);
 
-        //         console.log(userData);
-        //     }).catch(error => {
-        //         console.log(error);
-        //     })
+                console.log(123);
+
+                console.log(userData);
+            }).catch(error => {
+                console.log(error);
+            })
 
 
-        // } else 
-        if (tokenRole.role == 'Medico') {
+        } else if (tokenRole.role == 'Medico') {
             await api.get(`/Medicos/BuscarPorId?id=${tokenRole.user}`
             ).then(response => {
 
@@ -81,12 +94,40 @@ export const Perfil = ({ navigation }) => {
     }
 
     async function Update() {
-        
+
     }
+
+    async function UpdateProfilePhoto() {
+
+        const formData = new FormData();
+        formData.append("Arquivo", {
+            uri: uriCameraCapture,
+            name: `image.${ uriCameraCapture.split(".")[1] }`,
+            type: `image/${ uriCameraCapture.split(".")[1] }`
+        })
+
+        await api.put(`/Usuario/AlterarFotoPerfil?id=${user}`, formData, {
+            headers: {
+                "Content-type" : "multipart/form-data"
+            }
+        }).then( response => {
+            console.log(response);
+        }).catch (error => {
+            console.log(error);
+        })
+    }
+
 
     useEffect(() => {
         GetProfile()
     }, [])
+
+
+    useEffect(() => {
+        if (uriCameraCapture != null) {
+            UpdateProfilePhoto()
+        }
+    },[uriCameraCapture])
 
 
 
@@ -96,7 +137,31 @@ export const Perfil = ({ navigation }) => {
                 <MainContentScroll>
                     <MainContent>
 
-                        <ImagePerfil source={require("../../assets/ImagePerfil.jpg")} />
+                        <ViewImageProfile>
+
+                            {uriCameraCapture == null ? (
+                                <>  
+                                    <ImagePerfil source={{uri: userData.idNavigation.foto}}/>
+                                </>
+                            ) : (
+                                <>
+                                    <ImagePerfil source={{ uri: uriCameraCapture }} />
+                                </>
+                            )}
+
+
+
+                            <ButtonCamera onPress={() => setShowModalCamera(true)}>
+                                <MaterialCommunityIcons
+                                    name="camera-plus"
+                                    size={20}
+                                    color='#fbfbfb'
+                                />
+                            </ButtonCamera>
+
+                        </ViewImageProfile>
+
+
 
                         {role == 'Medico' ? (
 
@@ -219,6 +284,14 @@ export const Perfil = ({ navigation }) => {
             ) : (
                 <ActivityIndicator />
             )}
+
+            <ModalCamera
+                visible={showModalCamera}
+                setCameraCapture={setUriCameraCapture}
+                setShowCameraModal={setShowModalCamera}
+                getMediaLibrary={true}
+            />
+
         </ContainerPerfil>
     )
 }
