@@ -15,15 +15,13 @@ namespace WebAPI.Controllers
     [ApiController]
     public class PacientesController : ControllerBase
     {
-        private IPacienteRepository pacienteRepository { get; set; }
+        private IPacienteRepository _pacienteRepository { get; set; }
 
         private readonly EmailSendingService _emailSendingService;
 
-        //Quando for necessário utilizar métodos de outras classes é preciso injetar no seu controller
-        public PacientesController( EmailSendingService emailSendingService)
+        public PacientesController(EmailSendingService emailSendingService)
         {
-            pacienteRepository = new PacienteRepository();
-
+            _pacienteRepository = new PacienteRepository();
             _emailSendingService = emailSendingService;
         }
 
@@ -34,7 +32,7 @@ namespace WebAPI.Controllers
             {
                 Guid idUsuario = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
 
-                return Ok(pacienteRepository.BuscarPorId(idUsuario));
+                return Ok(_pacienteRepository.BuscarPorId(idUsuario));
 
             }
             catch (Exception ex)
@@ -47,11 +45,11 @@ namespace WebAPI.Controllers
         [HttpGet("BuscarPorId")]
         public IActionResult BuscarPorId(Guid id)
         {
-            return Ok(pacienteRepository.BuscarPorId(id));
+            return Ok(_pacienteRepository.BuscarPorId(id));
         }
 
         //[HttpPost]
-        //public async Task<IActionResult> Post(PacienteViewModel pacienteModel)
+        //public async  Task<IActionResult> Post(PacienteViewModel pacienteModel)
         //{
         //    Usuario user = new Usuario();
 
@@ -76,72 +74,69 @@ namespace WebAPI.Controllers
 
         //    pacienteRepository.Cadastrar(user);
 
-        //    await _emailSendingService.SendWelcomeEmail(user.Email!, user.Nome!);
+        //    await _emailSendingService.SendWelcome(user.Email!, user.Nome!);
 
         //    return Ok();
         //}
-
 
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] PacienteViewModel pacienteModel)
         {
             try
             {
-                //Objeto a ser cadastrado
+                //obj a ser cadastrado
                 Usuario user = new Usuario();
 
-                //Recebimento dos valores e preenchimento das proprieddades
+
+                //recebe os valores e preenche as propiedades do obj
                 user.Nome = pacienteModel.Nome;
                 user.Email = pacienteModel.Email;
                 user.TipoUsuarioId = pacienteModel.IdTipoUsuario;
 
-                //Aqui iremos configurar e utilizar o método de upload image
+                //define o nome do container do blob
+                var containerName = "containervitalhubguilhermeg";
 
-                //Define o nome a partir do seu container no blob
-                var containerName = "containervitalhubmatheusd";
+                //define a string de conexao
+                var connectionString = "DefaultEndpointsProtocol=https;AccountName=blobvitalhubguilhermeg;AccountKey=s2VgfWPbBwpEv0D6G5mRNfwtDSslf9o8GxJcJIFkdJOy7QueMUE0/ovnRbIWtF5+GK34tiwfKYbK+AStbzIPmQ==;EndpointSuffix=core.windows.net";
 
-                //Definindo a string de conexão
-                var connectionString = "DefaultEndpointsProtocol=https;AccountName=blobvitalhubmatheusd;AccountKey=U+R/WL4jO+90TLOXcykF18666979z4yqxY0BGj+qNRDD2yW4aTC2JnQT6Z/dgbhraqNziHtYZ+zC+AStdUsGfA==;EndpointSuffix=core.windows.net";
+                //chamar metodo para upload da imagem
+                user.Foto = await AzureBlobStorageHelper.UploadImageBlobAsync(pacienteModel.Arquivo!, connectionString, containerName);
 
-                //A chamada da função de upload de imagem
-                user.Foto = await AzureBlobStorageHelper.UploadImageBlobAsync(pacienteModel.File!, connectionString, containerName);
 
                 user.Senha = pacienteModel.Senha;
 
-                //Paciente
                 user.Paciente = new Paciente();
+
                 user.Paciente.DataNascimento = pacienteModel.DataNascimento;
                 user.Paciente.Rg = pacienteModel.Rg;
                 user.Paciente.Cpf = pacienteModel.Cpf;
 
-                //Endereço
                 user.Paciente.Endereco = new Endereco();
+
                 user.Paciente.Endereco.Logradouro = pacienteModel.Logradouro;
                 user.Paciente.Endereco.Numero = pacienteModel.Numero;
                 user.Paciente.Endereco.Cep = pacienteModel.Cep;
                 user.Paciente.Endereco.Cidade = pacienteModel.Cidade;
 
-                pacienteRepository.Cadastrar(user);
+                _pacienteRepository.Cadastrar(user);
 
-                await _emailSendingService.SendWelcomeEmail(user.Email!, user.Nome!);
+                await _emailSendingService.SendWelcome(user.Email!, user.Nome!);
 
                 return Ok(user);
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
             
         }
-
 
         [HttpGet("BuscarPorData")]
         public IActionResult GetByDate(DateTime data, Guid id)
         {
             try
             {
-                return Ok(pacienteRepository.BuscarPorData(data, id));
+                return Ok(_pacienteRepository.BuscarPorData(data, id));
             }
             catch (Exception ex)
             {
@@ -154,7 +149,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                return Ok(pacienteRepository.AtualizarPerfil(idUsuario, paciente));
+                return Ok(_pacienteRepository.AtualizarPerfil(idUsuario, paciente));
             }
             catch (Exception ex)
             {

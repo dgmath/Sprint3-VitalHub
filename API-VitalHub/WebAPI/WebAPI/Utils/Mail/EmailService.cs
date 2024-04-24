@@ -4,56 +4,55 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
+
 namespace WebAPI.Utils.Mail
 {
     public class EmailService : IEmailService
     {
-        //Criando uma variavel privata que é somente lida
         private readonly EmailSettings emailSettings;
 
-        //Construtor com todos os dados injetados obrigatóriamente do EmailSettings
-
-        public EmailService(IOptions<EmailSettings> options) {
-        //Adicionando os valores de options dentro da variavel criada
+        //construtor que recebe a dependenceinjection de EmailSettings
+        public EmailService(IOptions<EmailSettings>options)
+        {
             emailSettings = options.Value;
         }
 
-        //Método para envio de email
+        //metodo para envio de email
         public async Task SendEmailAsync(MailRequest mailRequest)
         {
             try
             {
-                //Objeto que representa o email
+                //objeto que representa o email
                 var email = new MimeMessage();
 
-                //Define o remetente do email
+                //define o remetente do email
                 email.Sender = MailboxAddress.Parse(emailSettings.Email);
 
-                //Define o destinatário do email
+                //define o destinatario do email
                 email.To.Add(MailboxAddress.Parse(mailRequest.ToEmail));
 
-                //Define o assunto do email
-                email.Subject = mailRequest.Subject;
+                //define o assunto do email
+                email.Subject= mailRequest.Subject;
 
-                //Cria o corpo do email
+                //cria o corpo do email
                 var builder = new BodyBuilder();
-
-                //Define o corpo do email como html
+                
+                //define o corpo do email como html
                 builder.HtmlBody = mailRequest.Body;
 
-                //Define o corpo do email no objeto MimiMessage
+                //define o corpo do email no objeto MimeMessage
                 email.Body = builder.ToMessageBody();
 
-                //Após parar de utilizar o recurso o using fecha o mesmo sem precisar que fechemos a mão
+                //cria um client SMTP para envio de email
                 using (var smtp = new SmtpClient())
                 {
-                    //Conecta ao servidor SMTP usando os  dados do emailSettings
+                    //conecta-se ao servidor SMTP usando os dados do emailSettings
                     smtp.Connect(emailSettings.Host, emailSettings.Port, SecureSocketOptions.StartTls);
 
-                    //Autenticação ao servidor SMTP usando o sdados do emailSettings
+                    //authentica-se no servidor SMTP usando os dados de emails=Settings
                     smtp.Authenticate(emailSettings.Email, emailSettings.Password);
 
-                    //Envia o email
+                    //envia o email
                     await smtp.SendAsync(email);
                 }
             }

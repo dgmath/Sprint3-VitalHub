@@ -9,24 +9,18 @@
             emailService = service;
         }
 
-        //Método para email de Boas Vindas
-        public async Task SendWelcomeEmail(string email, string userName)
+        public async Task SendWelcome(string email, string userName)
         {
             try
             {
-                MailRequest request = new MailRequest()
+                MailRequest request = new MailRequest
                 {
                     ToEmail = email,
-
-                    Subject = "Bem Vindo ao VitalHub",
-
+                    Subject = "Bem-vindo ao VitalHub",
                     Body = GetHtmlContent(userName)
-
                 };
 
                 await emailService.SendEmailAsync(request);
-
-                
             }
             catch (Exception)
             {
@@ -39,19 +33,14 @@
         {
             try
             {
-                MailRequest request = new MailRequest()
+                MailRequest request = new MailRequest
                 {
                     ToEmail = email,
-
-                    Subject = "Recuperação de senha",
-
+                    Subject = "Bem-vindo ao VitalHub",
                     Body = GetHtmlContentRecovery(codigo)
-
                 };
 
                 await emailService.SendEmailAsync(request);
-
-
             }
             catch (Exception)
             {
@@ -60,11 +49,9 @@
             }
         }
 
-
         private string GetHtmlContent(string userName)
         {
             // Constrói o conteúdo HTML do e-mail, incluindo o nome do usuário
-            //@ simbolo de interpolação
             string Response = @"
             <div style=""width:100%; background-color:rgba(96, 191, 197, 1); padding: 20px;"">
                 <div style=""max-width: 600px; margin: 0 auto; background-color:#FFFFFF; border-radius: 10px; padding: 20px;"">
@@ -86,13 +73,13 @@
         private string GetHtmlContentRecovery(int codigo)
         {
             string Response = @"
-            <div style=""width:100%; background-color:rgba(96, 191, 197, 1); padding: 20px;"">
-                <div style=""max-width: 600px; margin: 0 auto; background-color:#FFFFFF; border-radius: 10px; padding: 20px;"">
-                    <img src=""https://blobvitalhub.blob.core.windows.net/containervitalhub/logotipo.png"" alt="" Logotipo da Aplicação"" style="" display: block; margin: 0 auto; max-width: 200px;"" />
-                    <h1 style=""color: #333333;text-align: center;"">Recuperação de senha</h1>
-                    <p style=""color: #666666;font-size: 24px; text-align: center;"">Código de confirmação <strong>" + codigo + @"</strong></p>
-                </div>
-            </div>";
+<div style=""width:100%; background-color:rgba(96, 191, 197, 1); padding: 20px;"">
+    <div style=""max-width: 600px; margin: 0 auto; background-color:#FFFFFF; border-radius: 10px; padding: 20px;"">
+        <img src=""https://blobvitalhub.blob.core.windows.net/containervitalhub/logotipo.png"" alt="" Logotipo da Aplicação"" style="" display: block; margin: 0 auto; max-width: 200px;"" />
+        <h1 style=""color: #333333;text-align: center;"">Recuperação de senha</h1>
+        <p style=""color: #666666;font-size: 24px; text-align: center;"">Código de confirmação <strong>" + codigo + @"</strong></p>
+    </div>
+</div>";
 
             return Response;
         }

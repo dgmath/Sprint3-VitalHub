@@ -2,14 +2,14 @@
 {
     public class MailRequest
     {
-        //Email do destinatário
-        public string? ToEmail { get; set; }
 
-        //Assunto do email
-        public string? Subject { get; set;}
+        //email do destinatrio
+        public string? ToEmail {  get; set; }
 
-        //Corpo do email
+        //assunto do email
+        public string? Subject { get; set; }
+        
+        //corpo do email
         public string? Body { get; set; }
-
     }
 }
