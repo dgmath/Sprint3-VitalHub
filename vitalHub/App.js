@@ -22,6 +22,10 @@ import { SelecionarClinica } from './src/Screens/SelecionaClinica/SelecionaClini
 
 
 
+
+import { useEffect } from 'react';
+
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -39,6 +43,7 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+
 
   return (
     //Container - envolve toda a estrutura da tela 

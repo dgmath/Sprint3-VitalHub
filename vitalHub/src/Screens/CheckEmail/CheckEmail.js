@@ -8,8 +8,13 @@ import { Input, InputVerify } from "../../components/Input/style";
 import { LinkEnd } from "../../components/Link/style";
 import { ButtonRecover } from "../../components/Button/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style";
+import { useState, useRef } from "react";
 
-export const CheckEmail = ({navigation}) => {
+export const CheckEmail = ({navigation, route}) => {
+
+    const [load, setLoad] = useState(false) 
+    const inputs = [useRef(null),]
+
     return (
         <Container>
             <BoxArrow>

@@ -10,38 +10,15 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class RecuperarSenhaController : ControllerBase
-    { 
+    {
         private readonly VitalContext _context;
         private readonly EmailSendingService _emailSendingService;
-        public RecuperarSenhaController(VitalContext context, EmailSendingService sendMail)
+
+        public RecuperarSenhaController(VitalContext context, EmailSendingService emailSendingService)
         {
-            _context = context; 
-            _emailSendingService = sendMail;    
+            _context = context;
+            _emailSendingService = emailSendingService;
         }
-
-        //[HttpPost]
-        //public async Task<IActionResult> SendRecoveryCodePassword(string email)
-        //{
-        //    try
-        //    {
-        //        var user = await _context.Usuarios.FirstOrDefaultAsync(x => x.Email == email);
-
-        //        if (user == null)
-        //        {
-        //            return NotFound("Usuario nao encontrado");
-        //        }
-
-        //        //gerar um codigo com 4 algarismos
-        //        Random random = new Random(); 
-        //        int recoveryCode = random.Next(1000, 9999);
-
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-        //}
 
         [HttpPost]
 
@@ -73,6 +50,37 @@ namespace WebAPI.Controllers
                 await _emailSendingService.SendRecovery(user.Email, recoveryCode);
                 return Ok("Código enviado com sucesso");
 
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        //Crie um controller para validar o codigo enviado para o email
+        //Se o código for igual, resete o codigo anterior no banco e devolva um status code informando se o código é valido
+
+        [HttpPost("RecoverPasswordWhithCode")]
+
+        public async Task<IActionResult> ValidationCode(string email, int codigo)
+        {
+            try
+            {
+                //Verificando se o email é o mesmo recebido salvando dentro de uma variável
+                Usuario? user = await _context.Usuarios.FirstOrDefaultAsync(x => x.Email == email);
+
+                if (user == null || user.CodRecupSenha != codigo)
+                {
+                    return NotFound("Usuario não encontrado");
+                }
+
+
+                user.CodRecupSenha = null;
+
+                await _context.SaveChangesAsync();
+                return Ok("Código correto");
             }
             catch (Exception ex)
             {

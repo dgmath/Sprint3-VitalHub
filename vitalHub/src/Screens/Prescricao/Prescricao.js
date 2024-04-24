@@ -96,8 +96,8 @@ export const Prescricao = ({
 
                 <ModalCamera
                     visible={showModalCamera}
-                    setUriCameraCapture={setUriCameraCapture}
-                    setShowModalCamera={setShowModalCamera}
+                    setCameraCapture={setUriCameraCapture}
+                    setShowCameraModal={setShowModalCamera}
                 />
 
 
