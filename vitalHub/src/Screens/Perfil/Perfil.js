@@ -29,6 +29,28 @@ export const Perfil = ({ navigation }) => {
     const [showModalCamera, setShowModalCamera] = useState(false)
     const [uriCameraCapture, setUriCameraCapture] = useState(null)
 
+    const [preenchido, setPreenchido] = useState(false)
+
+    // states para editar dados do medico
+    const [nomeM, setNomeM] = useState('')
+    const [especialidade, setEspecialidade] = useState('')
+    const [crm, setCrm] = useState('')
+    const [logradouroM, setLogradouroM] = useState('')
+    const [numeroM, setNumeroM] = useState('')
+    const [cepM, setCepM] = useState('')
+    const [cidadeM, setCidadeM] = useState('')
+
+
+    // states para editar dados do paciente
+    const [nomeP, setNomeP] = useState('')
+    const [rg, setRg] = useState('')
+    const [dataNascimento, setDataNascimento] = useState('')
+    const [cpf, setCpf] = useState('')
+    const [cepP, setCepP] = useState('')
+    const [logradouroP, setLogradouroP] = useState('')
+    const [numeroP, setNumeroP] = useState('')
+    const [cidadeP, setCidadeP] = useState('')
+
     async function GetProfile() {
         const token = await tokenClean();
 
@@ -93,8 +115,21 @@ export const Perfil = ({ navigation }) => {
         navigation.navigate("Login")
     }
 
-    async function Update() {
+    async function UpdateProfile() {
+        try {
+            await api.put(`/Pacientes?id=${user}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
 
+            console.log("Dados do usuário atualizados com sucesso!");
+            
+        } catch (error) {
+
+            console.error("Erro ao atualizar os dados do usuário:", error);
+        }
     }
 
     async function UpdateProfilePhoto() {

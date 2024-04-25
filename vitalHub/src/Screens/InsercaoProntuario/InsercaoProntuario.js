@@ -19,13 +19,6 @@ export const InsercaoProntuario = ({ navigation, route }) => {
     const [descricao, setDescricao] = useState('')
 
 
-
-    //   {
-    //     "id": "F4F930F8-0BCC-40FB-A69F-6470A42CDF0A",
-    //     "descricao": "teste2",
-    //     "diagnostico": "teste2"
-    //   }
-
     async function EditarProntuario() {
         await api.put(`/Consultas/Prontuario`, {
             id: route.params.consultaId,
