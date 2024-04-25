@@ -9,6 +9,7 @@ import { LastPhoto } from './style';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons';
+import { Title } from '../Title/style';
 
 
 
@@ -136,9 +137,11 @@ export const ModalCamera = ({
             <TouchableOpacity onPress={() => SelectImageGallery()} style={styles.btnLastPhoto}>
               {
                 lastPhoto != null ? (
+                  <>
                   <LastPhoto
                     source={{ uri: lastPhoto }}
                   />
+                  </>
                 ) : (
                   <></>
                 )
@@ -182,8 +185,8 @@ export const ModalCamera = ({
                 <ButtonTitleCamera>Confirmar</ButtonTitleCamera>
               </ButtonModalAppointment>
 
-              <ButtonAppointmentSecondary onPress={() => ClearPhoto() && setShowCameraModal(false)}>
-                <ButtonSecondaryText>Cancelar</ButtonSecondaryText>
+              <ButtonAppointmentSecondary onPress={() => ClearPhoto() && setShowCameraModal(true)}>
+                <ButtonSecondaryText>Retornar</ButtonSecondaryText>
               </ButtonAppointmentSecondary>
             </View>
 

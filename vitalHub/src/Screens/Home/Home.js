@@ -100,8 +100,9 @@ export const Home = ({
         }
     }
 
+
     useEffect(() => {
-        ProfileLoad();
+        ProfileLoad()
     }, [])
 
     useEffect(() => {
@@ -120,7 +121,8 @@ export const Home = ({
     return (
         <ContainerPerfil>
 
-            <Header />
+
+            <Header/>
 
             <CalendarHome
                 setDataConsulta={setDataConsulta}
@@ -161,6 +163,7 @@ export const Home = ({
                             onPressAppointment={() => MostrarModal('prontuario', item)}
                             onPressCancel={() => MostrarModal('cancelar', item)}
                             onPressDoctor={() => MostrarModal('local', item)}
+                            
                         />
                     ) : null
                 }

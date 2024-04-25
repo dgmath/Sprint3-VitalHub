@@ -8,7 +8,8 @@ export const InputForm = ({
     onChangeText = null,
     keyType,
     maxLength,
-    editable = false
+    editable = false,
+    multiline
 }) => {
     return (
         <InputPerfil
@@ -20,7 +21,7 @@ export const InputForm = ({
             maxLength={maxLength}
             value={fieldValue}
             onChangeText={onChangeText}
-
+            multiline={multiline}
         />
     )
 }

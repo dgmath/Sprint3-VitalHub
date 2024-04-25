@@ -14,7 +14,7 @@ export const AppointmentCard = ({
     return (
         <ContainerCardList>
             <TouchableOpacity onPress={onPressDoctor}>
-                <ProfileImage source={profile.role == 'Paciente' ? require("../../../src/assets/Doctor.png") : require("../../../src/assets/ImagePerfil.jpg")} />
+                <ProfileImage source={profile.role == 'Paciente' ? {uri : consulta.medicoClinica.medico.idNavigation.foto} : {uri : consulta.paciente.idNavigation.foto}} />
             </TouchableOpacity>
 
             <ContentCard>

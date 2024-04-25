@@ -25,6 +25,7 @@ export const Prescricao = ({
 
     const [showModalCamera, setShowModalCamera] = useState(false)
     const [uriCameraCapture, setUriCameraCapture] = useState(null)
+    const [descricao, setDescricao] = useState()
 
     const [consultaSelecionada, setConsultaSelecionada] = useState(null)
 
@@ -40,6 +41,35 @@ export const Prescricao = ({
                 console.log(error);
             })
     }
+
+    
+    async function InserirExame() {
+
+        const formData = new FormData();
+        formData.append("Imagem", {
+            uri: uriCameraCapture,
+            name: `image.${ uriCameraCapture.split(".").pop() }`,
+            type: `image/${ uriCameraCapture.split(".").pop() }`
+        })
+        formData.append("consultaId", route.params.consultaId)
+
+        await api.post(`/Exame/Cadastrar`, formData, {
+            headers: {
+                "Content-type" : "multipart/form-data"
+            }
+        }).then( response => {
+            console.log(response);
+            setDescricao(descricao + "\n" + response.data.descricao)
+        }).catch (error => {
+            console.log(error);
+        })
+    }
+
+    useEffect(() => {
+        if (uriCameraCapture != null) {
+            InserirExame()
+        }
+    },[uriCameraCapture])
 
     useEffect(() => {
         if (consultaSelecionada == null) {
@@ -108,15 +138,16 @@ export const Prescricao = ({
 
                         <Linha />
 
-                        {consultaSelecionada.exames.map((exame, index) => (
+
                             <BoxInput
-                                key={index}
                                 fieldWidth={90}
                                 textLabel={"Exames médicos"}
-                                fieldValue={exame.descricao}
+                                fieldValue={descricao}
                                 fieldHeight={"103"}
+                                editable={true}
+                                multiline={true}
                             />
-                        ))}
+
 
                         <LinkEndModal onPress={() => navigation.replace('Main')}>Voltar</LinkEndModal>
 
@@ -126,6 +157,7 @@ export const Prescricao = ({
                         visible={showModalCamera}
                         setCameraCapture={setUriCameraCapture}
                         setShowCameraModal={setShowModalCamera}
+                        getMediaLibrary={true}
                     />
 
 
