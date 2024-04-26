@@ -54,6 +54,10 @@ export const TextBold = styled.Text`
     font-family: "Quicksand_600SemiBold";
     color: ${(props) => props.situacao == "Agendadas" ? "#49B3BA" : "#8C8A97"};
 `
+export const TextBold2 = styled.Text`
+    font-family: "Quicksand_600SemiBold";
+    color: ${(props) => props.situacao == "Agendadas" ? "#8C8A97" : "#4E4B59"};
+`
 export const ViewRow = styled.View`
     width: 100%;
     flex-direction: row;

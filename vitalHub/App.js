@@ -24,6 +24,7 @@ import { SelecionarClinica } from './src/Screens/SelecionaClinica/SelecionaClini
 
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
 
   let [fontsLoaded, fontError] = useFonts({
@@ -39,6 +40,8 @@ export default function App() {
   if (!fontsLoaded && !fontError) {
     return null;
   }
+
+
 
   return (
     //Container - envolve toda a estrutura da tela 

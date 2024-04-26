@@ -81,7 +81,7 @@ export const Prescricao = ({
         <ContainerPerfil>
             {consultaSelecionada != null ? (
                 <MainContentScroll>
-                    <ImagePerfil source={require("../../assets/Doctor.png")} />
+                    <ImagePerfil source={{uri: consultaSelecionada.medicoClinica.medico.idNavigation.foto}} />
 
                     <TitlePresc>{route.params.mediconome.idNavigation.nome}</TitlePresc>
                     <SubTitlePresc>         {consultaSelecionada.medicoClinica.medico.especialidade.especialidade1}      {consultaSelecionada.medicoClinica.medico.crm}</SubTitlePresc>
@@ -104,7 +104,7 @@ export const Prescricao = ({
                         <BoxInput
                             fieldWidth={90}
                             textLabel={"Prescrição médica"}
-                            fieldValue={consultaSelecionada.receita.medicamento}
+                            // fieldValue={consultaSelecionada.receita.medicamento}
                             fieldHeight={"133"}
                         />
 

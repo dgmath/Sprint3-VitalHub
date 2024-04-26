@@ -25,11 +25,11 @@ export const DataUser = styled.View`
 
 export const TextDefault = styled.Text`
     font-family: "Quicksand_500Medium";
-    font-size: 14;
+    font-size: 14px;
 `
 
 export const NameUser = styled.Text`
     font-family: "MontserratAlternates_600SemiBold";
-    font-size: 16;
+    font-size: 16px;
     color: #FBFBFB;
 `

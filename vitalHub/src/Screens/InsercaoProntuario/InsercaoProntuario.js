@@ -17,6 +17,7 @@ export const InsercaoProntuario = ({ navigation, route }) => {
     const [preenchido, setPreenchido] = useState(false)
     const [diagnostico, setDiagnostico] = useState('')
     const [descricao, setDescricao] = useState('')
+    const [medicamento, setMedicamento] = useState('')
 
 
 
@@ -28,14 +29,14 @@ export const InsercaoProntuario = ({ navigation, route }) => {
 
     async function EditarProntuario() {
         await api.put(`/Consultas/Prontuario`, {
-            id: route.params.consultaId,
+            consultaId: route.params.consultaId,
             descricao: descricao,
-            diagnostico: diagnostico
+            diagnostico: diagnostico,
+            medicamento: medicamento
         }).then(response => {
             console.log(response.data);
             setPreenchido(true)
             alert('Prontuário Alterado')
-            BuscarProntuario()
         })
         .catch(error => {
             console.log(error);
@@ -46,7 +47,10 @@ export const InsercaoProntuario = ({ navigation, route }) => {
         await api.get(`/Consultas/BuscarPorId?id=${route.params.consultaId}`)
             .then(response => {
                 setConsultaSelecionada(response.data)
-                setPreenchido(true)
+                if (response.data.diagnostico != null) {
+                    setPreenchido(true)
+                }
+                else{setPreenchido(false)}
                 console.log(response.data);
                 console.log(1234);
                 // console.log(consultaSelecionada.medicoClinica.clinicaId);
@@ -64,18 +68,18 @@ export const InsercaoProntuario = ({ navigation, route }) => {
 
     return (
         <ContainerPerfil>
-            {consultaSelecionada != null ? (
+            {consultaSelecionada != null? (
                 <MainContentScroll>
                     <MainContent>
 
-                        <ImagePerfil source={require("../../assets/ImagePerfil.jpg")} />
+                        <ImagePerfil source={{uri : consultaSelecionada.paciente.idNavigation.foto}} />
 
                         <TitlePerfil>Miguel Arteta</TitlePerfil>
 
                         <SubTitlePerfil>miguel.arteta@gmail.com</SubTitlePerfil>
 
                         <ContainerForm>
-                            {preenchido == true ? (
+                            {preenchido == true ?  (
                                 <>
                                     <BoxInput2
                                         // placeholderColor={"#34898F"}
@@ -127,6 +131,9 @@ export const InsercaoProntuario = ({ navigation, route }) => {
                                         fieldHeight={121}
                                         textLabel='Prescrição médica'
                                         placeholder='Prescrição'
+                                        editable={true}
+                                        onChangeText={(txt) => setMedicamento(txt)}
+                                        fieldValue={medicamento}
                                     />
                                 </>
                             )}
@@ -134,7 +141,7 @@ export const InsercaoProntuario = ({ navigation, route }) => {
 
                         </ContainerForm>
 
-                        <Button onPress={() => EditarProntuario()}>
+                        <Button onPress={() => EditarProntuario() && BuscarProntuario()}>
                             <ButtonTitle>Salvar</ButtonTitle>
                         </Button>
                         <ButtonEditInsercao onPress={() => setPreenchido(false)}>

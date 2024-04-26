@@ -9,6 +9,7 @@ import api from "../../Services/Services";
 export const Header = () => {
 
     const [userName, setUserName] = useState('')
+    const [token, setToken] = useState('')
     const [user, setUser] = useState();
 
     async function ProfileLoad() {
@@ -17,6 +18,7 @@ export const Header = () => {
         if (token) {
             console.log(token);
             setUserName(token.name)
+            setToken(token.role)
 
             if (token.role == "Paciente") {
                 await api.get(`/Pacientes/BuscarPorId?id=${token.user}`)
@@ -45,7 +47,7 @@ export const Header = () => {
 
     useEffect(() => {
         ProfileLoad()
-    }, [])
+    }, [user])
 
     return (
         <ContainerHeader>
@@ -65,7 +67,7 @@ export const Header = () => {
 
                 <DataUser>
                     <TextDefault>Bem vindo</TextDefault>
-                    <NameUser>{userName}</NameUser>
+                    {token === "Medico" ? (<NameUser>Dr. {userName}</NameUser>) : (<NameUser>{userName}</NameUser>)}
                 </DataUser>
 
             </BoxUser>

@@ -1,6 +1,7 @@
 import { AntDesign } from '@expo/vector-icons';
-import { ButtonCard, ButtonText, ClockCard, ContainerCardList, ContentCard, DataProfileCard, ProfileData, ProfileImage, ProfileName, TextAge, TextBold, ViewRow } from "./style";
+import { ButtonCard, ButtonText, ClockCard, ContainerCardList, ContentCard, DataProfileCard, ProfileData, ProfileImage, ProfileName, TextAge, TextBold, TextBold2, ViewRow } from "./style";
 import { TouchableOpacity } from 'react-native';
+import { calcularIdade } from '../../utils/Auth';
 
 export const AppointmentCard = ({
     onPressCancel,
@@ -22,9 +23,9 @@ export const AppointmentCard = ({
                     <ProfileName>{profile.role == 'Paciente' ? consulta.medicoClinica.medico.idNavigation.nome : consulta.paciente.idNavigation.nome}</ProfileName>
 
                     <ProfileData>
-                        <TextAge>{profile.role == 'Paciente' ? consulta.medicoClinica.medico.especialidade.especialidade1 : '22'}</TextAge>
+                        <TextAge>{profile.role == 'Paciente' ? consulta.medicoClinica.medico.especialidade.especialidade1 : calcularIdade(consulta.paciente.dataNascimento.split('T', [1]))} {profile.role == 'Medico' ? 'anos' : ''}</TextAge>
                         {/* <TextAge>{consulta.situacao.situacao}</TextAge> */}
-                        <TextBold>{consulta.prioridade.prioridade == '1' ? "Rotina" : consulta.prioridade.prioridade == "2" ? "Exame" : "Urgência"}</TextBold>
+                        <TextBold2>{consulta.prioridade.prioridade == '1' ? "Rotina" : consulta.prioridade.prioridade == "2" ? "Exame" : "Urgência"}</TextBold2>
                     </ProfileData>
 
                 </DataProfileCard>

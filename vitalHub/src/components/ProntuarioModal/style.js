@@ -24,7 +24,7 @@ export const ModalText = styled.Text`
 export const BoxModal = styled.View`
     width: 80%;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-direction: row;
     
 `
