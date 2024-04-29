@@ -17,6 +17,7 @@ namespace WebAPI.Repositories
             {
                 Paciente pacienteBuscado = ctx.Pacientes
                 .Include(x => x.Endereco)
+                .Include(x => x.IdNavigation)
                 .FirstOrDefault(x => x.Id == Id)!;
 
                 //if (paciente.Foto != null)
@@ -27,6 +28,9 @@ namespace WebAPI.Repositories
 
                 if (paciente.Cpf != null)
                     pacienteBuscado!.Cpf = paciente.Cpf;
+
+                if (paciente.Nome != null)
+                    pacienteBuscado!.IdNavigation.Nome = paciente.Nome;
 
                 if (paciente.Logradouro != null)
                     pacienteBuscado!.Endereco!.Logradouro = paciente.Logradouro;

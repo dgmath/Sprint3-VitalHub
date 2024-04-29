@@ -29,6 +29,9 @@ export const Perfil = ({ navigation }) => {
     const [showModalCamera, setShowModalCamera] = useState(false)
     const [uriCameraCapture, setUriCameraCapture] = useState(null)
 
+
+    const [showSaveBtn, setShowSaveBtn] = useState(false)
+
     const [preenchido, setPreenchido] = useState(false)
 
     // states para editar dados do medico
@@ -43,13 +46,14 @@ export const Perfil = ({ navigation }) => {
 
     // states para editar dados do paciente
     const [nomeP, setNomeP] = useState('')
-    const [rg, setRg] = useState('')
-    const [dataNascimento, setDataNascimento] = useState('')
-    const [cpf, setCpf] = useState('')
+    const [rgP, setRg] = useState('')
+    const [dataNascimentoP, setDataNascimento] = useState('')
+    const [cpfP, setCpf] = useState('')
     const [cepP, setCepP] = useState('')
     const [logradouroP, setLogradouroP] = useState('')
     const [numeroP, setNumeroP] = useState('')
     const [cidadeP, setCidadeP] = useState('')
+
 
     async function GetProfile() {
         const token = await tokenClean();
@@ -71,6 +75,8 @@ export const Perfil = ({ navigation }) => {
                 console.log(response.data);
                 setUserData(response.data);
 
+                setPreenchido(true)
+
                 console.log(123);
 
                 console.log(userData);
@@ -87,6 +93,8 @@ export const Perfil = ({ navigation }) => {
 
                 setUserData(response.data);
                 console.log(response.data);
+
+                setPreenchido(true)
 
                 console.log(123);
 
@@ -116,16 +124,35 @@ export const Perfil = ({ navigation }) => {
     }
 
     async function UpdateProfile() {
+
+        const token = await tokenClean();
+
+        const tokenRole = await userDecodeToken();
+        setRole(tokenRole.role)
+
+        setUser(tokenRole.user)
+
         try {
-            await api.put(`/Pacientes?id=${user}`,{
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            });
+            if (tokenRole.role == 'Paciente') {
+                await api.put(`/Pacientes?idUsuario=${user}`,{
+                    nome : nomeP ,
+                    rg: rgP,
+                    dataNascimento: dataNascimentoP,
+                    cpf :cpfP,
+                    cep : cepP,
+                    logradouro : logradouroP,
+                    numero : numeroP,
+                    cidade : cidadeP,
+                });
+            } else {
+
+            }
+
+            console.log(userData);
+
 
             console.log("Dados do usuário atualizados com sucesso!");
-            
+
         } catch (error) {
 
             console.error("Erro ao atualizar os dados do usuário:", error);
@@ -137,17 +164,17 @@ export const Perfil = ({ navigation }) => {
         const formData = new FormData();
         formData.append("Arquivo", {
             uri: uriCameraCapture,
-            name: `image.${ uriCameraCapture.split(".")[1] }`,
-            type: `image/${ uriCameraCapture.split(".")[1] }`
+            name: `image.${uriCameraCapture.split(".")[1]}`,
+            type: `image/${uriCameraCapture.split(".")[1]}`
         })
 
         await api.put(`/Usuario/AlterarFotoPerfil?id=${user}`, formData, {
             headers: {
-                "Content-type" : "multipart/form-data"
+                "Content-type": "multipart/form-data"
             }
-        }).then( response => {
+        }).then(response => {
             console.log(response);
-        }).catch (error => {
+        }).catch(error => {
             console.log(error);
         })
     }
@@ -162,7 +189,7 @@ export const Perfil = ({ navigation }) => {
         if (uriCameraCapture != null) {
             UpdateProfilePhoto()
         }
-    },[uriCameraCapture])
+    }, [uriCameraCapture])
 
 
 
@@ -175,8 +202,8 @@ export const Perfil = ({ navigation }) => {
                         <ViewImageProfile>
 
                             {uriCameraCapture == null ? (
-                                <>  
-                                    <ImagePerfil source={{uri: userData.idNavigation.foto}}/>
+                                <>
+                                    <ImagePerfil source={{ uri: userData.idNavigation.foto }} />
                                 </>
                             ) : (
                                 <>
@@ -196,117 +223,239 @@ export const Perfil = ({ navigation }) => {
 
                         </ViewImageProfile>
 
+                        {preenchido ? (
+                            <>
+                                {role == 'Medico' ? (
+                                    <ContainerInputPerfil>
+                                        <BoxInput
+                                            textLabel='Nome:'
+                                            placeholder='Seu Nome'
+                                            fieldValue={userData.idNavigation.nome}
+                                        />
+                                        <BoxInput
+                                            textLabel='Especialidade:'
+                                            placeholder='Especialidade Medica'
+                                            fieldValue={userData.especialidade.especialidade1}
+                                        />
+                                        <BoxInput
+                                            textLabel='CRM:'
+                                            placeholder='CRM Medico'
+                                            fieldValue={userData.crm}
+                                        />
 
+                                        <ContainerInputRowOne>
+                                            <BoxInput
+                                                fieldWidth={60}
+                                                textLabel='Endereco:'
+                                                placeholder='Endereco'
+                                                fieldValue={userData.endereco.logradouro}
+                                            />
+                                            <BoxInput
+                                                fieldWidth={40}
+                                                textLabel='Numero:'
+                                                placeholder='Numero'
+                                                fieldValue={JSON.stringify(userData.endereco.numero)}
+                                            />
+                                        </ContainerInputRowOne>
 
-                        {role == 'Medico' ? (
+                                        <ContainerInputRow>
+                                            <BoxInput
+                                                fieldWidth={50}
+                                                textLabel='CEP:'
+                                                placeholder='CEP'
+                                                fieldValue={userData.endereco.cep}
+                                            />
+                                            <BoxInput
+                                                fieldWidth={50}
+                                                textLabel='Cidade:'
+                                                placeholder='Cidade'
+                                                fieldValue={userData.endereco.cidade}
+                                            />
+                                        </ContainerInputRow>
+                                    </ContainerInputPerfil>
+                                ) : (
+                                    <ContainerInputPerfil>
+                                        <BoxInput
+                                            textLabel='Nome:'
+                                            placeholder='Seu Nome'
+                                            fieldValue={userData.idNavigation.nome}
+                                        />
+                                        <BoxInput
+                                            textLabel='RG:'
+                                            placeholder='Seu RG'
+                                            fieldValue={userData.rg}
+                                        />
+                                        <BoxInput
+                                            textLabel='Data de nascimento:'
+                                            placeholder='Ex.DD-MM-YYYY'
+                                            fieldValue={moment(userData.dataNascimento).format('DD-MM-YYYY')}
+                                        />
+                                        <BoxInput
+                                            textLabel='CPF:'
+                                            placeholder='CPF'
+                                            fieldValue={userData.cpf}
+                                        />
+                                        <ContainerInputRowOne>
+                                            <BoxInput
+                                                fieldWidth={60}
+                                                textLabel='Endereco:'
+                                                placeholder='Endereco'
+                                                fieldValue={userData.endereco.logradouro}
+                                            />
+                                            <BoxInput
+                                                fieldWidth={40}
+                                                textLabel='Numero:'
+                                                placeholder='Numero'
+                                                fieldValue={JSON.stringify(userData.endereco.numero)}
+                                            />
+                                        </ContainerInputRowOne>
 
-                            <ContainerInputPerfil>
-                                <BoxInput
-                                    textLabel='Nome:'
-                                    placeholder='Seu Nome'
-                                    fieldValue={userData.idNavigation.nome}
-                                />
-                                <BoxInput
-                                    textLabel='Especialidade:'
-                                    placeholder='Especialidade Medica'
-                                    fieldValue={userData.especialidade.especialidade1}
-                                />
-                                <BoxInput
-                                    textLabel='CRM:'
-                                    placeholder='CRM Medico'
-                                    fieldValue={userData.crm}
-                                />
-
-                                <ContainerInputRowOne>
-                                    <BoxInput
-                                        fieldWidth={60}
-                                        textLabel='Endereco:'
-                                        placeholder='Endereco'
-                                        fieldValue={userData.endereco.logradouro}
-                                    />
-                                    <BoxInput
-                                        fieldWidth={40}
-                                        textLabel='Numero:'
-                                        placeholder='Numero'
-                                        fieldValue={JSON.stringify(userData.endereco.numero)}
-                                    />
-                                </ContainerInputRowOne>
-
-                                <ContainerInputRow>
-                                    <BoxInput
-                                        fieldWidth={50}
-                                        textLabel='CEP:'
-                                        placeholder='CEP'
-                                        fieldValue={userData.endereco.cep}
-                                    />
-                                    <BoxInput
-                                        fieldWidth={50}
-                                        textLabel='Cidade:'
-                                        placeholder='Cidade'
-                                        fieldValue={userData.endereco.cidade}
-                                    />
-                                </ContainerInputRow>
-                            </ContainerInputPerfil>
+                                        <ContainerInputRow>
+                                            <BoxInput
+                                                fieldWidth={50}
+                                                textLabel='CEP:'
+                                                placeholder='CEP'
+                                                fieldValue={userData.endereco.cep}
+                                            />
+                                            <BoxInput
+                                                fieldWidth={50}
+                                                textLabel='Cidade:'
+                                                placeholder='Cidade'
+                                                fieldValue={userData.endereco.cidade}
+                                            />
+                                        </ContainerInputRow>
+                                    </ContainerInputPerfil>
+                                )}
+                            </>
                         ) : (
-                            <ContainerInputPerfil>
-                                <BoxInput
-                                    textLabel='Nome:'
-                                    placeholder='Seu Nome'
-                                    fieldValue={userData.idNavigation.nome}
-                                />
-                                <BoxInput
-                                    textLabel='RG:'
-                                    placeholder='Seu RG'
-                                    fieldValue={userData.rg}
-                                />
-                                <BoxInput
-                                    textLabel='Data de nascimento:'
-                                    placeholder='Ex.DD-MM-YYYY'
-                                    fieldValue={moment(userData.dataNascimento).format('DD-MM-YYYY')}
-                                />
-                                <BoxInput
-                                    textLabel='CPF:'
-                                    placeholder='CPF'
-                                    fieldValue={userData.cpf}
-                                />
-                                <ContainerInputRowOne>
-                                    <BoxInput
-                                        fieldWidth={60}
-                                        textLabel='Endereco:'
-                                        placeholder='Endereco'
-                                        fieldValue={userData.endereco.logradouro}
-                                    />
-                                    <BoxInput
-                                        fieldWidth={40}
-                                        textLabel='Numero:'
-                                        placeholder='Numero'
-                                        fieldValue={JSON.stringify(userData.endereco.numero)}
-                                    />
-                                </ContainerInputRowOne>
+                            <>
+                                {role == "Medico" ? (
+                                    <>
 
-                                <ContainerInputRow>
-                                    <BoxInput
-                                        fieldWidth={50}
-                                        textLabel='CEP:'
-                                        placeholder='CEP'
-                                        fieldValue={userData.endereco.cep}
-                                    />
-                                    <BoxInput
-                                        fieldWidth={50}
-                                        textLabel='Cidade:'
-                                        placeholder='Cidade'
-                                        fieldValue={userData.endereco.cidade}
-                                    />
-                                </ContainerInputRow>
-                            </ContainerInputPerfil>
+                                    </>
+                                    // <ContainerInputPerfil>
+                                    //     <BoxInput
+                                    //         textLabel='Nome:'
+                                    //         placeholder='Seu Nome'
+                                    //         fieldValue={userData.idNavigation.nome}
+                                    //         onChangeText={(txt) => setNomeM(txt)}
+                                    //         editable={true}
+                                    //     />
+                                    //     <BoxInput
+                                    //         textLabel='Especialidade:'
+                                    //         placeholder='Especialidade Medica'
+                                    //         fieldValue={userData.especialidade.especialidade1}
+                                    //     />
+                                    //     <BoxInput
+                                    //         textLabel='CRM:'
+                                    //         placeholder='CRM Medico'
+                                    //         fieldValue={userData.crm}
+                                    //     />
 
+                                    //     <ContainerInputRowOne>
+                                    //         <BoxInput
+                                    //             fieldWidth={60}
+                                    //             textLabel='Endereco:'
+                                    //             placeholder='Endereco'
+                                    //             fieldValue={userData.endereco.logradouro}
+                                    //         />
+                                    //         <BoxInput
+                                    //             fieldWidth={40}
+                                    //             textLabel='Numero:'
+                                    //             placeholder='Numero'
+                                    //             fieldValue={JSON.stringify(userData.endereco.numero)}
+                                    //         />
+                                    //     </ContainerInputRowOne>
+
+                                    //     <ContainerInputRow>
+                                    //         <BoxInput
+                                    //             fieldWidth={50}
+                                    //             textLabel='CEP:'
+                                    //             placeholder='CEP'
+                                    //             fieldValue={userData.endereco.cep}
+                                    //         />
+                                    //         <BoxInput
+                                    //             fieldWidth={50}
+                                    //             textLabel='Cidade:'
+                                    //             placeholder='Cidade'
+                                    //             fieldValue={userData.endereco.cidade}
+                                    //         />
+                                    //     </ContainerInputRow>
+                                    // </ContainerInputPerfil>
+                                ) : (
+                                    <ContainerInputPerfil>
+                                        <BoxInput
+                                            textLabel='Nome:'
+                                            placeholder='Seu Nome'
+                                            fieldValue={nomeP}
+                                            onChangeText={(txt) => setNomeP(txt)}
+                                            editable={true}
+                                        />
+                                        <BoxInput
+                                            textLabel='RG:'
+                                            placeholder='Seu RG'
+                                            fieldValue={userData.rg}
+                                            onChangeText={() => setNomeP(fieldValue)}
+                                        />
+                                        <BoxInput
+                                            textLabel='Data de nascimento:'
+                                            placeholder='Ex.DD-MM-YYYY'
+                                            fieldValue={moment(userData.dataNascimento).format('DD-MM-YYYY')}
+                                            onChangeText={() => setNomeP(fieldValue)}
+                                        />
+                                        <BoxInput
+                                            textLabel='CPF:'
+                                            placeholder='CPF'
+                                            fieldValue={userData.cpf}
+                                            onChangeText={() => setNomeP(fieldValue)}
+                                        />
+                                        <ContainerInputRowOne>
+                                            <BoxInput
+                                                fieldWidth={60}
+                                                textLabel='Endereco:'
+                                                placeholder='Endereco'
+                                                fieldValue={userData.endereco.logradouro}
+                                                onChangeText={() => setNomeP(fieldValue)}
+                                            />
+                                            <BoxInput
+                                                fieldWidth={40}
+                                                textLabel='Numero:'
+                                                placeholder='Numero'
+                                                fieldValue={JSON.stringify(userData.endereco.numero)}
+                                                onChangeText={() => setNomeP(fieldValue)}
+                                            />
+                                        </ContainerInputRowOne>
+
+                                        <ContainerInputRow>
+                                            <BoxInput
+                                                fieldWidth={50}
+                                                textLabel='CEP:'
+                                                placeholder='CEP'
+                                                fieldValue={userData.endereco.cep}
+                                                onChangeText={() => setNomeP(fieldValue)}
+                                            />
+                                            <BoxInput
+                                                fieldWidth={50}
+                                                textLabel='Cidade:'
+                                                placeholder='Cidade'
+                                                fieldValue={userData.endereco.cidade}
+                                                onChangeText={() => setNomeP(fieldValue)}
+                                            />
+                                        </ContainerInputRow>
+                                    </ContainerInputPerfil>
+                                )
+                                }
+
+                            </>
                         )}
 
-                        <Button>
+
+
+                        <Button onPress={() => UpdateProfile()}>
                             <ButtonTitle>Salvar</ButtonTitle>
                         </Button>
 
-                        <ButtonEditPerfil>
+                        <ButtonEditPerfil onPress={() => setPreenchido(false)}>
                             <ButtonTitle>Editar</ButtonTitle>
                         </ButtonEditPerfil>
 
