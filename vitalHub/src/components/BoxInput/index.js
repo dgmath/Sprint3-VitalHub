@@ -33,6 +33,7 @@ export const BoxInput = ({
         </FieldContent>
     )
 }
+
 export const BoxInput2 = ({
     fieldWidth = 100,
     fieldHeight = 50,

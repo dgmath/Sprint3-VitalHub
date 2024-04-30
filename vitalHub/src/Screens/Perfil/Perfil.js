@@ -36,8 +36,8 @@ export const Perfil = ({ navigation }) => {
 
     // states para editar dados do medico
     const [nomeM, setNomeM] = useState('')
-    const [especialidade, setEspecialidade] = useState('')
-    const [crm, setCrm] = useState('')
+    // const [especialidadeM, setEspecialidadeM] = useState('')
+    const [crm, setCrmM] = useState('')
     const [logradouroM, setLogradouroM] = useState('')
     const [numeroM, setNumeroM] = useState('')
     const [cepM, setCepM] = useState('')
@@ -46,9 +46,9 @@ export const Perfil = ({ navigation }) => {
 
     // states para editar dados do paciente
     const [nomeP, setNomeP] = useState('')
-    const [rgP, setRg] = useState('')
-    const [dataNascimentoP, setDataNascimento] = useState('')
-    const [cpfP, setCpf] = useState('')
+    const [rgP, setRgP] = useState('')
+    const [dataNascimentoP, setDataNascimentoP] = useState('')
+    const [cpfP, setCpfP] = useState('')
     const [cepP, setCepP] = useState('')
     const [logradouroP, setLogradouroP] = useState('')
     const [numeroP, setNumeroP] = useState('')
@@ -135,20 +135,32 @@ export const Perfil = ({ navigation }) => {
         try {
             if (tokenRole.role == 'Paciente') {
                 await api.put(`/Pacientes?idUsuario=${user}`,{
-                    nome : nomeP ,
+                    nome: nomeP,
                     rg: rgP,
                     dataNascimento: dataNascimentoP,
-                    cpf :cpfP,
-                    cep : cepP,
+                    cpf: cpfP,
+                    cep: cepP,
+                    logradouro: logradouroP,
+                    numero: numeroP,
+                    cidade: cidadeP,
+                });
+            } else {
+                await api.put('/Medicos',{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type' : 'application/json'
+                    }
+                },{
+                    nome : nomeM ,
+                    crm : crm,
+                    cep : cepM,
                     logradouro : logradouroP,
                     numero : numeroP,
                     cidade : cidadeP,
                 });
-            } else {
-
             }
 
-            console.log(userData);
+            console.log(token);
 
 
             console.log("Dados do usuário atualizados com sucesso!");
@@ -330,58 +342,65 @@ export const Perfil = ({ navigation }) => {
                         ) : (
                             <>
                                 {role == "Medico" ? (
-                                    <>
+                                    <ContainerInputPerfil>
+                                        <BoxInput
+                                            textLabel='Nome:'
+                                            placeholder='Seu Nome'
+                                            fieldValue={nomeM}
+                                            onChangeText={(txt) => setNomeM(txt)}
+                                            editable={true}
+                                        />
+                                        {/* <BoxInput
+                                            textLabel='Especialidade:'
+                                            placeholder='Especialidade Medica'
+                                            fieldValue={userData.especialidade.especialidade1}
+                                        /> */}
+                                        <BoxInput
+                                            textLabel='CRM:'
+                                            placeholder='CRM Medico'
+                                            fieldValue={crm}
+                                            onChangeText={(txt) => setCrmM(txt)}
+                                            editable={true}
+                                        />
 
-                                    </>
-                                    // <ContainerInputPerfil>
-                                    //     <BoxInput
-                                    //         textLabel='Nome:'
-                                    //         placeholder='Seu Nome'
-                                    //         fieldValue={userData.idNavigation.nome}
-                                    //         onChangeText={(txt) => setNomeM(txt)}
-                                    //         editable={true}
-                                    //     />
-                                    //     <BoxInput
-                                    //         textLabel='Especialidade:'
-                                    //         placeholder='Especialidade Medica'
-                                    //         fieldValue={userData.especialidade.especialidade1}
-                                    //     />
-                                    //     <BoxInput
-                                    //         textLabel='CRM:'
-                                    //         placeholder='CRM Medico'
-                                    //         fieldValue={userData.crm}
-                                    //     />
+                                        <ContainerInputRowOne>
+                                            <BoxInput
+                                                fieldWidth={60}
+                                                textLabel='Endereco:'
+                                                placeholder='Endereco'
+                                                fieldValue={logradouroM}
+                                                onChangeText={(txt) => setLogradouroM(txt)}
+                                                editable={true}
+                                            />
+                                            <BoxInput
+                                                fieldWidth={40}
+                                                textLabel='Numero:'
+                                                placeholder='Numero'
+                                                fieldValue={numeroM}
+                                                onChangeText={(txt) => setNumeroM(txt)}
+                                                editable={true}
+                                            />
+                                        </ContainerInputRowOne>
 
-                                    //     <ContainerInputRowOne>
-                                    //         <BoxInput
-                                    //             fieldWidth={60}
-                                    //             textLabel='Endereco:'
-                                    //             placeholder='Endereco'
-                                    //             fieldValue={userData.endereco.logradouro}
-                                    //         />
-                                    //         <BoxInput
-                                    //             fieldWidth={40}
-                                    //             textLabel='Numero:'
-                                    //             placeholder='Numero'
-                                    //             fieldValue={JSON.stringify(userData.endereco.numero)}
-                                    //         />
-                                    //     </ContainerInputRowOne>
-
-                                    //     <ContainerInputRow>
-                                    //         <BoxInput
-                                    //             fieldWidth={50}
-                                    //             textLabel='CEP:'
-                                    //             placeholder='CEP'
-                                    //             fieldValue={userData.endereco.cep}
-                                    //         />
-                                    //         <BoxInput
-                                    //             fieldWidth={50}
-                                    //             textLabel='Cidade:'
-                                    //             placeholder='Cidade'
-                                    //             fieldValue={userData.endereco.cidade}
-                                    //         />
-                                    //     </ContainerInputRow>
-                                    // </ContainerInputPerfil>
+                                        <ContainerInputRow>
+                                            <BoxInput
+                                                fieldWidth={50}
+                                                textLabel='CEP:'
+                                                placeholder='CEP'
+                                                fieldValue={cepM}
+                                                onChangeText={(txt) => setCepM(txt)}
+                                                editable={true}
+                                            />
+                                            <BoxInput
+                                                fieldWidth={50}
+                                                textLabel='Cidade:'
+                                                placeholder='Cidade'
+                                                fieldValue={cidadeM}
+                                                onChangeText={(txt) => setCidadeM(txt)}
+                                                editable={true}
+                                            />
+                                        </ContainerInputRow>
+                                    </ContainerInputPerfil>
                                 ) : (
                                     <ContainerInputPerfil>
                                         <BoxInput
@@ -394,35 +413,40 @@ export const Perfil = ({ navigation }) => {
                                         <BoxInput
                                             textLabel='RG:'
                                             placeholder='Seu RG'
-                                            fieldValue={userData.rg}
-                                            onChangeText={() => setNomeP(fieldValue)}
+                                            fieldValue={rgP}
+                                            onChangeText={(txt) => setRgP(txt)}
+                                            editable={true}
                                         />
                                         <BoxInput
                                             textLabel='Data de nascimento:'
-                                            placeholder='Ex.DD-MM-YYYY'
-                                            fieldValue={moment(userData.dataNascimento).format('DD-MM-YYYY')}
-                                            onChangeText={() => setNomeP(fieldValue)}
+                                            placeholder='YYYY-MM-DD'
+                                            fieldValue={dataNascimentoP}
+                                            onChangeText={(txt) => setDataNascimentoP(txt)}
+                                            editable={true}
                                         />
                                         <BoxInput
                                             textLabel='CPF:'
                                             placeholder='CPF'
-                                            fieldValue={userData.cpf}
-                                            onChangeText={() => setNomeP(fieldValue)}
+                                            fieldValue={cpfP}
+                                            onChangeText={(txt) => setCpfP(txt)}
+                                            editable={true}
                                         />
                                         <ContainerInputRowOne>
                                             <BoxInput
                                                 fieldWidth={60}
                                                 textLabel='Endereco:'
                                                 placeholder='Endereco'
-                                                fieldValue={userData.endereco.logradouro}
-                                                onChangeText={() => setNomeP(fieldValue)}
+                                                fieldValue={logradouroP}
+                                                onChangeText={(txt) => setLogradouroP(txt)}
+                                                editable={true}
                                             />
                                             <BoxInput
                                                 fieldWidth={40}
                                                 textLabel='Numero:'
                                                 placeholder='Numero'
-                                                fieldValue={JSON.stringify(userData.endereco.numero)}
-                                                onChangeText={() => setNomeP(fieldValue)}
+                                                fieldValue={JSON.stringify(numeroP)}
+                                                onChangeText={(txt) => setNumeroP(txt)}
+                                                editable={true}
                                             />
                                         </ContainerInputRowOne>
 
@@ -431,15 +455,17 @@ export const Perfil = ({ navigation }) => {
                                                 fieldWidth={50}
                                                 textLabel='CEP:'
                                                 placeholder='CEP'
-                                                fieldValue={userData.endereco.cep}
-                                                onChangeText={() => setNomeP(fieldValue)}
+                                                fieldValue={cepP}
+                                                onChangeText={(txt) => setCepP(txt)}
+                                                editable={true}
                                             />
                                             <BoxInput
                                                 fieldWidth={50}
                                                 textLabel='Cidade:'
                                                 placeholder='Cidade'
-                                                fieldValue={userData.endereco.cidade}
-                                                onChangeText={() => setNomeP(fieldValue)}
+                                                fieldValue={cidadeP}
+                                                onChangeText={(txt) => setCidadeP(txt)}
+                                                editable={true}
                                             />
                                         </ContainerInputRow>
                                     </ContainerInputPerfil>
@@ -451,7 +477,8 @@ export const Perfil = ({ navigation }) => {
 
 
 
-                        <Button onPress={() => UpdateProfile()}>
+                        <Button onPress={() => UpdateProfile() && setPreenchido(true)}
+                        >
                             <ButtonTitle>Salvar</ButtonTitle>
                         </Button>
 
