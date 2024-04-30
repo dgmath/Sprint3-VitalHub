@@ -10,7 +10,7 @@ import api from "../../Services/Services"
 
 
 export const SelecionarClinica = ({
-    navigation
+    navigation, route
 }) => {
        
     const [selected, setSelected] = useState("")
@@ -18,9 +18,11 @@ export const SelecionarClinica = ({
 
     const [listaClinica, setListaClinica] = useState([])
 
+    const [clinica, setClinica] = useState()
+
 
     async function ListarClinicas() {
-        await api.get('/Clinica/ListarTodas')
+        await api.get(`/Clinica/BuscarPorCidade?cidade=${route.params.agendamento.localizacao}`)
         .then( response => {
             setListaClinica( response.data)
             console.log(response.data);
@@ -29,9 +31,23 @@ export const SelecionarClinica = ({
         })
     }
 
+    function handleContinue() {
+        navigation.replace("SelecionarMedico", {
+            agendamento: {
+                ...route.params.agendamento,
+
+                ...clinica
+            }
+        })
+    }
+
     useEffect(() => {
         ListarClinicas()
     },[])
+
+    useEffect(() => {
+       console.log(route);
+    },[route])
     
 
     return (
@@ -46,8 +62,9 @@ export const SelecionarClinica = ({
 
                         renderItem={({ item }) =>
                             <ButtonCardClinica
-                                listaClinica={item}
-
+                                selected={listaClinica && listaClinica.clinicaId == item.id}
+                                clinica={item}
+                                setClinica={setClinica}
                             />
                         }
 
@@ -55,7 +72,7 @@ export const SelecionarClinica = ({
                         scrollEnabled={false}
                     />
 
-                    <Button onPress={() => navigation.navigate("SelecionarMedico")}>
+                    <Button onPress={() => handleContinue()}>
                         <ButtonTitle>Continuar</ButtonTitle>
                     </Button>
 

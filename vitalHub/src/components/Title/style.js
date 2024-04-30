@@ -12,7 +12,7 @@ export const TitleCheck = styled(Title)`
     margin-top: 25px;
 `
 export const TitleSelect = styled(Title)`
-    margin-top: 25px;
+    margin-top: 70px;
     margin-bottom: 40px;
     color: #344F8F;
 `

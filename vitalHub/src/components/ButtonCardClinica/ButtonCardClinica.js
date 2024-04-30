@@ -7,19 +7,22 @@ export const ButtonCardClinica = ({
     // stars,
     // local,
     operatingDays,
-    selected = true,
-    onPress,
-    listaClinica
+    clinica,
+    setClinica,
+    selected
 }) => {
     return (
         <Container>
             <ButtonContent 
-                onPress={onPress}
-                ClickButton={selected}
+                selected={selected}
+                onPress={() => setClinica({
+                    clinicaId: clinica.id,
+                    clinicaLabel: clinica.nomeFantasia
+                })}
             >
                 <DataProfileCard>
-                    <TitleClinica>{listaClinica.nomeFantasia}</TitleClinica>
-                    <LocalText>{listaClinica.endereco.cidade}</LocalText>
+                    <TitleClinica>{clinica.nomeFantasia}</TitleClinica>
+                    <LocalText>{clinica.endereco.cidade}</LocalText>
                 </DataProfileCard>
                 <DataProfileCard2>
                     {/* <StarView>

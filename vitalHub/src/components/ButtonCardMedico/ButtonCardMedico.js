@@ -3,13 +3,17 @@ import { ButtonContent, DataProfileCard, ImageCardMedico, NameMedico, SpecialtyT
 
 export const ButtonCardMedico = ({
     selected,
-    onPress,
-    medico
+    medico,
+    setMedico
 }) => {
     return (
         <ContainerPerfil>
             <ButtonContent
-                onPress={onPress}
+                onPress={() => setMedico({
+                    medicoClinicaId: medico.id,
+                    medicoLabel: medico.idNavigation.nome,
+                    medicoEspecialidade: medico.especialidade.especialidade1
+                })}
                 ClickButton={selected}
             >
 

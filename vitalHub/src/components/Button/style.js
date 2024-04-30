@@ -78,3 +78,14 @@ export const ButtonPrescricao = styled.TouchableOpacity`
     gap: 10px;
     flex-direction: row;
 `
+export const ButtonAgendar = ({
+    textButton,
+    clickButton = false,
+    onPress
+}) => {
+    return(
+        <BtnConsultType clickButton={clickButton} onPress={onPress}>
+            <BtnTextConsultType clickButton={clickButton}> {textButton} </BtnTextConsultType>
+        </BtnConsultType>
+    )
+}

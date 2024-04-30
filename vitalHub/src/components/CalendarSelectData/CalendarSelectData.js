@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Calendar, LocaleConfig } from "react-native-calendars";
 
-const CalendarSelectData = () => {
-  const [selected, setSelected] = useState("");
+const CalendarSelectData = ({setDataSelecionada, dataSelecionada}) => {
 
   const currentDate = new Date();
   const startingDate = new Date(
@@ -61,11 +60,13 @@ const CalendarSelectData = () => {
         alignSelf: "center",
         backgroundColor: "#FAFAFA",
       }}
-      onDayPress={(day) => {
-        setSelected(day.dateString);
+
+      onDayPress={(date) => {
+        setDataSelecionada(date.dateString);
       }}
+
       markedDates={{
-        [selected]: {
+        [dataSelecionada]: {
           selected: true,
           disableTouchEvent: true,
         },

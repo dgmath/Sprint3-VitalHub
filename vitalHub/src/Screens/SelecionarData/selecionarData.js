@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ButtonRecover } from "../../components/Button/style"
 import { ButtonTitle } from "../../components/ButtonTitle/style"
 import CalendarSelectData from "../../components/CalendarSelectData/CalendarSelectData"
@@ -11,21 +11,37 @@ import { ModalAgendarConsulta } from "../../components/ModalAgendarConsulta/Moda
 
 
 export const SelecionarData = ({
-    navigation
+    navigation, route
 }) => {
 
-    const [showModalAgendar, setShowModalAgendar] = useState(false)
+    const [agendamento, setAgendamento] = useState(null);
 
+    const [dataSelecionada, setDataSelecionada] = useState('');
+
+    const [horaSelecionada, setHoraSelecionada] = useState('');
+
+    const [showModalAgendar, setShowModalAgendar] = useState(false);
+
+    
+
+    useEffect(() => {
+        console.log(dataSelecionada);
+     },[dataSelecionada])
     return (
         <ContainerPerfil>
 
             <TitleSelect>Selecionar Data</TitleSelect>
 
-            <CalendarSelectData />
+            <CalendarSelectData 
+                setDataSelecionada={setDataSelecionada}
+                dataSelecionada={dataSelecionada}
+            />
 
             <ContainerForm>
                 <LabelData>Selecione um horário disponível</LabelData>
-                <InputSelect />
+                <InputSelect 
+                    setHoraSelecionada={setHoraSelecionada}
+                />
             </ContainerForm>
 
             <ButtonRecover

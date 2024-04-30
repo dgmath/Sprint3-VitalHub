@@ -155,6 +155,7 @@ export const MainContent = styled.View`
     width: 100%;
     align-items: center;
     background-color: #ffff;
+    margin-top: 60px;
 `
 
 export const MainContentScroll = styled.ScrollView`

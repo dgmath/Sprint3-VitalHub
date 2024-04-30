@@ -9,7 +9,7 @@ import { ButtonCardMedico } from "../../components/ButtonCardMedico/ButtonCardMe
 
 import api from "../../Services/Services";
 
-export const SelecionarMedico = ({ navigation }) => {
+export const SelecionarMedico = ({ navigation, route }) => {
 
     const [selected, setSelected] = useState("")
     //Array para receber a lista de medicos
@@ -18,14 +18,25 @@ export const SelecionarMedico = ({ navigation }) => {
     async function ListarMedico() {
         //Instanciar a nossa conexao da api
         //chamando o metodo via a api passando dentro do metodo o caminho da chamada
-       await api.get('/Medicos')
-        .then(response => {
-            //setando a lista com o response.data ou seja todo o retorno
-            setMedicoLista(response.data);
-            console.log(medicoLista);
-        })
-        .catch( error => {
-            console.log(error);
+        await api.get(`/Medicos/BuscarPorIdClinica?id=${route.params.agendamento.clinicaId}`)
+            .then(response => {
+                //setando a lista com o response.data ou seja todo o retorno
+                setMedicoLista(response.data);
+                console.log(medicoLista);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    //função onde passa os dados do agendamento de uma tela para outra
+    function handleContinue() {
+        navigation.replace("SelecionarData", {
+            agendamento: {
+                ...route.params.agendamento,
+
+                ...medico
+            }
         })
     }
 
@@ -33,23 +44,11 @@ export const SelecionarMedico = ({ navigation }) => {
         ListarMedico();
     }, [])
 
-    const [medico, setMedico] = useState([
-        {
-            id: "1",
-            name: "Dra Alessandra",
-            especialidade: "Demartologa, Esteticista",
-        },
-        {
-            id: "2",
-            name: "Dr Kumushiro",
-            especialidade: "Cirurgião, Cardiologista",
-        },
-        {
-            id: "3",
-            name: "Dr Rodrigo Santos",
-            especialidade: "Clínico, Pediatra",
-        },
-    ]);
+    useEffect(() => {
+        console.log(route);
+    }, [])
+
+    const [medico, setMedico] = useState()
 
     //Criar state para receber a lista de medicos (array)
 
@@ -75,15 +74,19 @@ export const SelecionarMedico = ({ navigation }) => {
                         keyExtractor={(item) => item.id}
 
                         renderItem={({ item }) =>
-                        
-                            <ButtonCardMedico medico={item}/>
+
+                            <ButtonCardMedico
+                                selected={medicoLista && medicoLista.medicoClinicaId == item.id}
+                                medico={item}
+                                setMedico={setMedico}
+                            />
                         }
 
                         showsVerticalScrollIndicator={false}
                         scrollEnabled={false}
                     />
 
-                    <ButtonRecover onPress={() => navigation.navigate("SelecionarData")}>
+                    <ButtonRecover onPress={() => handleContinue()}>
                         <ButtonTitle>Continuar</ButtonTitle>
                     </ButtonRecover>
 
