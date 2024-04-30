@@ -13,8 +13,7 @@ export const SelecionarClinica = ({
     navigation, route
 }) => {
        
-    const [selected, setSelected] = useState("")
-    const [nameClinic, setNameClinic] = useState("")
+    const [border, setBorder] = useState(null)
 
     const [listaClinica, setListaClinica] = useState([])
 
@@ -43,7 +42,8 @@ export const SelecionarClinica = ({
 
     useEffect(() => {
         ListarClinicas()
-    },[])
+        console.log(border);
+    },[border])
 
     useEffect(() => {
        console.log(route);
@@ -65,6 +65,8 @@ export const SelecionarClinica = ({
                                 selected={listaClinica && listaClinica.clinicaId == item.id}
                                 clinica={item}
                                 setClinica={setClinica}
+                                setBorder={setBorder}
+                                clickButton={item.id == border}
                             />
                         }
 
@@ -75,6 +77,7 @@ export const SelecionarClinica = ({
                     <Button onPress={() => handleContinue()}>
                         <ButtonTitle>Continuar</ButtonTitle>
                     </Button>
+
 
                     <LinkEndModal onPress={() => navigation.replace("Main")}>Cancelar</LinkEndModal>
                 </MainContent>

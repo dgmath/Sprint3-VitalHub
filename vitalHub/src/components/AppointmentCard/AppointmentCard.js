@@ -2,6 +2,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { ButtonCard, ButtonText, ClockCard, ContainerCardList, ContentCard, DataProfileCard, ProfileData, ProfileImage, ProfileName, TextAge, TextBold, TextBold2, ViewRow } from "./style";
 import { TouchableOpacity } from 'react-native';
 import { calcularIdade } from '../../utils/Auth';
+import moment from 'moment';
 
 export const AppointmentCard = ({
     onPressCancel,
@@ -33,7 +34,7 @@ export const AppointmentCard = ({
                 <ViewRow>
                     <ClockCard situacao={consulta.situacao.situacao}>
                         <AntDesign name="clockcircle" size={14} color={consulta.situacao.situacao == 'Agendadas' ? "#49B3BA" : "#4E4B59"} />
-                        <TextBold situacao={consulta.situacao.situacao}>14:00</TextBold>
+                        <TextBold situacao={consulta.situacao.situacao}>{moment(consulta.dataConsulta).format("HH:mm")}</TextBold>
                     </ClockCard>
 
                     {

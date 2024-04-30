@@ -11,13 +11,15 @@ import api from "../../Services/Services";
 
 export const SelecionarMedico = ({ navigation, route }) => {
 
+    const [border, setBorder] = useState(null)
+
     const [selected, setSelected] = useState("")
     //Array para receber a lista de medicos
     const [medicoLista, setMedicoLista] = useState([]);
 
     async function ListarMedico() {
         //Instanciar a nossa conexao da api
-        //chamando o metodo via a api passando dentro do metodo o caminho da chamada
+        //chamando o metodo via a api passando dentro do metodo o caminho da chamada'
         await api.get(`/Medicos/BuscarPorIdClinica?id=${route.params.agendamento.clinicaId}`)
             .then(response => {
                 //setando a lista com o response.data ou seja todo o retorno
@@ -46,7 +48,7 @@ export const SelecionarMedico = ({ navigation, route }) => {
 
     useEffect(() => {
         console.log(route);
-    }, [])
+    }, [route])
 
     const [medico, setMedico] = useState()
 
@@ -79,6 +81,8 @@ export const SelecionarMedico = ({ navigation, route }) => {
                                 selected={medicoLista && medicoLista.medicoClinicaId == item.id}
                                 medico={item}
                                 setMedico={setMedico}
+                                clickButton={item.id == border}
+                                setBorder={setBorder}
                             />
                         }
 

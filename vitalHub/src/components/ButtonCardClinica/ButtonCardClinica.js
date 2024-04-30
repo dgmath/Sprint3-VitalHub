@@ -1,24 +1,33 @@
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ButtonContent, CalendarText, CalendarView, Container, DataProfileCard, DataProfileCard2, LocalText, StarText, StarView, TitleClinica } from './style';
+import { useState } from 'react';
 
 export const ButtonCardClinica = ({
     // name,
     // stars,
     // local,
-    operatingDays,
+    clickButton,
     clinica,
     setClinica,
-    selected
+    selected,
+    setBorder
 }) => {
+
+    function borda() {
+        setBorder(clinica.id)
+        setClinica({
+            clinicaId: clinica.id,
+            clinicaLabel: clinica.nomeFantasia
+        })
+    }
     return (
         <Container>
-            <ButtonContent 
+            <ButtonContent
                 selected={selected}
-                onPress={() => setClinica({
-                    clinicaId: clinica.id,
-                    clinicaLabel: clinica.nomeFantasia
-                })}
+                clickButton={clickButton}
+                onPress={() => borda()}
+
             >
                 <DataProfileCard>
                     <TitleClinica>{clinica.nomeFantasia}</TitleClinica>

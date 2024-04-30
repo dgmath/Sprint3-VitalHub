@@ -20,7 +20,8 @@ import { ActivityIndicator } from "react-native"
 
 export const Login = ({ navigation }) => {
 
-    const [email, setEmail] = useState('paciente@email.com')
+    // const [email, setEmail] = useState('paciente@email.com')
+    const [email, setEmail] = useState('paciente2@email.com')
     // const [email, setEmail] = useState('medico2@email.com')
     const [senha, setSenha] = useState('1234')
     const [loading, setLoading] = useState(false)

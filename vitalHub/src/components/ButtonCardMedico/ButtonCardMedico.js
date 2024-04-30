@@ -4,20 +4,27 @@ import { ButtonContent, DataProfileCard, ImageCardMedico, NameMedico, SpecialtyT
 export const ButtonCardMedico = ({
     selected,
     medico,
-    setMedico
+    setMedico,
+    setBorder,
+    clickButton
 }) => {
+    function borda() {
+        setBorder(medico.id)
+        setMedico({
+            medicoClinicaId: medico.id,
+            medicoLabel: medico.idNavigation.nome,
+            medicoEspecialidade: medico.especialidade.especialidade1
+        })
+    }
     return (
         <ContainerPerfil>
             <ButtonContent
-                onPress={() => setMedico({
-                    medicoClinicaId: medico.id,
-                    medicoLabel: medico.idNavigation.nome,
-                    medicoEspecialidade: medico.especialidade.especialidade1
-                })}
-                ClickButton={selected}
+                clickButton={clickButton}
+                onPress={() => borda()}
+                selected={selected}
             >
 
-                <ImageCardMedico source={require("../../../assets/Perfil.jpg")}/>
+                <ImageCardMedico source={{ uri: medico.idNavigation.foto }} />
 
                 <DataProfileCard>
                     {/* Entrando na propriedade e trazendo oq for necessarios */}

@@ -21,7 +21,7 @@ export const ButtonContent = styled.TouchableOpacity`
     elevation: 10;
     background-color: white;
     
-    ${props => props.selected ? css`
+    ${props => props.clickButton ? css`
         border: 2px solid #496BBA;
     `
     : css`

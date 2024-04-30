@@ -157,6 +157,15 @@ export const Home = ({
                 renderItem={({ item }) =>
                     // console.log(item)
                     statusLista == item.situacao.situacao ? (
+                        profile.role == 'Medico' ? (
+                            <AppointmentCard
+                            consulta={item}
+                            profile={profile}
+                            onPressAppointment={() => MostrarModal('prontuario', item)}
+                            onPressCancel={() => MostrarModal('cancelar', item)}
+                            
+                        />
+                        ) :
                         <AppointmentCard
                             consulta={item}
                             profile={profile}

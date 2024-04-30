@@ -1,4 +1,4 @@
-import { Modal } from "react-native"
+import { ActivityIndicator, Modal } from "react-native"
 import { BoxModal, ModalContent, ModalImage, ModalText, PatientModal } from "../ProntuarioModal/style"
 import { TitleModal } from "../Title/style"
 import { ModalButton } from "../Button/style"
@@ -37,26 +37,29 @@ export const DoctorModal = ({
             <PatientModal>
                 <ModalContent>
 
-                    <ModalImage source={profile.role == 'Paciente' ? require("../../../src/assets/Doctor.png") : require("../../../src/assets/ImagePerfil.jpg")} />
+                    {
+                        consulta ? (
+                            <>
+                                <ModalImage source={{ uri: consulta.medicoClinica.medico.idNavigation.foto }} />
 
 
-                    <TitleModal>Gois</TitleModal>
+                                <TitleModal>Gois</TitleModal>
 
-                    <BoxModal>
-                        <ModalText>Cliníco geral</ModalText>
-                        <ModalText>CRM-15286</ModalText>
-                    </BoxModal>
+                                <BoxModal>
+                                    <ModalText>{consulta.medicoClinica.medico.especialidade.especialidade1}</ModalText>
+                                    <ModalText>{consulta.medicoClinica.medico.crm}</ModalText>
+                                </BoxModal>
 
-                    {profile.role == 'Medico' ?
-                        <>
-                        </>
+                                <ModalButton onPress={() => HandlePress("PlaceConsult")}>
+                                    <ButtonTitle>Ver local da consulta</ButtonTitle>
+                                </ModalButton>
 
-                        :
-                        <ModalButton onPress={() => HandlePress("PlaceConsult")}>
-                            <ButtonTitle>Ver local da consulta</ButtonTitle>
-                        </ModalButton>
+                                <LinkEndModal onPress={() => setShowModalLocal(false)}>Cancelar</LinkEndModal>
+                            </>
+                        ) : (<ActivityIndicator/>)
+
                     }
-                    <LinkEndModal onPress={() => setShowModalLocal(false)}>Cancelar</LinkEndModal>
+
 
                 </ModalContent>
             </PatientModal>

@@ -16,17 +16,28 @@ export const SelecionarData = ({
 
     const [agendamento, setAgendamento] = useState(null);
 
-    const [dataSelecionada, setDataSelecionada] = useState('');
-
     const [horaSelecionada, setHoraSelecionada] = useState('');
+    
+    const [dataSelecionada, setDataSelecionada] = useState('');
 
     const [showModalAgendar, setShowModalAgendar] = useState(false);
 
-    
+    function handleContinue() {
+        setAgendamento({
+            ...route.params.agendamento,
+            dataConsulta: `${dataSelecionada} ${horaSelecionada}`
+        });
+
+        setShowModalAgendar(true)
+    }
 
     useEffect(() => {
         console.log(dataSelecionada);
      },[dataSelecionada])
+
+    useEffect(() => {
+        console.log(route);
+     },[route])
     return (
         <ContainerPerfil>
 
@@ -45,7 +56,7 @@ export const SelecionarData = ({
             </ContainerForm>
 
             <ButtonRecover
-                onPress={() => setShowModalAgendar(true)}
+                onPress={() => handleContinue()}
             >
                 <ButtonTitle>Confirmar</ButtonTitle>
             </ButtonRecover>
@@ -54,6 +65,7 @@ export const SelecionarData = ({
 
             <ModalAgendarConsulta
                 visible={showModalAgendar}
+                agendamento={agendamento}
                 setShowModalAgendar={setShowModalAgendar}
                 navigation={navigation}
             />
