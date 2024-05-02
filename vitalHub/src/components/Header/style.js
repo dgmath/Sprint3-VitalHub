@@ -24,6 +24,7 @@ export const DataUser = styled.View`
 `
 
 export const TextDefault = styled.Text`
+    color: #4E4B59;
     font-family: "Quicksand_500Medium";
     font-size: 14px;
 `

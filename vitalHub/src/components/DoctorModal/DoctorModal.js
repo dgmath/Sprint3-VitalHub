@@ -38,7 +38,7 @@ export const DoctorModal = ({
                 <ModalContent>
 
                     {
-                        consulta ? (
+                        consulta != null && profile.role == 'Paciente' ? (
                             <>
                                 <ModalImage source={{ uri: consulta.medicoClinica.medico.idNavigation.foto }} />
 

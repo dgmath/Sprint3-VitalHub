@@ -5,7 +5,7 @@ import { Label } from "../Label"
 export const BoxInput = ({
     fieldWidth = 100,
     fieldHeight = 50,
-    BorderColor = "#F5F3F3",
+    BorderColor = "#49B3BA",
     editable = false,
     textLabel,
     placeholder,

@@ -7,7 +7,7 @@ import moment from 'moment';
 export const AppointmentCard = ({
     onPressCancel,
     onPressAppointment,
-    onPressDoctor,
+    // onPressDoctor,
     consulta,
     profile
 }) => {
@@ -15,9 +15,19 @@ export const AppointmentCard = ({
 
     return (
         <ContainerCardList>
-            <TouchableOpacity onPress={onPressDoctor}>
-                <ProfileImage source={profile.role == 'Paciente' ? {uri : consulta.medicoClinica.medico.idNavigation.foto} : {uri : consulta.paciente.idNavigation.foto}} />
-            </TouchableOpacity>
+            {profile.role == 'Paciente' ?
+
+                (
+                    <TouchableOpacity onPress={onPressDoctor}>
+                        <ProfileImage source={{ uri: consulta.medicoClinica.medico.idNavigation.foto }} />
+                    </TouchableOpacity>
+                )
+                : (
+                    <TouchableOpacity>
+                        <ProfileImage source={{ uri: consulta.paciente.idNavigation.foto }} />
+                    </TouchableOpacity>
+                )}
+
 
             <ContentCard>
                 <DataProfileCard>
@@ -38,17 +48,17 @@ export const AppointmentCard = ({
                     </ClockCard>
 
                     {
-                        consulta.situacao.situacao == "Canceladas" ? (
-                            <>
-                            </>
+                        consulta.situacao.situacao == "Realizadas" ? (
+                            <ButtonCard>
+                                <ButtonText situacao={consulta.situacao.situacao} onPress={onPressAppointment}>Ver Prontuario</ButtonText>
+                            </ButtonCard>
                         ) : consulta.situacao.situacao == "Agendadas" ? (
                             <ButtonCard>
                                 <ButtonText situacao={consulta.situacao.situacao} onPress={onPressCancel}>Cancelar</ButtonText>
                             </ButtonCard>
                         ) : (
-                            <ButtonCard>
-                                <ButtonText situacao={consulta.situacao.situacao} onPress={onPressAppointment}>Ver Prontuario</ButtonText>
-                            </ButtonCard>
+                            <>
+                            </>
                         )
                     }
 

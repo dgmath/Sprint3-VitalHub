@@ -60,11 +60,11 @@ export const Home = ({
 
         setConsultaSelecionada(consulta)
 
-        if (modal == 'cancelar') {
-            setShowModalCancel(true)
-        }
-        else if (modal == 'prontuario') {
+        if (modal == 'prontuario') {
             setShowModalAppointment(true)
+        }
+        else if (modal == 'cancelar') {
+            setShowModalCancel(true)
         }
         else {
             setShowModalLocal(true)
@@ -157,15 +157,6 @@ export const Home = ({
                 renderItem={({ item }) =>
                     // console.log(item)
                     statusLista == item.situacao.situacao ? (
-                        profile.role == 'Medico' ? (
-                            <AppointmentCard
-                            consulta={item}
-                            profile={profile}
-                            onPressAppointment={() => MostrarModal('prontuario', item)}
-                            onPressCancel={() => MostrarModal('cancelar', item)}
-                            
-                        />
-                        ) :
                         <AppointmentCard
                             consulta={item}
                             profile={profile}
@@ -179,48 +170,7 @@ export const Home = ({
 
                 showsVerticalScrollIndicator={false}
             />
-
-            {/* {PacienteOuN ?
-                <ListComponent
-                    data={Consultas}
-                    keyExtractor={(item) => item.id}
-
-                    renderItem={({ item }) =>
-                        statusLista == item.situacao ? (
-                            <AppointmentCard
-                                situacao={item.situacao}
-                                informacao={item}
-                                onPressCancel={() => setShowModalCancel(true)}
-                                onPressDoctor={() => { setShowModalDoctor(true); setInfo(item) }}
-                                onPressAppointment={() => PacienteOuN ? navigation.navigate("Prescricao") : setShowModalAppointment(true)}
-
-                            />
-                        ) : null
-                    }
-
-                    showsVerticalScrollIndicator={false}
-                />
-                :
-                <ListComponent
-                    data={Paciente}
-                    keyExtractor={(item) => item.id}
-
-                    renderItem={({ item }) =>
-                        statusLista == item.situacao && (
-                            <AppointmentCard
-                                situacao={item.situacao}
-                                informacao={item}
-                                onPressCancel={() => setShowModalCancel(true)}
-                                onPressAppointment={() => setShowModalAppointment(true)}
-
-                            />
-                        )
-                    }
-
-                    showsVerticalScrollIndicator={false}
-                />
-            } */}
-
+            
             <CancelationModal
                 consulta={consultaSelecionada}
                 visible={showModalCancel}
@@ -256,7 +206,6 @@ export const Home = ({
                 setShowModalLocal={setShowModalLocal}
                 profile={profile}
                 consulta={consultaSelecionada}
-            // informacao={info}
             />
 
 

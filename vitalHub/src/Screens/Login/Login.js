@@ -2,7 +2,7 @@ import { Container, ContentAccount } from "../../components/Container/style"
 import { Logo } from "../../components/Logo/style"
 import { Title } from "../../components/Title/style"
 import { Input } from "../../components/Input/style"
-import { LinkEnd, LinkMedium } from "../../components/Link/style"
+import { LinkEnd, LinkMedium, TextLink } from "../../components/Link/style"
 import { ButtonTitle } from "../../components/ButtonTitle/style"
 import { Button, ButtonGoogle } from "../../components/Button/style"
 import { ButtonTitleGoogle } from "../../components/ButtonTitleGoogle/style"
@@ -87,7 +87,9 @@ export const Login = ({ navigation }) => {
 
             <ContentAccount>
                 <TextAccount>Não tem conta?</TextAccount>
-                <LinkEnd onPress={() => navigation.navigate("Cadastro")}>Crie uma conta agora!</LinkEnd>
+                <LinkEnd onPress={() => navigation.navigate("Cadastro")}>
+                    <TextLink>Crie uma conta agora!</TextLink>
+                </LinkEnd>
             </ContentAccount>
 
         </Container>

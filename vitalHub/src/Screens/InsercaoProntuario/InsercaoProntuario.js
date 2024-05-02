@@ -74,9 +74,9 @@ export const InsercaoProntuario = ({ navigation, route }) => {
 
                         <ImagePerfil source={{uri : consultaSelecionada.paciente.idNavigation.foto}} />
 
-                        <TitlePerfil>Miguel Arteta</TitlePerfil>
+                        <TitlePerfil>{consultaSelecionada.paciente.idNavigation.nome}</TitlePerfil>
 
-                        <SubTitlePerfil>miguel.arteta@gmail.com</SubTitlePerfil>
+                        <SubTitlePerfil>{consultaSelecionada.paciente.idNavigation.email}</SubTitlePerfil>
 
                         <ContainerForm>
                             {preenchido == true ?  (

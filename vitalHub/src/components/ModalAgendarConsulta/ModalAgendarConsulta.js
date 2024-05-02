@@ -71,8 +71,8 @@ export const ModalAgendarConsulta = ({
                         <ModalTextForm>{agendamento.prioridadeLabel}</ModalTextForm>
                     </ContainerForm>
 
-                    <ModalButton>
-                        <ButtonTitle onPress={() => handleConfirm()}>Confirmar</ButtonTitle>
+                    <ModalButton onPress={() => handleConfirm()}>
+                        <ButtonTitle>Confirmar</ButtonTitle>
                     </ModalButton>
 
                     <LinkEndModal onPress={() => setShowModalAgendar(false)}>Cancelar</LinkEndModal>

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const PatientModal = styled.View`
     flex: 1;
@@ -34,10 +34,22 @@ export const Button = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    ${props => props.clickButton ? css`
+        background-color: #34898F;
+        border: transparent;
+    `
+    : css`
+        background-color: white;
+    `}
 `
 
 export const TextButton = styled.Text`
     font-size: 14px;
     font-family: "MontserratAlternates_600SemiBold";
-    color: #34898F;
+    ${props => props.clickButton ? css`
+        color: white;
+    `
+    : css`
+            color: #34898F;
+    `}
 `
