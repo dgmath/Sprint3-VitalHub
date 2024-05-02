@@ -194,8 +194,10 @@ export const Perfil = ({ navigation }) => {
 
 
     useEffect(() => {
-        GetProfile()
-    }, [])
+        if (preenchido) {
+            GetProfile() 
+        }
+    }, [preenchido])
 
 
     useEffect(() => {
