@@ -1,4 +1,4 @@
-import { BoxInput } from "../../components/BoxInput";
+import { BoxInput, BoxInput2 } from "../../components/BoxInput";
 import { ContainerInputPerfil, ContainerInputRow, ContainerInputRowOne, ContainerPerfil, MainContent, MainContentScroll } from "../../components/Container/style";
 import { ImagePerfil } from "../../components/Logo/style";
 import { SubTitlePerfil } from "../../components/Text/style";
@@ -21,6 +21,8 @@ import { ModalCamera } from "../../components/ModalCamera/ModalCamera";
 import * as MediaLibrary from 'expo-media-library'
 import * as ImagePicker from 'expo-image-picker'
 
+import { UpdateProfileModal } from "../../components/UpdatePerfilModal/UpdatePerfilModal";
+
 export const Perfil = ({ navigation }) => {
     const [userData, setUserData] = useState(null)
     const [role, setRole] = useState('')
@@ -28,8 +30,7 @@ export const Perfil = ({ navigation }) => {
 
     const [showModalCamera, setShowModalCamera] = useState(false)
     const [uriCameraCapture, setUriCameraCapture] = useState(null)
-
-
+    
     const [showSaveBtn, setShowSaveBtn] = useState(false)
 
     const [preenchido, setPreenchido] = useState(false)
@@ -146,17 +147,17 @@ export const Perfil = ({ navigation }) => {
                 });
             } else {
                 await api.put('/Medicos',{
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type' : 'application/json'
-                    }
-                },{
                     nome : nomeM ,
                     crm : crm,
                     cep : cepM,
                     logradouro : logradouroP,
                     numero : numeroP,
                     cidade : cidadeP,
+                },{
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type' : 'application/json'
+                    }
                 });
             }
 
@@ -239,30 +240,30 @@ export const Perfil = ({ navigation }) => {
                             <>
                                 {role == 'Medico' ? (
                                     <ContainerInputPerfil>
-                                        <BoxInput
+                                        <BoxInput2
                                             textLabel='Nome:'
                                             placeholder='Seu Nome'
                                             fieldValue={userData.idNavigation.nome}
                                         />
-                                        <BoxInput
+                                        <BoxInput2
                                             textLabel='Especialidade:'
                                             placeholder='Especialidade Medica'
                                             fieldValue={userData.especialidade.especialidade1}
                                         />
-                                        <BoxInput
+                                        <BoxInput2
                                             textLabel='CRM:'
                                             placeholder='CRM Medico'
                                             fieldValue={userData.crm}
                                         />
 
                                         <ContainerInputRowOne>
-                                            <BoxInput
+                                            <BoxInput2
                                                 fieldWidth={60}
                                                 textLabel='Endereco:'
                                                 placeholder='Endereco'
                                                 fieldValue={userData.endereco.logradouro}
                                             />
-                                            <BoxInput
+                                            <BoxInput2
                                                 fieldWidth={40}
                                                 textLabel='Numero:'
                                                 placeholder='Numero'
@@ -271,13 +272,13 @@ export const Perfil = ({ navigation }) => {
                                         </ContainerInputRowOne>
 
                                         <ContainerInputRow>
-                                            <BoxInput
+                                            <BoxInput2
                                                 fieldWidth={50}
                                                 textLabel='CEP:'
                                                 placeholder='CEP'
                                                 fieldValue={userData.endereco.cep}
                                             />
-                                            <BoxInput
+                                            <BoxInput2
                                                 fieldWidth={50}
                                                 textLabel='Cidade:'
                                                 placeholder='Cidade'
@@ -287,34 +288,34 @@ export const Perfil = ({ navigation }) => {
                                     </ContainerInputPerfil>
                                 ) : (
                                     <ContainerInputPerfil>
-                                        <BoxInput
+                                        <BoxInput2
                                             textLabel='Nome:'
                                             placeholder='Seu Nome'
                                             fieldValue={userData.idNavigation.nome}
                                         />
-                                        <BoxInput
+                                        <BoxInput2
                                             textLabel='RG:'
                                             placeholder='Seu RG'
                                             fieldValue={userData.rg}
                                         />
-                                        <BoxInput
+                                        <BoxInput2
                                             textLabel='Data de nascimento:'
                                             placeholder='Ex.DD-MM-YYYY'
                                             fieldValue={moment(userData.dataNascimento).format('DD-MM-YYYY')}
                                         />
-                                        <BoxInput
+                                        <BoxInput2
                                             textLabel='CPF:'
                                             placeholder='CPF'
                                             fieldValue={userData.cpf}
                                         />
                                         <ContainerInputRowOne>
-                                            <BoxInput
+                                            <BoxInput2
                                                 fieldWidth={60}
                                                 textLabel='Endereco:'
                                                 placeholder='Endereco'
                                                 fieldValue={userData.endereco.logradouro}
                                             />
-                                            <BoxInput
+                                            <BoxInput2
                                                 fieldWidth={40}
                                                 textLabel='Numero:'
                                                 placeholder='Numero'
@@ -323,13 +324,13 @@ export const Perfil = ({ navigation }) => {
                                         </ContainerInputRowOne>
 
                                         <ContainerInputRow>
-                                            <BoxInput
+                                            <BoxInput2
                                                 fieldWidth={50}
                                                 textLabel='CEP:'
                                                 placeholder='CEP'
                                                 fieldValue={userData.endereco.cep}
                                             />
-                                            <BoxInput
+                                            <BoxInput2
                                                 fieldWidth={50}
                                                 textLabel='Cidade:'
                                                 placeholder='Cidade'
@@ -350,11 +351,11 @@ export const Perfil = ({ navigation }) => {
                                             onChangeText={(txt) => setNomeM(txt)}
                                             editable={true}
                                         />
-                                        {/* <BoxInput
+                                        <BoxInput
                                             textLabel='Especialidade:'
                                             placeholder='Especialidade Medica'
                                             fieldValue={userData.especialidade.especialidade1}
-                                        /> */}
+                                        />
                                         <BoxInput
                                             textLabel='CRM:'
                                             placeholder='CRM Medico'
@@ -502,6 +503,12 @@ export const Perfil = ({ navigation }) => {
                 setShowCameraModal={setShowModalCamera}
                 getMediaLibrary={true}
             />
+
+            {/* <UpdateProfileModal
+                // navigation={navigation}
+                visible={showModalUpdate}
+                setShowModalSchedule={setShowModalUpdate}
+            /> */}
 
         </ContainerPerfil>
     )
