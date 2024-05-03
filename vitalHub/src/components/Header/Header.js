@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { userDecodeToken } from "../../utils/Auth";
 import { ContainerHeader } from "../Container/style";
 import { BoxIcon, BoxUser, DataUser, ImageUser, NameUser, TextDefault } from "./style";
 import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator } from "react-native";
 import api from "../../Services/Services";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const Header = () => {
 
@@ -45,9 +46,9 @@ export const Header = () => {
 
     }
 
-    useEffect(() => {
+    useFocusEffect( React.useCallback(() => {
         ProfileLoad()
-    }, [user])
+    }, [user]))
 
     return (
         <ContainerHeader>

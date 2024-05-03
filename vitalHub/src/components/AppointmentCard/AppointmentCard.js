@@ -7,7 +7,7 @@ import moment from 'moment';
 export const AppointmentCard = ({
     onPressCancel,
     onPressAppointment,
-    // onPressDoctor,
+    onPressDoctor,
     consulta,
     profile
 }) => {

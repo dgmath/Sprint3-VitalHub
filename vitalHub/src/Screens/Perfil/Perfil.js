@@ -67,11 +67,8 @@ export const Perfil = ({ navigation }) => {
 
 
         if (tokenRole.role == 'Paciente') {
-            await api.get('/Pacientes/PerfilLogado', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).then(response => {
+            await api.get(`/Pacientes/BuscarPorId?id=${tokenRole.user}` 
+            ).then(response => {
 
                 console.log(response.data);
                 setUserData(response.data);
@@ -136,14 +133,14 @@ export const Perfil = ({ navigation }) => {
         try {
             if (tokenRole.role == 'Paciente') {
                 await api.put(`/Pacientes?idUsuario=${user}`,{
-                    nome: nomeP,
                     rg: rgP,
-                    dataNascimento: dataNascimentoP,
                     cpf: cpfP,
+                    dataNascimento: dataNascimentoP,
                     cep: cepP,
                     logradouro: logradouroP,
                     numero: numeroP,
                     cidade: cidadeP,
+                    nome: nomeP,
                 });
             } else {
                 await api.put('/Medicos',{
@@ -165,6 +162,7 @@ export const Perfil = ({ navigation }) => {
 
 
             console.log("Dados do usuário atualizados com sucesso!");
+            GetProfile()
 
         } catch (error) {
 
@@ -187,6 +185,7 @@ export const Perfil = ({ navigation }) => {
             }
         }).then(response => {
             console.log(response);
+            setPreenchido(true)
         }).catch(error => {
             console.log(error);
         })
@@ -194,10 +193,9 @@ export const Perfil = ({ navigation }) => {
 
 
     useEffect(() => {
-        if (preenchido) {
             GetProfile() 
-        }
-    }, [preenchido])
+            console.log(nomeP);
+    }, [])
 
 
     useEffect(() => {
@@ -447,7 +445,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldWidth={40}
                                                 textLabel='Numero:'
                                                 placeholder='Numero'
-                                                fieldValue={JSON.stringify(numeroP)}
+                                                fieldValue={numeroP}
                                                 onChangeText={(txt) => setNumeroP(txt)}
                                                 editable={true}
                                             />
@@ -480,7 +478,7 @@ export const Perfil = ({ navigation }) => {
 
 
 
-                        <Button onPress={() => UpdateProfile() && setPreenchido(true)}
+                        <Button onPress={() => UpdateProfile()}
                         >
                             <ButtonTitle>Salvar</ButtonTitle>
                         </Button>

@@ -103,7 +103,7 @@ export const Home = ({
 
     useEffect(() => {
         ProfileLoad()
-    }, [])
+    }, [profile])
 
     useEffect(() => {
         if (dataConsulta != '') {
