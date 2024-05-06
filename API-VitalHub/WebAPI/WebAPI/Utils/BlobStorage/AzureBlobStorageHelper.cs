@@ -40,7 +40,7 @@ namespace WebAPI.Utils.BlobStorage
                 else
                 {
                     //Imagem padrão
-                    return "https://blobvitalhubmatheusd.blob.core.windows.net/containervitalhubmatheusd/profilePatern.jpg";
+                    return "https://blobvitalhubguilhermeg.blob.core.windows.net/containervitalhubguilhermeg/01db848c731345bf92dcf458f4eb03fc.jpg";
                 }
             }
             catch (Exception)
