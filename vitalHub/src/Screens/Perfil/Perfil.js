@@ -31,8 +31,6 @@ export const Perfil = ({ navigation }) => {
     const [showModalCamera, setShowModalCamera] = useState(false)
     const [uriCameraCapture, setUriCameraCapture] = useState(null)
     
-    const [showSaveBtn, setShowSaveBtn] = useState(false)
-
     const [preenchido, setPreenchido] = useState(false)
 
     // states para editar dados do medico
@@ -505,12 +503,6 @@ export const Perfil = ({ navigation }) => {
                 setShowCameraModal={setShowModalCamera}
                 getMediaLibrary={true}
             />
-
-            {/* <UpdateProfileModal
-                // navigation={navigation}
-                visible={showModalUpdate}
-                setShowModalSchedule={setShowModalUpdate}
-            /> */}
 
         </ContainerPerfil>
     )
