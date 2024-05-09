@@ -5,7 +5,7 @@ import { Logo } from "../../components/Logo/style";
 import { TitleCheck } from "../../components/Title/style";
 import { SubTitle } from "../../components/Text/style";
 import { Input, InputVerify } from "../../components/Input/style";
-import { LinkEnd } from "../../components/Link/style";
+import { LinkEnd, TextLink } from "../../components/Link/style";
 import { ButtonRecover } from "../../components/Button/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style";
 import { useState, useRef, useEffect } from "react";
@@ -20,25 +20,25 @@ export const CheckEmail = ({ navigation, route }) => {
     function focusNextInput(index) {
         //Verificar se o index é menor do que a quantidade de campos
         if (index < inputs.length - 1) {
-            inputs[ index + 1 ].current.focus()
+            inputs[index + 1].current.focus()
         }
     }
 
     function focusPrevInput(index) {
         //Verificar se o index é menor do que a quantidade de campos
         if (index > 0) {
-            inputs[ index - 1 ].current.focus()
+            inputs[index - 1].current.focus()
         }
     }
 
     async function ValidarCodigo() {
         await api.post(`/RecuperarSenha/ValidarCodigo?email=${route.params.emailRecuperacao}&codigo=${codigo}`)
-        .then( () => {
-            navigation.replace("ChangeSenha", {emailRecuperacao : route.params.emailRecuperacao})
-        })
-        .catch(error => {
-            console.log(error);
-        })
+            .then(() => {
+                navigation.replace("ChangeSenha", { emailRecuperacao: route.params.emailRecuperacao })
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     return (
@@ -80,15 +80,15 @@ export const CheckEmail = ({ navigation, route }) => {
                             onChangeText={(txt) => {
                                 //Verificar se o campo é vazio
                                 if (txt == '') {
-                                    focusPrevInput( index )
+                                    focusPrevInput(index)
                                 }
                                 else {
                                     //Verificar se o campo foi preenchido
-                                    const codigoInformado = [... codigo]
+                                    const codigoInformado = [...codigo]
                                     codigoInformado[index] = txt
-                                    setCodigo(codigoInformado.join("")) 
+                                    setCodigo(codigoInformado.join(""))
 
-                                    focusNextInput( index )
+                                    focusNextInput(index)
                                 }
                             }}
                         />
@@ -101,7 +101,9 @@ export const CheckEmail = ({ navigation, route }) => {
                 <ButtonTitle>Entrar</ButtonTitle>
             </ButtonRecover>
 
-            <LinkEnd>Reenviar codigo</LinkEnd>
+            <LinkEnd>
+                <TextLink> Reenviar codigo</TextLink>
+            </LinkEnd>
 
         </Container>
 

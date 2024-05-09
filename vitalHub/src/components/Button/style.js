@@ -52,6 +52,7 @@ export const  ButtonEditPerfil = styled(Button)`
     margin-bottom: 30px;
 `
 export const  ModalButton = styled(Button)`
+margin-bottom: 30px;
 `
 export const ButtonSairPerfil = styled.TouchableOpacity`
     width: 60%;

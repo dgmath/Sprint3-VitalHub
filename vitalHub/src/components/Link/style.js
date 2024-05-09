@@ -12,7 +12,10 @@ export const LinkMedium = styled.Text`
 `
 
 export const LinkEnd = styled.TouchableOpacity`
-
+    
+`
+export const LinkCancelar = styled.TouchableOpacity`
+    margin-top: 15px;
 `
 export const TextLink = styled.Text`
     font-size: 14px;
@@ -26,5 +29,5 @@ export const LinkMediumPres = styled(LinkMedium)`
 export const LinkEndModal = styled(LinkMedium)`
     color: #344F8F;
     align-self: center;
-    margin-top: 30px;
+    margin: 0px 0px 10px 0px;
 `

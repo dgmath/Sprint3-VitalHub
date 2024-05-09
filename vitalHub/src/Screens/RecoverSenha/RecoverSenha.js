@@ -7,7 +7,7 @@ import { SubTitle } from "../../components/Text/style";
 import { InputRecover } from "../../components/Input/style";
 import { ButtonRecover } from "../../components/Button/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style";
-import { LinkEnd } from "../../components/Link/style";
+import { LinkCancelar, LinkEnd, TextLink } from "../../components/Link/style";
 import { useState } from "react";
 import api from "../../Services/Services"
 
@@ -51,7 +51,9 @@ export const RecoverSenha = ({navigation}) => {
                 <ButtonTitle>Continuar</ButtonTitle>
             </ButtonRecover>
 
-            <LinkEnd onPress={() => navigation.navigate("Login")}>Cancelar</LinkEnd>
+            <LinkCancelar onPress={() => navigation.replace("Login")}>
+                <TextLink>Cancelar</TextLink>
+            </LinkCancelar>
 
 
         </Container>

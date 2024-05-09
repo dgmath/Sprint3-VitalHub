@@ -6,7 +6,7 @@ import moment from "moment";
 // import component StyledCalendarStrip
 import { StyledCalendarStrip } from './style';
 
-export const CalendarHome = ({setDataConsulta}) => {
+export const CalendarHome = ({setDataConsulta, selectedDateNew}) => {
     //define padrão pt-br para calendário
     moment.updateLocale("pt-br", {
 
@@ -45,6 +45,8 @@ export const CalendarHome = ({setDataConsulta}) => {
         <StyledCalendarStrip
 
             onDateSelected={date => setDataConsulta( moment(date).format('YYYY-MM-DD'))}
+            // onDateSelected={dataConsulta}
+            // selectedDate={dataConsulta}
 
             // animação e seleção de cada data
             calendarAnimation={{ type: "sequence", duration: 30 }}
@@ -55,7 +57,7 @@ export const CalendarHome = ({setDataConsulta}) => {
             iconRightStyle={styles.iconsStyle}
 
             // deixa uma marcação default - data atual
-            selectedDate={currentDate}
+            selectedDate={selectedDateNew != '' ? selectedDateNew : currentDate}
             // dia que começamos a visualizar a barra
             startingDate={moment()}
 

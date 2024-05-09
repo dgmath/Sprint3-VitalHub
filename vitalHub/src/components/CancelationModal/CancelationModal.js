@@ -42,13 +42,11 @@ export const CancelationModal = ({
 
 
     async function CancelarConsulta() {
-        await api.put(`/Consultas/Status`,{
-            id: consulta.id , situacaoId: '11215117-4485-4C02-82E7-C71AF491BA05'
-        })
+        await api.put(`/Consultas/Status?idConsulta=${consulta.id}&status=Canceladas`)
         .then(response => {
             console.log(123);
             console.log(response.data);
-            alert('Consulta cancelada')
+            // alert('Consulta cancelada')
             console.log(456);
             setShowModalCancel(false)
         })
@@ -56,6 +54,34 @@ export const CancelationModal = ({
             console.log(error);
         })
     }
+        //funçao para lidar com a chamada de notificaçao
+        const handleCallNotifications = async () => {
+
+            //obtem o status da permissao
+            const { status } = await Notifications.getPermissionsAsync();
+    
+            //verifica se o usuario permitiu as notificaçoes
+            if (status != 'granted') {
+                alert('Você não ativou as notificações')
+                return;
+            }
+    
+            //Agenda uma notificação
+            await Notifications.scheduleNotificationAsync({
+                content: {
+                    title: "Consulta Cancelada",
+                    body: "Sua consulta foi cancelada",
+                    sound: "Notification.mp3"
+                },
+                trigger: null
+                 
+            })
+        }
+
+        async function Chamada() {
+            CancelarConsulta()
+            handleCallNotifications()
+        }
 
 
     return (
@@ -73,7 +99,7 @@ export const CancelationModal = ({
 
                     <ModalText>Ao cancelar essa consulta, abrirá uma possível disponibilidade no seu horário, deseja mesmo cancelar essa consulta?</ModalText>
 
-                    <ModalButton onPress={() => CancelarConsulta()}>
+                    <ModalButton onPress={() => Chamada()}>
                         <ButtonTitle>Confirmar</ButtonTitle>
                     </ModalButton>
 

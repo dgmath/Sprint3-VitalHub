@@ -4,7 +4,7 @@ import { BoxImage, ContainerBoxPrescricao, ContainerImageProntuario, ImageProntu
 import { TitlePresc } from '../../components/Title/style';
 import { SubTitlePresc } from '../../components/Text/style';
 import { ContainerInputPresc, ContainerPerfil, MainContentScroll } from '../../components/Container/style';
-import { BoxInput } from '../../components/BoxInput';
+import { BoxInput, BoxInput2 } from '../../components/BoxInput';
 import { ButtonTitle } from '../../components/ButtonTitle/style';
 import { LinkEndModal, LinkMediumPres } from '../../components/Link/style';
 import { ImagePerfil } from '../../components/Logo/style';
@@ -87,25 +87,27 @@ export const Prescricao = ({
                     <SubTitlePresc>         {consultaSelecionada.medicoClinica.medico.especialidade.especialidade1}      {consultaSelecionada.medicoClinica.medico.crm}</SubTitlePresc>
 
                     <ContainerInputPresc>
-                        <BoxInput
+                        <BoxInput2
                             fieldWidth={90}
                             textLabel={"Descrição da consulta"}
                             fieldValue={consultaSelecionada.descricao}
                             fieldHeight={"121"}
+                            placeholder={"Descrição..."}
                         />
 
-                        <BoxInput
+                        <BoxInput2
                             fieldWidth={90}
                             textLabel={"Diagnóstico do paciente"}
                             fieldValue={consultaSelecionada.diagnostico}
                             placeholder={"Diagnóstico..."}
                         />
 
-                        <BoxInput
+                        <BoxInput2
                             fieldWidth={90}
                             textLabel={"Prescrição médica"}
                             // fieldValue={consultaSelecionada.receita.medicamento}
                             fieldHeight={"133"}
+                            placeholder={"Prescrição..."}
                         />
 
                         <ContainerImageProntuario>
@@ -139,7 +141,7 @@ export const Prescricao = ({
                         <Linha />
 
 
-                            <BoxInput
+                            <BoxInput2
                                 fieldWidth={90}
                                 textLabel={"Exames médicos"}
                                 fieldValue={descricao}

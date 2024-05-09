@@ -34,7 +34,9 @@ export const InputForm2 = ({
     onChangeText = null,
     keyType,
     maxLength,
-    editable = false
+    editable = false,
+    multiline={multiline}
+
 }) => {
     return (
         <InputPerfilCinza
@@ -46,7 +48,7 @@ export const InputForm2 = ({
             maxLength={maxLength}
             value={fieldValue}
             onChangeText={onChangeText}
-
+            multiline={multiline}
         />
     )
 }

@@ -15,6 +15,7 @@ import { tokenClean, userDecodeToken } from "../../utils/Auth"
 import api from "../../Services/Services"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import moment from "moment"
+import { ModalNotifications } from "../../components/ModalNotifications/ModalNotifications"
 
 // const Consultas = [
 //     { id: "1", name: "Dr.Claudio", situacao: "pendente" },
@@ -46,7 +47,8 @@ export const Home = ({
 
     const [consultaLista, setConsultaLista] = useState([])
     const [consultaSelecionada, setConsultaSelecionada] = useState()
-    const [dataConsulta, setDataConsulta] = useState('')
+
+    const [dataConsulta, setDataConsulta] = useState('') //YYYY-MM-DD
 
     const [statusLista, setStatusLista] = useState("Agendadas")
 
@@ -54,6 +56,13 @@ export const Home = ({
     const [showModalAppointment, setShowModalAppointment] = useState(false);
     const [showModalSchedule, setShowModalSchedule] = useState(false);
     const [showModalLocal, setShowModalLocal] = useState(false);
+
+    const [tokenClear, setTokenClear] = useState('')
+
+    const [showModalNotifications, setShowModalNotifications] = useState(false)
+
+    const [selectedDateNew, setSelectedDateNew] = useState('')
+
 
 
     function MostrarModal(modal, consulta) {
@@ -92,11 +101,11 @@ export const Home = ({
     const [profile, setProfile] = useState({})
 
     async function ProfileLoad() {
+        const tokenClear = await tokenClean()
+        setTokenClear(tokenClear)
         const token = await userDecodeToken();
         if (token != null) {
             setProfile(token)
-
-            setDataConsulta(moment().format('YYYY-MM-DD'))
         }
     }
 
@@ -116,16 +125,19 @@ export const Home = ({
         if (showModalCancel == false) {
             ListarConsulta()
         }
-    },[showModalCancel])
+    }, [showModalCancel])
 
     return (
         <ContainerPerfil>
 
 
-            <Header/>
+            <Header 
+            setShowModalNotifications={setShowModalNotifications}/>
 
             <CalendarHome
                 setDataConsulta={setDataConsulta}
+                // dataConsulta={dataConsulta}
+                selectedDateNew={selectedDateNew}
             />
 
             <FilterAppointment>
@@ -163,14 +175,14 @@ export const Home = ({
                             onPressAppointment={() => MostrarModal('prontuario', item)}
                             onPressCancel={() => MostrarModal('cancelar', item)}
                             onPressDoctor={() => MostrarModal('local', item)}
-                            
+
                         />
                     ) : null
                 }
 
                 showsVerticalScrollIndicator={false}
             />
-            
+
             <CancelationModal
                 consulta={consultaSelecionada}
                 visible={showModalCancel}
@@ -208,7 +220,15 @@ export const Home = ({
                 consulta={consultaSelecionada}
             />
 
-
+            <ModalNotifications
+                visible={showModalNotifications}
+                setShowModalNotifications={setShowModalNotifications}
+                token={tokenClear}
+                setDataConsulta={setDataConsulta}
+                dataConsulta={dataConsulta}
+                setSelectedDateNew={setSelectedDateNew}
+                setStatusLista={setStatusLista}
+            />
 
         </ContainerPerfil>
     )

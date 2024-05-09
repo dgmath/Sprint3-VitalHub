@@ -13,7 +13,8 @@ import { useState } from "react"
 
 import api from "../../Services/Services"
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ActivityIndicator } from "react-native"
+import { ActivityIndicator, Text } from "react-native"
+import { ModalNotifications } from "../../components/ModalNotifications/ModalNotifications"
 //validar input
 //travar o botao
 
@@ -21,34 +22,35 @@ import { ActivityIndicator } from "react-native"
 export const Login = ({ navigation }) => {
 
     // const [email, setEmail] = useState('paciente@email.com')
-    // const [email, setEmail] = useState('paciente2@email.com')
-    const [email, setEmail] = useState('medico2@email.com')
+    const [email, setEmail] = useState('paciente2@email.com')
+    // const [email, setEmail] = useState('medico2@email.com')
     const [senha, setSenha] = useState('1234')
     const [loading, setLoading] = useState(false)
+
 
     // const [user, setUser] = useState({});
 
     async function Logar(e) {
 
         // email.length >= 8 && senha.length >= 3 ? 
-            
-            setLoading(true)
 
-            await api.post('/Login', {
-                email: email,
-                senha: senha
-            }).then(async (response) => {
-                await AsyncStorage.setItem("token", JSON.stringify(response.data))
-                console.log(response);
-                setLoading(false)
-                navigation.replace('Main')
-            }).catch(error => {
-                setLoading(false)
-                console.log(error);
-            })
-            console.log(456);
+        setLoading(true)
 
-            // : alert('Preencha os dados corretamente')
+        await api.post('/Login', {
+            email: email,
+            senha: senha
+        }).then(async (response) => {
+            await AsyncStorage.setItem("token", JSON.stringify(response.data))
+            console.log(response);
+            setLoading(false)
+            navigation.replace('Main')
+        }).catch(error => {
+            setLoading(false)
+            console.log(error);
+        })
+        console.log(456);
+
+        // : alert('Preencha os dados corretamente')
     }
 
 
@@ -87,11 +89,14 @@ export const Login = ({ navigation }) => {
 
             <ContentAccount>
                 <TextAccount>Não tem conta?</TextAccount>
-                <LinkEnd onPress={() => navigation.navigate("Cadastro")}>
+                <LinkEnd onPress={() => navigation.replace("Cadastro")}>
                     <TextLink>Crie uma conta agora!</TextLink>
+                    {/* <Text>Crie uma conta agora!</Text> */}
                 </LinkEnd>
             </ContentAccount>
 
         </Container>
+
+
     )
 }

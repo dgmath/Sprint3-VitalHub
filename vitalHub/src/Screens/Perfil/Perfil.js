@@ -55,7 +55,7 @@ export const Perfil = ({ navigation }) => {
     const [numeroP, setNumeroP] = useState('')
     const [cidadeP, setCidadeP] = useState('')
 
-
+//resizeMode contain
     async function GetProfile() {
         const token = await tokenClean();
 
@@ -108,18 +108,14 @@ export const Perfil = ({ navigation }) => {
     }
 
     async function Logout() {
+
         await AsyncStorage.removeItem("token");
-        const tokenAfterClear = await AsyncStorage.getItem("token")
-        if (tokenAfterClear === null) {
-            console.log("Token apagado");
-            // console.log(token);
-        }
-        else {
-            console.log("Token não apagado");
-            console.log(token);
-        }
-        navigation.navigate("Login")
+
+        console.log("Token apagado");
+
+        navigation.replace("Login")
     }
+
 
     async function UpdateProfile() {
 

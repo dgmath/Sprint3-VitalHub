@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { userDecodeToken } from "../../utils/Auth";
+import { tokenClean, userDecodeToken } from "../../utils/Auth";
 import { ContainerHeader } from "../Container/style";
 import { BoxIcon, BoxUser, DataUser, ImageUser, NameUser, TextDefault } from "./style";
 import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator } from "react-native";
 import api from "../../Services/Services";
 import { useFocusEffect } from "@react-navigation/native";
+import { ModalNotifications } from "../ModalNotifications/ModalNotifications";
 
-export const Header = () => {
+export const Header = ({setShowModalNotifications}) => {
 
     const [userName, setUserName] = useState('')
     const [token, setToken] = useState('')
+
     const [user, setUser] = useState();
+
+
 
     async function ProfileLoad() {
         const token = await userDecodeToken();
+
 
         if (token) {
             console.log(token);
@@ -73,9 +78,11 @@ export const Header = () => {
 
             </BoxUser>
 
-            <BoxIcon>
+            <BoxIcon onPress={() => setShowModalNotifications(true)}>
                 <Ionicons name="notifications-sharp" size={24} color="white" />
             </BoxIcon>
+
+
 
         </ContainerHeader>
     )

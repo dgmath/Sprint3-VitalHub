@@ -40,10 +40,10 @@ export const DoctorModal = ({
                     {
                         consulta != null && profile.role == 'Paciente' ? (
                             <>
-                                <ModalImage source={{ uri: consulta.medicoClinica.medico.idNavigation.foto }} />
+                                <ModalImage style={{resizeMode: 'stretch'}} source={{ uri: consulta.medicoClinica.medico.idNavigation.foto }} />
 
 
-                                <TitleModal>Gois</TitleModal>
+                                <TitleModal>{consulta.medicoClinica.medico.idNavigation.nome}</TitleModal>
 
                                 <BoxModal>
                                     <ModalText>{consulta.medicoClinica.medico.especialidade.especialidade1}</ModalText>

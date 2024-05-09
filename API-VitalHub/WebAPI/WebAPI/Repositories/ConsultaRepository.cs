@@ -73,7 +73,7 @@ namespace WebAPI.Repositories
             try
             {
                 SituacaoConsulta situacao = ctx.Situacoes.FirstOrDefault(x => x.Situacao == status)!;
-
+ 
                 Consulta buscada = ctx.Consultas.Find(idConsulta)!;
 
                 buscada.SituacaoId = situacao.Id;
