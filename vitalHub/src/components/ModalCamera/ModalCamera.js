@@ -1,5 +1,5 @@
 import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
+import { Camera, CameraType, CameraView } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library'
 import { useEffect, useState, useRef } from 'react';
 import { FontAwesome, Feather } from '@expo/vector-icons'
@@ -26,8 +26,8 @@ export const ModalCamera = ({
 
   const [openModal, setOpenModal] = useState(false)
   const [photo, setPhoto] = useState(null)
-  const [tipoCamera, setTipoCamera] = useState(CameraType.back)
-  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off)
+  const [tipoCamera, setTipoCamera] = useState('back')
+  const [flash, setFlash] = useState('off')
 
   const [lastPhoto, setLastPhoto] = useState(null)
 
@@ -110,17 +110,17 @@ export const ModalCamera = ({
 
   return (
     <Modal visible={visible} style={styles.container}>
-      <Camera
-        flashMode={flash}
+      <CameraView
+        flash={flash}
         ref={cameraRef}
         style={styles.camera}
-        type={tipoCamera}
+        facing={tipoCamera}
       >
         <View style={
           { flexDirection: 'row', width: '100%',  justifyContent: 'space-between', alignItems:'center'}
         }>
-          <TouchableOpacity onPress={() => setFlash(flash == Camera.Constants.FlashMode.off ? Camera.Constants.FlashMode.on : Camera.Constants.FlashMode.off)} style={styles.btnFlash}>
-            <Feather name={flash === Camera.Constants.FlashMode.on ? "zap" : "zap-off"} size={24} color="#fff" />
+          <TouchableOpacity onPress={() => setFlash(flash == 'off' ? 'on' : 'off')} style={styles.btnFlash}>
+            <Feather name={flash === 'on' ? "zap" : "zap-off"} size={24} color="#fff" />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => HandleClose()} style={styles.btnClose}>
@@ -153,7 +153,7 @@ export const ModalCamera = ({
               <FontAwesome name="camera" size={24} color="transparent" />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => setTipoCamera(tipoCamera == CameraType.back ? CameraType.front : CameraType.back)} style={styles.btnFlip}>
+            <TouchableOpacity onPress={() => setTipoCamera(tipoCamera == 'back' ? 'front' : 'back')} style={styles.btnFlip}>
               <MaterialCommunityIcons
                 name="camera-retake"
                 size={40}
@@ -165,7 +165,7 @@ export const ModalCamera = ({
 
         </View>
 
-      </Camera>
+      </CameraView>
 
 
 

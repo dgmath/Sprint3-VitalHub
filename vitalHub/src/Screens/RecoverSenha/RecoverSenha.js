@@ -7,30 +7,36 @@ import { SubTitle } from "../../components/Text/style";
 import { InputRecover } from "../../components/Input/style";
 import { ButtonRecover } from "../../components/Button/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style";
-import { LinkEnd } from "../../components/Link/style";
+import { LinkCancelar, LinkEnd, TextLink } from "../../components/Link/style";
 import { useState } from "react";
 import api from "../../Services/Services"
+import { Alert } from "react-native";
 
 
 
-export const RecoverSenha = ({navigation}) => {
+export const RecoverSenha = ({ navigation }) => {
 
     const [email, setEmail] = useState('')
 
 
     async function EnviarEmail() {
         await api.post(`/RecuperarSenha?email=${email}`)
-        .then(() => {
-            navigation.replace('CheckEmail', {emailRecuperacao : email})
-        }).catch(error => {
-            console.log(error);
-        })
+            .then(() => {
+                navigation.replace('CheckEmail', { emailRecuperacao: email })
+            }).catch(error => {
+                console.log(error);
+                Alert.alert(
+                    "Erro",
+                    "Dados inválidos. Por favor, verifique seu e-mail.",
+                    [{ text: "OK", onPress: () => console.log("OK Pressed") }]
+                );
+            })
     }
 
     return (
         <Container>
             <BoxArrow>
-                <AntDesign name="arrowleft" size={24} color="#FFFF" 
+                <AntDesign name="arrowleft" size={24} color="#FFFF"
                     onPress={() => navigation.navigate("Login")}
                 />
             </BoxArrow>
@@ -51,8 +57,10 @@ export const RecoverSenha = ({navigation}) => {
                 <ButtonTitle>Continuar</ButtonTitle>
             </ButtonRecover>
 
-            <LinkEnd onPress={() => navigation.navigate("Login")}>Cancelar</LinkEnd>
-
+            {/* <LinkEnd onPress={() => navigation.navigate("Login")}>Cancelar</LinkEnd> */}
+            <LinkCancelar onPress={() => navigation.navigate("Login")}>
+                <TextLink>Cancelar</TextLink>
+            </LinkCancelar>
 
         </Container>
     )

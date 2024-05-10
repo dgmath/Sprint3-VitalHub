@@ -14,6 +14,9 @@ export const LinkMedium = styled.Text`
 export const LinkEnd = styled.TouchableOpacity`
 
 `
+export const LinkCancelar = styled.TouchableOpacity`
+ margin-top: 15px;
+`
 export const TextLink = styled.Text`
     font-size: 14px;
     font-family: "MontserratAlternates_600SemiBold";

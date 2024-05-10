@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const BoxArrow = styled.View`
     width: 100%;
     align-items: flex-start;
-    margin-top: 23px;
+    margin-top: 80px;
     padding-left: 16px;
 `
 export const BoxInput = styled(BoxArrow)`

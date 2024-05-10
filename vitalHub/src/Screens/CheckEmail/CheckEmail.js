@@ -101,7 +101,7 @@ export const CheckEmail = ({ navigation, route }) => {
                 <ButtonTitle>Entrar</ButtonTitle>
             </ButtonRecover>
 
-            <LinkEnd>Reenviar codigo</LinkEnd>
+            {/* <LinkEnd>Reenviar codigo</LinkEnd> */}
 
         </Container>
 

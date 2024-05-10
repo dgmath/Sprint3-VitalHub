@@ -6,7 +6,7 @@ import { SubTitle } from "../../components/Text/style";
 import { Input } from "../../components/Input/style";
 import { Button } from "../../components/Button/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style";
-import { LinkEnd } from "../../components/Link/style";
+import { LinkEnd, TextLink } from "../../components/Link/style";
 import api from "../../Services/Services";
 import { useState } from "react";
 
@@ -15,15 +15,23 @@ export const Cadastro = ({ navigation }) => {
     const [email, setEmail] = useState('')
     const [senha1, setSenha1] = useState('')
     const [senha2, setConfirmarSenha] = useState('')
+    const [nome, setNome] = useState('')
     // const [nome, setNome] = useState('')
-    const [idTipoUsuario, setIdTipoUSuario] = useState('48B6EA3E-999F-45D4-B606-C7702C479D4D')
+    const [idTipoUsuario, setIdTipoUSuario] = useState('1058E83E-E674-48D8-B7D3-3ADA9076DABC')
 
     async function CadastrarPaciente() {
-        await api.post(`/Pacientes`, {
-            email: email,
-            senha: senha2,
-            idTipoUsuario: idTipoUsuario
-        }).then( response => {
+
+        const formData = new FormData();  
+        formData.append('email', email);
+        formData.append('senha', senha2);
+        formData.append('IdTipoUsuario', idTipoUsuario); 
+        formData.append('nome', nome);
+
+        await api.post(`/Pacientes`, formData,{
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
             alert('Cadastrado com sucesso')
             console.log(response.data);
         }).catch(error => {
@@ -42,6 +50,11 @@ export const Cadastro = ({ navigation }) => {
             <SubTitle>Insira seu endereço de e-mail e senha para realizar seu cadastro.</SubTitle>
 
             <Input
+                placeholder="Nome:"
+                onChangeText={(txt) => setNome(txt)}
+                value={nome}
+            />
+            <Input
                 placeholder="Usuario ou E-mail"
                 onChangeText={(txt) => setEmail(txt)}
                 value={email}
@@ -57,11 +70,13 @@ export const Cadastro = ({ navigation }) => {
                 value={senha2}
             />
 
-            <Button onPress={() => CadastrarPaciente() ? senha2 === senha1 && navigation.navigate('Login') :  'Cadastro Invalido'}>
+            <Button onPress={() => CadastrarPaciente() ? senha2 === senha1 && navigation.navigate('Login') : 'Cadastro Invalido'}>
                 <ButtonTitle>Cadastrar</ButtonTitle>
             </Button>
 
-            <LinkEnd onPress={() => navigation.replace("Login")}>Cancelar</LinkEnd>
+            <LinkEnd onPress={() => navigation.replace("Login")}>
+                <TextLink>cancelar</TextLink>
+            </LinkEnd>
 
         </Container>
     );
