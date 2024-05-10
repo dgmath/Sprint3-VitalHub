@@ -21,8 +21,8 @@ import { ModalNotifications } from "../../components/ModalNotifications/ModalNot
 
 export const Login = ({ navigation }) => {
 
-    // const [email, setEmail] = useState('paciente@email.com')
-    const [email, setEmail] = useState('paciente2@email.com')
+    const [email, setEmail] = useState('math29kiss@gmail.com')
+    // const [email, setEmail] = useState('paciente2@email.com')
     // const [email, setEmail] = useState('medico2@email.com')
     const [senha, setSenha] = useState('1234')
     const [loading, setLoading] = useState(false)

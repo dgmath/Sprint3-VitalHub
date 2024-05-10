@@ -63,6 +63,24 @@ export const Home = ({
 
     const [selectedDateNew, setSelectedDateNew] = useState('')
 
+    function AtualizarStatus() {
+        const currentDate = new Date();
+
+        consultaLista.forEach((item) => {
+
+            const dataComoObjeto = new Date(item.dataConsulta);
+            const dataComoInteiro = dataComoObjeto.getTime();
+            if (dataComoInteiro < currentDate.getTime()) {
+                async () => {
+                    await api.put(`/Consultas/Status?idConsulta=${item.id}&status=realizado`)
+                    // setReload(true)
+                }
+            }
+
+            console.log(item.id);
+        });
+
+    }
 
 
     function MostrarModal(modal, consulta) {
@@ -80,19 +98,8 @@ export const Home = ({
         }
     }
 
-    async function ListarConsulta() {
+    
 
-        const url = (profile.role == 'Medico' ? "Medicos" : "Pacientes");
-
-        await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
-            .then(response => {
-                setConsultaLista(response.data);
-                console.log(response.data);
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }
 
 
 
@@ -110,16 +117,34 @@ export const Home = ({
     }
 
 
+    
+    
+    async function ListarConsulta() {
+                const url = (profile.role == 'Medico' ? "Medicos" : "Pacientes");
+        
+                // await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
+                    try{
+                        if (dataConsulta) {
+                            const promise = await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
+                            setConsultaLista(promise.data);
+                        }
+                        //setConsultaLista(response.data);
+                        // console.log(response.data);
+                    }
+                    catch (error) {
+                        console.log(error);
+                    }
+            };
     useEffect(() => {
         ProfileLoad()
-    }, [profile])
+    }, [])
 
     useEffect(() => {
-        if (dataConsulta != '') {
-            ListarConsulta();
-            console.log(dataConsulta);
-        }
-    }, [dataConsulta])
+
+        ListarConsulta();
+        AtualizarStatus();
+    }, [dataConsulta, showModalCancel, profile])
+
 
     useEffect(() => {
         if (showModalCancel == false) {

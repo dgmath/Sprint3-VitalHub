@@ -46,7 +46,7 @@ export const BoxInput2 = ({
     onChangeText = null,
     keyType = 'default',
     maxLength,
-    multiline
+    multiline = true
 }) => {
     return (
         <FieldContent fieldWidth={fieldWidth}>

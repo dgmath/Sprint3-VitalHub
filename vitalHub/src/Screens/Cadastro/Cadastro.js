@@ -9,10 +9,13 @@ import { ButtonTitle } from "../../components/ButtonTitle/style";
 import { LinkCancelar, LinkEnd, TextLink } from "../../components/Link/style";
 import api from "../../Services/Services";
 import { useState } from "react";
+import { ActivityIndicator } from "react-native";
 
 export const Cadastro = ({ navigation }) => {
 
     const [email, setEmail] = useState('')
+    const [loading, setLoading] = useState(false)
+
     const [nome, setNome] = useState('')
     const [senha1, setSenha1] = useState('')
     const [senha2, setConfirmarSenha] = useState('')
@@ -114,8 +117,8 @@ export const Cadastro = ({ navigation }) => {
                 value={senha2}
             />
 
-            <Button onPress={() => CadastrarPaciente()}>
-                <ButtonTitle>Cadastrar</ButtonTitle>
+            <Button onPress={() => CadastrarPaciente()} disabled={loading}>
+                {loading ? <ActivityIndicator/> : <ButtonTitle>Cadastrar</ButtonTitle>}
             </Button>
 
 

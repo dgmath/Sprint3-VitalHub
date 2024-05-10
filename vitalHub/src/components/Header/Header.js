@@ -53,7 +53,7 @@ export const Header = ({setShowModalNotifications}) => {
 
     useFocusEffect( React.useCallback(() => {
         ProfileLoad()
-    }, [user]))
+    }, [user, userName]))
 
     return (
         <ContainerHeader>

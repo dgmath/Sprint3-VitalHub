@@ -47,6 +47,7 @@ namespace WebAPI.Repositories
 
                 buscada.Descricao = consulta.Descricao;
                 buscada.Diagnostico = consulta.Diagnostico;
+                buscada.Situacao = consulta.Situacao;
 
                 if (buscada.ReceitaId != null)
                 {

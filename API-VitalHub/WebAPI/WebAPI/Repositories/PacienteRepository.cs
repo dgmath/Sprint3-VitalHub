@@ -44,6 +44,9 @@ namespace WebAPI.Repositories
                 if (paciente.Nome != null)
                     pacienteBuscado!.IdNavigation.Nome = paciente.Nome;
 
+                if (paciente.Rg != null)
+                    pacienteBuscado!.Rg = paciente.Rg;
+
                 ctx.Pacientes.Update(pacienteBuscado!);
                 ctx.SaveChanges();
 
