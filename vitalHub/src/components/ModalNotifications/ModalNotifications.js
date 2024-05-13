@@ -68,32 +68,36 @@ export const ModalNotifications = ({
                         </TitleConfiguration>
 
                         <AntDesign onPress={() => setShowModalNotifications(false)} style={{ position: "absolute", right: -35, top: -15 }} name="close" size={30} color="#496BBA" />
-                        
+
                     </TitleContent>
 
-                    <ListComponentNotifications
-                        data={consultas.sort((a, b) => new Date(a.dataConsulta) - new Date(b.dataConsulta))}
-                        keyExtractor={(item) => item.id}
+                    {consultas ? (
+                        <ListComponentNotifications
+                            data={consultas.sort((a, b) => new Date(a.dataConsulta) - new Date(b.dataConsulta))}
+                            keyExtractor={(item) => item.id}
 
-                        renderItem={({ item }) =>
-                            // console.log(item)
+                            renderItem={({ item }) =>
+                                // console.log(item)
 
-                            <CardConsultas
-                                setDataConsulta={() => {
-                                    setDataConsulta(moment(item.dataConsulta).format('YYYY-MM-DD'));
-                                    setSelectedDateNew(item.dataConsulta)
-                                    setStatusLista(item.situacao.situacao === 'Agendadas' ? 'Agendadas' : item.situacao.situacao === 'Realizadas' ? 'Realizadas' : 'Canceladas')
-                                    handleCLose();
-                                }}
-                                consulta={item}
-                                profile={profile}
-                                setShowModalNotifications={setShowModalNotifications}
-                            />
+                                <CardConsultas
+                                    setDataConsulta={() => {
+                                        setDataConsulta(moment(item.dataConsulta).format('YYYY-MM-DD'));
+                                        setSelectedDateNew(item.dataConsulta)
+                                        setStatusLista(item.situacao.situacao === 'Agendadas' ? 'Agendadas' : item.situacao.situacao === 'Realizadas' ? 'Realizadas' : 'Canceladas')
+                                        handleCLose();
+                                    }}
+                                    consulta={item}
+                                    profile={profile}
+                                    setShowModalNotifications={setShowModalNotifications}
+                                />
 
-                        }
+                            }
 
-                        showsVerticalScrollIndicator={false}
-                    />
+                            showsVerticalScrollIndicator={false}
+                        />
+                    ) : (
+                        <TitleModal>Notificações</TitleModal>
+                    )}
 
                 </ModalContent>
             </PatientModal>

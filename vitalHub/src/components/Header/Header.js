@@ -23,7 +23,7 @@ export const Header = ({setShowModalNotifications}) => {
 
         if (token) {
             console.log(token);
-            setUserName(token.name)
+            // setUserName(token.name)
             setToken(token.role)
 
             if (token.role == "Paciente") {
@@ -31,6 +31,7 @@ export const Header = ({setShowModalNotifications}) => {
                 .then(response => {
                     console.log(response.data);
                     setUser(response.data.idNavigation.foto)
+                    setUserName(response.data.idNavigation.nome)
 
                 }).catch(error => {
                     console.log(error);
@@ -41,6 +42,8 @@ export const Header = ({setShowModalNotifications}) => {
                 .then(response => {
                     console.log(response.data);
                     setUser(response.data.idNavigation.foto)
+                    setUserName(response.data.idNavigation.nome)
+
 
                 }).catch(error => {
                     console.log(error);

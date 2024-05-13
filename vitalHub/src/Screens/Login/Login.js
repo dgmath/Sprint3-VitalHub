@@ -17,13 +17,17 @@ import { ActivityIndicator, Text } from "react-native"
 import { ModalNotifications } from "../../components/ModalNotifications/ModalNotifications"
 //validar input
 //travar o botao
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
 export const Login = ({ navigation }) => {
 
-    const [email, setEmail] = useState('math29kiss@gmail.com')
+    // const [email, setEmail] = useState('math29kiss@gmail.com')
     // const [email, setEmail] = useState('paciente2@email.com')
-    // const [email, setEmail] = useState('medico2@email.com')
+    const [email, setEmail] = useState('medico@email.com')
     const [senha, setSenha] = useState('1234')
     const [loading, setLoading] = useState(false)
 

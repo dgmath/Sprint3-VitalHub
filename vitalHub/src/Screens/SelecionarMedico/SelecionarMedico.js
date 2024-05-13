@@ -8,6 +8,10 @@ import { ListComponent } from "../../components/List/list";
 import { ButtonCardMedico } from "../../components/ButtonCardMedico/ButtonCardMedico";
 
 import api from "../../Services/Services";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export const SelecionarMedico = ({ navigation, route }) => {
 

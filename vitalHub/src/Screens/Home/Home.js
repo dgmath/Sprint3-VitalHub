@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { BtnListAppointment } from "../../components/BtnListAppointment/BtnListAppointment"
 import { CalendarHome } from "../../components/CalendarHome/calendarHome"
 import { ContainerPerfil } from "../../components/Container/style"
@@ -16,6 +16,7 @@ import api from "../../Services/Services"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import moment from "moment"
 import { ModalNotifications } from "../../components/ModalNotifications/ModalNotifications"
+import { useFocusEffect } from "@react-navigation/native"
 
 // const Consultas = [
 //     { id: "1", name: "Dr.Claudio", situacao: "pendente" },
@@ -72,7 +73,7 @@ export const Home = ({
             const dataComoInteiro = dataComoObjeto.getTime();
             if (dataComoInteiro < currentDate.getTime()) {
                 async () => {
-                    await api.put(`/Consultas/Status?idConsulta=${item.id}&status=realizado`)
+                    await api.put(`/Consultas/Status?idConsulta=${item.id}&status=Realizadas`)
                     // setReload(true)
                 }
             }
@@ -98,7 +99,7 @@ export const Home = ({
         }
     }
 
-    
+
 
 
 
@@ -117,33 +118,42 @@ export const Home = ({
     }
 
 
-    
-    
-    async function ListarConsulta() {
-                const url = (profile.role == 'Medico' ? "Medicos" : "Pacientes");
-        
-                // await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
-                    try{
-                        if (dataConsulta) {
-                            const promise = await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
-                            setConsultaLista(promise.data);
-                        }
-                        //setConsultaLista(response.data);
-                        // console.log(response.data);
-                    }
-                    catch (error) {
-                        console.log(error);
-                    }
-            };
+
+
+
     useEffect(() => {
         ProfileLoad()
     }, [])
 
     useEffect(() => {
 
-        ListarConsulta();
-        AtualizarStatus();
-    }, [dataConsulta, showModalCancel, profile])
+        async function ListarConsulta() {
+            const url = (profile.role == 'Medico' ? "Medicos" : "Pacientes");
+
+            // await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
+            try {
+                if (dataConsulta) {
+                    const promise = await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
+                    setConsultaLista(promise.data);
+                    // AtualizarStatus();
+
+                }
+                //setConsultaLista(response.data);
+                // console.log(response.data);
+            }
+            catch (error) {
+                console.log(error);
+            }
+
+        };
+            ListarConsulta();
+            AtualizarStatus();
+
+
+    }, [dataConsulta,])
+
+    // useFocusEffect(React.useCallback(() => {
+    // }, [dataConsulta]))
 
 
     useEffect(() => {
@@ -156,8 +166,8 @@ export const Home = ({
         <ContainerPerfil>
 
 
-            <Header 
-            setShowModalNotifications={setShowModalNotifications}/>
+            <Header
+                setShowModalNotifications={setShowModalNotifications} />
 
             <CalendarHome
                 setDataConsulta={setDataConsulta}

@@ -1,3 +1,4 @@
+
 import { BoxInput, BoxInput2 } from "../../components/BoxInput";
 import { ContainerInputPerfil, ContainerInputRow, ContainerInputRowOne, ContainerPerfil, MainContent, MainContentScroll } from "../../components/Container/style";
 import { ImagePerfil } from "../../components/Logo/style";
@@ -30,7 +31,7 @@ export const Perfil = ({ navigation }) => {
 
     const [showModalCamera, setShowModalCamera] = useState(false)
     const [uriCameraCapture, setUriCameraCapture] = useState(null)
-    
+
     const [showSaveBtn, setShowSaveBtn] = useState(false)
 
     const [preenchido, setPreenchido] = useState(false)
@@ -46,7 +47,7 @@ export const Perfil = ({ navigation }) => {
 
 
     // states para editar dados do paciente
-    const [nomeP, setNomeP] = useState('')
+    const [nomeP, setNomeP] = useState(userData)
     const [rgP, setRgP] = useState('')
     const [dataNascimentoP, setDataNascimentoP] = useState('')
     const [cpfP, setCpfP] = useState('')
@@ -55,7 +56,37 @@ export const Perfil = ({ navigation }) => {
     const [numeroP, setNumeroP] = useState('')
     const [cidadeP, setCidadeP] = useState('')
 
-//resizeMode contain
+
+    async function KeepingData() {
+        const token = await tokenClean();
+
+        const tokenRole = await userDecodeToken();
+        setRole(tokenRole.role)
+
+        setUser(tokenRole.user)
+
+        if (tokenRole.role == 'Medico') {
+
+            setNomeM(userData.idNavigation.nome)
+            setCrmM(userData.crm)
+            setLogradouroM(userData.endereco.logradouro)
+            setNumeroM(userData.endereco.numero)
+            setCepM(userData.endereco.cep)
+            setCidadeM(userData.endereco.cidade)
+
+        } else {
+
+            setNomeP(userData.idNavigation.nome)
+            setRgP(userData.rg)
+            setDataNascimentoP(moment(userData.dataNascimento).format('DD-MM-YYYY'))
+            setCpfP(userData.cpf)
+            setCepP(userData.endereco.cep)
+            setLogradouroP(userData.endereco.logradouro)
+            setNumeroP(userData.endereco.numero)
+            setCidadeP(userData.endereco.cidade)
+        }
+    }
+
     async function GetProfile() {
         const token = await tokenClean();
 
@@ -67,7 +98,7 @@ export const Perfil = ({ navigation }) => {
 
 
         if (tokenRole.role == 'Paciente') {
-            await api.get(`/Pacientes/BuscarPorId?id=${tokenRole.user}` 
+            await api.get(`/Pacientes/BuscarPorId?id=${tokenRole.user}`
             ).then(response => {
 
                 console.log(response.data);
@@ -108,14 +139,18 @@ export const Perfil = ({ navigation }) => {
     }
 
     async function Logout() {
-
         await AsyncStorage.removeItem("token");
-
-        console.log("Token apagado");
-
-        navigation.replace("Login")
+        const tokenAfterClear = await AsyncStorage.getItem("token")
+        if (tokenAfterClear === null) {
+            console.log("Token apagado");
+            // console.log(token);
+        }
+        else {
+            console.log("Token não apagado");
+            console.log(token);
+        }
+        navigation.navigate("Login")
     }
-
 
     async function UpdateProfile() {
 
@@ -127,11 +162,14 @@ export const Perfil = ({ navigation }) => {
         setUser(tokenRole.user)
 
         try {
-            if (tokenRole.role == 'Paciente') {
+            if (tokenRole.role == 'Paciente') 
+            {
+                const dataNascimentoFormatada = moment(dataNascimentoP, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
                 await api.put(`/Pacientes?idUsuario=${user}`,{
                     rg: rgP,
                     cpf: cpfP,
-                    dataNascimento: dataNascimentoP,
+                    dataNascimento: dataNascimentoFormatada,
                     cep: cepP,
                     logradouro: logradouroP,
                     numero: numeroP,
@@ -189,8 +227,8 @@ export const Perfil = ({ navigation }) => {
 
 
     useEffect(() => {
-            GetProfile() 
-            console.log(nomeP);
+        GetProfile()
+        console.log(nomeP);
     }, [])
 
 
@@ -479,7 +517,10 @@ export const Perfil = ({ navigation }) => {
                             <ButtonTitle>Salvar</ButtonTitle>
                         </Button>
 
-                        <ButtonEditPerfil onPress={() => setPreenchido(false)}>
+                        <ButtonEditPerfil onPress={() => {
+                            setPreenchido(false)
+                            KeepingData()
+                        }}>
                             <ButtonTitle>Editar</ButtonTitle>
                         </ButtonEditPerfil>
 
