@@ -45,9 +45,9 @@ export const ProntuarioModal = ({
                                         (<ModalText>{consulta.medicoClinica.medico.crm}</ModalText>)
                                     }
 
-                                    <ModalText>{profile.role == "Medico" ? consulta.paciente.idNavigation.email : consulta.medicoClinica.medico.idNavigation.email}</ModalText>
 
                                 </BoxModal>
+                                    <ModalText>{profile.role == "Medico" ? consulta.paciente.idNavigation.email : consulta.medicoClinica.medico.idNavigation.email}</ModalText>
 
                                 {situacao === 'Realizadas' && profile.role == 'Medico' ?
                                     <ModalButton onPress={() => HandlePress("InsercaoProntuario")}>

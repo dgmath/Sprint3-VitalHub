@@ -21,26 +21,37 @@ export const Cadastro = ({ navigation }) => {
     const [senha2, setConfirmarSenha] = useState('')
     // const [nome, setNome] = useState('')
     const [idTipoUsuario, setIdTipoUSuario] = useState('48B6EA3E-999F-45D4-B606-C7702C479D4D')
+    const [nomeInvalido, setNomeInvalido] = useState(false); // Estado para indicar se o campo está vazio
+    const [emailInvalido, setEmailInvalido] = useState(false);
+    const [senha1Invalida, setSenha1Invalida] = useState(false);
+    const [senha2Invalida, setSenha2Invalida] = useState(false);
+    const [isValid, setIsValid] = useState(false);
 
-    // async function CadastrarPaciente() {
-    //     await api.post(`/Pacientes`, {
-    //         email: email,
-    //         senha: senha2,
-    //         idTipoUsuario: idTipoUsuario
-    //     }).then( response => {
-    //         alert('Cadastrado com sucesso')
-    //         console.log(response.data);
-    //     }).catch(error => {
-    //         console.log(error);
-    //     })
-    // }
+    const ValidarCampos = () => {
+        setNomeInvalido(!nome); // Define como inválido se estiver vazio
+        setEmailInvalido(!email);
+        setSenha1Invalida(!senha1);
+        setSenha2Invalida(!senha2);
+
+        if (!nome || !email || !senha1 || !senha2) {
+            setIsValid(false);
+        } else {
+            setIsValid(true);
+        }
+    };
 
     const CadastrarPaciente = async () => {
-
-
         try {
 
+            ValidarCampos();
+
+            if (!isValid) {
+                return; // Se não for válido, não prossegue
+            }
+
             if (senha1 === senha2) {
+
+                setLoading(true)
 
                 const form = new FormData()
 
@@ -64,7 +75,7 @@ export const Cadastro = ({ navigation }) => {
                 }
 
 
-                navigation.replace("Login");
+                navigation.replace("Login", {email: email});
 
             } else {
 
@@ -96,21 +107,25 @@ export const Cadastro = ({ navigation }) => {
 
             <SubTitle>Insira seu endereço de e-mail e senha para realizar seu cadastro.</SubTitle>
 
+            <ErrorMessage visible={nomeInvalido}>Este campo não pode ser vazio</ErrorMessage>
             <Input
                 placeholder="Nome de usuario"
                 onChangeText={(txt) => setNome(txt)}
                 value={nome}
             />
+            <ErrorMessage visible={emailInvalido}>Este campo não pode ser vazio</ErrorMessage>
             <Input
                 placeholder="E-mail"
                 onChangeText={(txt) => setEmail(txt)}
                 value={email}
             />
+            <ErrorMessage visible={senha1Invalida}>Este campo não pode ser vazio</ErrorMessage>
             <Input
                 placeholder="Senha"
                 onChangeText={(txt) => setSenha1(txt)}
                 value={senha1}
             />
+            <ErrorMessage visible={senha2Invalida}>Este campo não pode ser vazio</ErrorMessage>
             <Input
                 placeholder="Confirmar senha"
                 onChangeText={(txt) => setConfirmarSenha(txt)}
@@ -129,3 +144,13 @@ export const Cadastro = ({ navigation }) => {
         </Container>
     );
 };
+
+export const ErrorMessage = styled.Text`
+    color: ${(props) => (props.visible ? "red" : "transparent")};
+    font-size: 12px;
+    margin-left: 20px;
+    align-self: flex-start;
+    margin-top: 10px;
+    /* margin-bottom: 5px; */
+`;
+

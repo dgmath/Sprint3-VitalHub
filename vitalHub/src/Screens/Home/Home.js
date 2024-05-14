@@ -63,18 +63,26 @@ export const Home = ({
     const [showModalNotifications, setShowModalNotifications] = useState(false)
 
     const [selectedDateNew, setSelectedDateNew] = useState('')
+    const [diaAtual, setDiaAtual] = useState('')
 
-    function AtualizarStatus() {
+    async function AtualizarStatus() {
         const currentDate = new Date();
+        const diaAtual = currentDate.getTime() 
 
-        consultaLista.forEach((item) => {
+        consultaLista.forEach( async (item) => {
 
             const dataComoObjeto = new Date(item.dataConsulta);
-            const dataComoInteiro = dataComoObjeto.getTime();
-            if (dataComoInteiro < currentDate.getTime()) {
-                async () => {
-                    await api.put(`/Consultas/Status?idConsulta=${item.id}&status=Realizadas`)
+            const dataConsulta  = dataComoObjeto.getTime();
+            // setDataConsulta(dataComoInteiro);
+            if (dataConsulta  < diaAtual) {
+                try{
+                    
+                        const response = await api.put(`/Consultas/Status?idConsulta=${item.id}&status=Realizadas`)
+                            console.log(response);
                     // setReload(true)
+                }
+                catch (error) {
+                    console.log(error);
                 }
             }
 
@@ -127,11 +135,19 @@ export const Home = ({
 
     useEffect(() => {
 
+        const url = (profile.role == 'Medico' ? "Medicos" : "Pacientes");
+        
         async function ListarConsulta() {
-            const url = (profile.role == 'Medico' ? "Medicos" : "Pacientes");
-
             // await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`)
             try {
+                // const token = await userDecodeToken();
+
+                // if (token) {
+                //     // setuser(token.id);
+                //     setToken(token)
+                //     setname(token.name)
+                //     setProfile(token.role)
+                // }
                 if (dataConsulta) {
                     const promise = await api.get(`/${url}/BuscarPorData?data=${dataConsulta}&id=${profile.user}`);
                     setConsultaLista(promise.data);
@@ -146,21 +162,21 @@ export const Home = ({
             }
 
         };
-            ListarConsulta();
-            AtualizarStatus();
+            ListarConsulta()
+            AtualizarStatus()
 
 
-    }, [dataConsulta,])
-
+    }, [dataConsulta, showModalCancel, profile])
+ 
     // useFocusEffect(React.useCallback(() => {
     // }, [dataConsulta]))
 
 
-    useEffect(() => {
-        if (showModalCancel == false) {
-            ListarConsulta()
-        }
-    }, [showModalCancel])
+    // useEffect(() => {
+    //     if (showModalCancel == false) {
+    //         ListarConsulta()
+    //     }
+    // }, [showModalCancel])
 
     return (
         <ContainerPerfil>
