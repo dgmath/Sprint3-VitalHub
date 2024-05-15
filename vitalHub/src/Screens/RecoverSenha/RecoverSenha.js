@@ -10,21 +10,32 @@ import { ButtonTitle } from "../../components/ButtonTitle/style";
 import { LinkCancelar, LinkEnd, TextLink } from "../../components/Link/style";
 import { useState } from "react";
 import api from "../../Services/Services"
+import { ModalAttention, ModalEmail } from "../../components/CancelationModal/CancelationModal";
 
 
 
 export const RecoverSenha = ({navigation}) => {
 
     const [email, setEmail] = useState('')
+    
+    const [showModalAttention, setShowModalAttention] = useState(false);
+    const [showModalEmail, setShowModalEmail] = useState(false);
+
+
 
 
     async function EnviarEmail() {
-        await api.post(`/RecuperarSenha?email=${email}`)
-        .then(() => {
-            navigation.replace('CheckEmail', {emailRecuperacao : email})
-        }).catch(error => {
-            console.log(error);
-        })
+
+   
+            await api.post(`/RecuperarSenha?email=${email}`)
+            .then(() => {
+                navigation.replace('CheckEmail', {emailRecuperacao : email})
+            }).catch(error => {
+                console.log(error);
+                return setShowModalEmail(true)
+            })
+
+
     }
 
     return (
@@ -55,6 +66,14 @@ export const RecoverSenha = ({navigation}) => {
                 <TextLink>Cancelar</TextLink>
             </LinkCancelar>
 
+            <ModalAttention
+                visible={showModalAttention}
+                setShowModalAttention={setShowModalAttention}
+            />
+            <ModalEmail
+                visible={showModalEmail}
+                setShowModalEmail={setShowModalEmail}
+            />
 
         </Container>
     )

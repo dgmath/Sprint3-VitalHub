@@ -8,6 +8,9 @@ import api from "../../Services/Services";
 import { useFocusEffect } from "@react-navigation/native";
 import { ModalNotifications } from "../ModalNotifications/ModalNotifications";
 
+// import * as React from 'react';
+import { Badge } from 'react-native-paper';
+
 export const Header = ({setShowModalNotifications}) => {
 
     const [userName, setUserName] = useState('')
@@ -82,6 +85,7 @@ export const Header = ({setShowModalNotifications}) => {
             </BoxUser>
 
             <BoxIcon onPress={() => setShowModalNotifications(true)}>
+                <Badge  size={10}></Badge>
                 <Ionicons name="notifications-sharp" size={24} color="white" />
             </BoxIcon>
 

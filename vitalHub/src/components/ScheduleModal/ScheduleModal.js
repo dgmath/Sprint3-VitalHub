@@ -7,6 +7,7 @@ import { BoxInput } from "../BoxInput"
 import { ModalButton } from "../Button/style"
 import { ButtonTitle } from "../ButtonTitle/style"
 import { useState } from "react"
+import { ModalAttention } from "../CancelationModal/CancelationModal"
 
 
 export const ScheduleModal = ({
@@ -18,11 +19,33 @@ export const ScheduleModal = ({
 
     const [agendamento, setAgendamento] = useState(null)
     const [border, setBorder] = useState(null)
+    // const [prioridadeInvalida, setPrioridadeInvalida] = useState(false);
+    // const [localizacaoInvalida, setLocalizacaoInvalida] = useState(false);
+    const [showModalAttention, setShowModalAttention] = useState(false);
 
+    // const [isValid, setIsValid] = useState(false);
+
+    const validarCampos = () => {        
+        if (agendamento.prioridadeId == null || agendamento.localizacao == null) {
+            return false;
+        } else {
+           return true;
+        }
+    };
+    
     async function HandleContinue() {
-        await setShowModalSchedule(false);
-        navigation.replace("SelecionarClinica", { agendamento: agendamento })
+       const isValid = validarCampos();
+
+        if (isValid == false) {
+            return setShowModalAttention(true); 
+        }
+        else{
+            await setShowModalSchedule(false);
+            navigation.replace("SelecionarClinica", { agendamento: agendamento })
+        }
+
     }
+
 
     return (
         <Modal
@@ -105,6 +128,10 @@ export const ScheduleModal = ({
                 </ModalContent>
             </PatientModal>
 
+            <ModalAttention
+                visible={showModalAttention}
+                setShowModalAttention={setShowModalAttention}
+            />
 
         </Modal>
     )

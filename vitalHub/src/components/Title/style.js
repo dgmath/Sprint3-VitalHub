@@ -18,7 +18,7 @@ export const TitleSelect = styled(Title)`
 `
 export const TitleModal = styled(Title)`
     color: #344F8F;
-    margin-top: 30px;
+    margin-top: 60px;
 `
 
 export const TitlePerfil = styled(Title)`

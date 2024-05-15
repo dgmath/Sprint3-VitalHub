@@ -9,6 +9,7 @@ import { TitleSelect } from "../../components/Title/style"
 import { LabelData } from "./style"
 import { ModalAgendarConsulta } from "../../components/ModalAgendarConsulta/ModalAgendarConsulta"
 import { LogBox } from 'react-native';
+import { ModalAttention } from "../../components/CancelationModal/CancelationModal"
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -16,44 +17,63 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
 export const SelecionarData = ({
     navigation, route
 }) => {
+    
+    const [showModalAttention, setShowModalAttention] = useState(false);
 
     const [agendamento, setAgendamento] = useState(null);
 
     const [horaSelecionada, setHoraSelecionada] = useState('');
-    
+
     const [dataSelecionada, setDataSelecionada] = useState('');
 
     const [showModalAgendar, setShowModalAgendar] = useState(false);
 
-    function handleContinue() {
-        setAgendamento({
-            ...route.params.agendamento,
-            dataConsulta: `${dataSelecionada} ${horaSelecionada}`
-        });
+    function validarData() {
+        if (dataSelecionada == '' || horaSelecionada == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
-        setShowModalAgendar(true)
+    function handleContinue() {
+        const isValid = validarData()
+
+        if (isValid == false) {
+            return setShowModalAttention(true)
+        }
+        else {
+            setAgendamento({
+                ...route.params.agendamento,
+                dataConsulta: `${dataSelecionada} ${horaSelecionada}`
+            });
+
+            setShowModalAgendar(true)
+        }
+
     }
 
     useEffect(() => {
         console.log(dataSelecionada);
-     },[dataSelecionada])
+    }, [dataSelecionada])
 
     useEffect(() => {
         console.log(route);
-     },[route])
+    }, [route])
     return (
         <ContainerPerfil>
 
             <TitleSelect>Selecionar Data</TitleSelect>
 
-            <CalendarSelectData 
+            <CalendarSelectData
                 setDataSelecionada={setDataSelecionada}
                 dataSelecionada={dataSelecionada}
             />
 
             <ContainerForm>
                 <LabelData>Selecione um horário disponível</LabelData>
-                <InputSelect 
+                <InputSelect
                     setHoraSelecionada={setHoraSelecionada}
                 />
             </ContainerForm>
@@ -71,6 +91,11 @@ export const SelecionarData = ({
                 agendamento={agendamento}
                 setShowModalAgendar={setShowModalAgendar}
                 navigation={navigation}
+            />
+
+            <ModalAttention
+                visible={showModalAttention}
+                setShowModalAttention={setShowModalAttention}
             />
 
         </ContainerPerfil>

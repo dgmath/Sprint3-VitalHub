@@ -181,9 +181,9 @@ export const Perfil = ({ navigation }) => {
                     nome : nomeM ,
                     crm : crm,
                     cep : cepM,
-                    logradouro : logradouroP,
-                    numero : numeroP,
-                    cidade : cidadeP,
+                    logradouro : logradouroM,
+                    numero : numeroM,
+                    cidade : cidadeM,
                 },{
                     headers: {
                         Authorization: `Bearer ${token}`,

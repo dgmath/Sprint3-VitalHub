@@ -9,11 +9,14 @@ import { ButtonCardMedico } from "../../components/ButtonCardMedico/ButtonCardMe
 
 import api from "../../Services/Services";
 import { LogBox } from 'react-native';
+import { ModalAttention } from "../../components/CancelationModal/CancelationModal";
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export const SelecionarMedico = ({ navigation, route }) => {
+
+    const [showModalAttention, setShowModalAttention] = useState(false);
 
     const [border, setBorder] = useState(null)
 
@@ -35,15 +38,32 @@ export const SelecionarMedico = ({ navigation, route }) => {
             })
     }
 
+
+    function validarMedico() {
+        if (medico == null) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
     //função onde passa os dados do agendamento de uma tela para outra
     function handleContinue() {
-        navigation.replace("SelecionarData", {
-            agendamento: {
-                ...route.params.agendamento,
+        const isValid = validarMedico()
+        if (isValid == false) {
+            return setShowModalAttention(true)
+        }
+        else {
+            navigation.replace("SelecionarData", {
+                agendamento: {
+                    ...route.params.agendamento,
 
-                ...medico
-            }
-        })
+                    ...medico
+                }
+            })
+        }
+
     }
 
     useEffect(() => {
@@ -101,6 +121,10 @@ export const SelecionarMedico = ({ navigation, route }) => {
                     <LinkEndModal onPress={() => navigation.replace("Main")}>Cancelar</LinkEndModal>
                 </MainContent>
             </MainContentScroll>
+            <ModalAttention
+                visible={showModalAttention}
+                setShowModalAttention={setShowModalAttention}
+            />
         </ContainerPerfil>
 
     )

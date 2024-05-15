@@ -28,19 +28,32 @@ export const InsercaoProntuario = ({ navigation, route }) => {
     //   }
 
     async function EditarProntuario() {
-        await api.put(`/Consultas/Prontuario`, {
-            consultaId: route.params.consultaId,
-            descricao: descricao,
-            diagnostico: diagnostico,
-            medicamento: medicamento
-        }).then(response => {
-            console.log(response.data);
-            setPreenchido(true)
-            alert('Prontuário Alterado')
-        })
-        .catch(error => {
+        try {
+            await api.put(`/Consultas/Prontuario`, {
+                consultaId: route.params.consultaId,
+                descricao: descricao,
+                diagnostico: diagnostico,
+                medicamento: medicamento
+            }).then(response => {
+                console.log(response.data);
+                setPreenchido(true)
+                // alert('Prontuário Alterado')
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+            await api.put(`/Consultas/Status?idConsulta=${route.params.consultaId}&status=Realizadas`).then(
+                response => {
+                    console.log(response);
+                }
+            ).catch(error => {
+                console.log(error);
+            })
+        } catch (error) {
             console.log(error);
-        })
+        }
+       
     }
 
     async function BuscarProntuario() {

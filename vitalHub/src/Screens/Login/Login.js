@@ -18,6 +18,7 @@ import { ModalNotifications } from "../../components/ModalNotifications/ModalNot
 //validar input
 //travar o botao
 import { LogBox } from 'react-native';
+import { ModalAttention } from "../../components/CancelationModal/CancelationModal"
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -29,6 +30,7 @@ export const Login = ({ navigation, route }) => {
     // const [email, setEmail] = useState('paciente2@email.com')
     // const [email, setEmail] = useState(route.params.email ? route.params.email : '')
     const [email, setEmail] = useState(route.params?.email || '');
+    const [showModalAttention, setShowModalAttention] = useState(false);
 
     const [senha, setSenha] = useState('1234')
     const [loading, setLoading] = useState(false)
@@ -67,6 +69,7 @@ export const Login = ({ navigation, route }) => {
             console.log(456);
         }
         else {
+            setShowModalAttention(true)
             setLoading(false);
             // alert('Por favor, preencha todos os campos.');
         }
@@ -117,6 +120,11 @@ export const Login = ({ navigation, route }) => {
                     {/* <Text>Crie uma conta agora!</Text> */}
                 </LinkEnd>
             </ContentAccount>
+
+            <ModalAttention
+                visible={showModalAttention}
+                setShowModalAttention={setShowModalAttention}
+            />
 
         </Container>
 

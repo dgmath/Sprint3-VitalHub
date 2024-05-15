@@ -111,3 +111,71 @@ export const CancelationModal = ({
         </Modal>
     )
 }
+
+export const ModalEmail = ({
+    visible,
+    consulta,
+    setShowModalEmail,
+    route,
+    ...rest
+}) => {
+
+    return (
+        <Modal
+            {...rest}
+            visible={visible}
+            transparent={true}
+            animationType="fade"
+        >
+
+            <PatientModal>
+                <ModalContent>
+
+                    <TitleModal>Atenção!</TitleModal>
+
+                    <ModalText>Por favor preencha com um email válido!</ModalText>
+
+                    <ModalButton onPress={() => setShowModalEmail(false)}>
+                        <ButtonTitle>Confirmar</ButtonTitle>
+                    </ModalButton>
+
+                </ModalContent>
+            </PatientModal>
+
+        </Modal>
+    )
+}
+export const ModalAttention = ({
+    visible,
+    consulta,
+    setShowModalAttention,
+    route,
+    ...rest
+}) => {
+
+    return (
+        <Modal
+            {...rest}
+            visible={visible}
+            transparent={true}
+            animationType="fade"
+        >
+
+            <PatientModal>
+                <ModalContent>
+
+                    <TitleModal>Atenção!</TitleModal>
+
+                    <ModalText>Por favor preencha todos os campos necessários!</ModalText>
+
+                    <ModalButton onPress={() => setShowModalAttention(false)}>
+                        <ButtonTitle>Confirmar</ButtonTitle>
+                    </ModalButton>
+
+                </ModalContent>
+            </PatientModal>
+
+        </Modal>
+    )
+}
+

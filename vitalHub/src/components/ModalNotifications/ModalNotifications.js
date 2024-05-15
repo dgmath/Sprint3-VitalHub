@@ -37,18 +37,36 @@ export const ModalNotifications = ({
     }
 
     async function GetConsultas() {
-        await api.get(`/Consultas/ConsultasPaciente`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            }
-        }).then(response => {
+        if (profile.role == 'Paciente') {
+            await api.get(`/Consultas/ConsultasPaciente`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }).then(response => {
+    
+                setConsultas(response.data)
+                console.log(response.data);
+    
+            }).catch(error => {
+                console.log(error);
+            })
+        }
+        else{
+            await api.get(`/Consultas/ConsultasMedico`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }).then(response => {
+    
+                setConsultas(response.data)
+                console.log(response.data);
+    
+            }).catch(error => {
+                console.log(error);
+            })
 
-            setConsultas(response.data)
-            console.log(response.data);
-
-        }).catch(error => {
-            console.log(error);
-        })
+        }
+       
     }
 
     useEffect(() => {

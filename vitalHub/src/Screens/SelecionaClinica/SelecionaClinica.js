@@ -8,6 +8,7 @@ import { ButtonTitle } from "../../components/ButtonTitle/style"
 import { LinkEndModal } from "../../components/Link/style"
 import api from "../../Services/Services"
 import { LogBox } from 'react-native';
+import { ModalAttention } from "../../components/CancelationModal/CancelationModal"
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications
@@ -16,12 +17,24 @@ LogBox.ignoreAllLogs();//Ignore all log notifications
 export const SelecionarClinica = ({
     navigation, route
 }) => {
+    const [showModalAttention, setShowModalAttention] = useState(false);
        
     const [border, setBorder] = useState(null)
 
     const [listaClinica, setListaClinica] = useState([])
 
     const [clinica, setClinica] = useState()
+
+
+
+    function validarClinica() {
+        if (clinica == null) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 
 
     async function ListarClinicas() {
@@ -35,14 +48,23 @@ export const SelecionarClinica = ({
     }
 
     function handleContinue() {
-        navigation.replace("SelecionarMedico", {
-            agendamento: {
-                ...route.params.agendamento,
+       const isValid = validarClinica();
 
-                ...clinica
-            }
-        })
+        if (isValid == false) {
+            return setShowModalAttention(true)
+        }
+        else{
+            navigation.replace("SelecionarMedico", {
+                agendamento: {
+                    ...route.params.agendamento,
+    
+                    ...clinica
+                }
+            })
+        }
+
     }
+
 
     useEffect(() => {
         ListarClinicas()
@@ -86,6 +108,12 @@ export const SelecionarClinica = ({
                     <LinkEndModal onPress={() => navigation.replace("Main")}>Cancelar</LinkEndModal>
                 </MainContent>
             </MainContentScroll>
+
+
+            <ModalAttention
+                visible={showModalAttention}
+                setShowModalAttention={setShowModalAttention}
+            />
         </ContainerPerfil>
 
     )
