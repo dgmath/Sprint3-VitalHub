@@ -1,3 +1,4 @@
+
 import { BoxInput, BoxInput2 } from "../../components/BoxInput";
 import { ContainerInputPerfil, ContainerInputRow, ContainerInputRowOne, ContainerPerfil, MainContent, MainContentScroll } from "../../components/Container/style";
 import { ImagePerfil } from "../../components/Logo/style";
@@ -20,6 +21,7 @@ import { ModalCamera } from "../../components/ModalCamera/ModalCamera";
 
 import * as MediaLibrary from 'expo-media-library'
 import * as ImagePicker from 'expo-image-picker'
+import { ModalAttention } from "../../components/CancelationModal/CancelationModal";
 
 //import { UpdateProfileModal } from "../../components/UpdatePerfilModal/UpdatePerfilModal";
 
@@ -37,16 +39,14 @@ export const Perfil = ({ navigation }) => {
 
     // states para editar dados do medico
     const [nomeM, setNomeM] = useState('')
-    // const [especialidadeM, setEspecialidadeM] = useState('')
     const [crm, setCrmM] = useState('')
     const [logradouroM, setLogradouroM] = useState('')
     const [numeroM, setNumeroM] = useState('')
     const [cepM, setCepM] = useState('')
     const [cidadeM, setCidadeM] = useState('')
 
-
     // states para editar dados do paciente
-    const [nomeP, setNomeP] = useState(userData)
+    const [nomeP, setNomeP] = useState('')
     const [rgP, setRgP] = useState('')
     const [dataNascimentoP, setDataNascimentoP] = useState('')
     const [cpfP, setCpfP] = useState('')
@@ -54,6 +54,8 @@ export const Perfil = ({ navigation }) => {
     const [logradouroP, setLogradouroP] = useState('')
     const [numeroP, setNumeroP] = useState('')
     const [cidadeP, setCidadeP] = useState('')
+
+    const [showModalAttention, setShowModalAttention] = useState(false);
 
 
     async function KeepingData() {
@@ -69,7 +71,7 @@ export const Perfil = ({ navigation }) => {
             setNomeM(userData.idNavigation.nome)
             setCrmM(userData.crm)
             setLogradouroM(userData.endereco.logradouro)
-            setNumeroM(userData.endereco.numero)
+            setNumeroM(JSON.stringify(userData.endereco.numero))
             setCepM(userData.endereco.cep)
             setCidadeM(userData.endereco.cidade)
 
@@ -81,7 +83,7 @@ export const Perfil = ({ navigation }) => {
             setCpfP(userData.cpf)
             setCepP(userData.endereco.cep)
             setLogradouroP(userData.endereco.logradouro)
-            setNumeroP(userData.endereco.numero)
+            setNumeroP(JSON.stringify(userData.endereco.numero))
             setCidadeP(userData.endereco.cidade)
         }
     }
@@ -93,7 +95,6 @@ export const Perfil = ({ navigation }) => {
         setRole(tokenRole.role)
 
         setUser(tokenRole.user)
-
 
 
         if (tokenRole.role == 'Paciente') {
@@ -162,30 +163,48 @@ export const Perfil = ({ navigation }) => {
 
         try {
             if (tokenRole.role == 'Paciente') {
-                await api.put(`/Pacientes?idUsuario=${user}`, {
-                    rg: rgP,
-                    cpf: cpfP,
-                    dataNascimento: dataNascimentoP,
-                    cep: cepP,
-                    logradouro: logradouroP,
-                    numero: numeroP,
-                    cidade: cidadeP,
-                    nome: nomeP,
-                });
+                if (nomeP && rgP && dataNascimentoP && cpfP && cepP && logradouroP && numeroP && cidadeP !== '') {
+
+                    const dataNascimentoFormatada = moment(dataNascimentoP, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+                    await api.put(`/Pacientes?idUsuario=${user}`, {
+                        nome: nomeP,
+                        rg: rgP,
+                        cpf: cpfP,
+                        dataNascimento: dataNascimentoFormatada,
+                        cep: cepP,
+                        logradouro: logradouroP,
+                        numero: numeroP,
+                        cidade: cidadeP
+                    });
+
+                } else {
+                    setShowModalAttention(true)
+                    setPreenchido(true)
+                }
+
             } else {
-                await api.put('/Medicos', {
-                    nome: nomeM,
-                    crm: crm,
-                    cep: cepM,
-                    logradouro: logradouroP,
-                    numero: numeroP,
-                    cidade: cidadeP,
-                }, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
+
+                if (nomeM && crm && logradouroM && numeroM && cepM && cidadeM !== '') {
+
+                    await api.put('/Medicos', {
+                        nome: nomeM,
+                        crm: crm,
+                        cep: cepM,
+                        logradouro: logradouroM,
+                        numero: numeroM,
+                        cidade: cidadeM,
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                } else {
+                    setShowModalAttention(true)
+                    setPreenchido(true)
+                }
             }
 
             console.log(token);
@@ -380,6 +399,7 @@ export const Perfil = ({ navigation }) => {
                                             fieldValue={nomeM}
                                             onChangeText={(txt) => setNomeM(txt)}
                                             editable={true}
+                                            BorderColor={nomeM == '' ? 'red' : '#49B3BA'}
                                         />
                                         <BoxInput
                                             textLabel='Especialidade:'
@@ -392,6 +412,7 @@ export const Perfil = ({ navigation }) => {
                                             fieldValue={crm}
                                             onChangeText={(txt) => setCrmM(txt)}
                                             editable={true}
+                                            BorderColor={crm == '' ? 'red' : '#49B3BA'}
                                         />
 
                                         <ContainerInputRowOne>
@@ -402,6 +423,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldValue={logradouroM}
                                                 onChangeText={(txt) => setLogradouroM(txt)}
                                                 editable={true}
+                                                BorderColor={logradouroM == '' ? 'red' : '#49B3BA'}
                                             />
                                             <BoxInput
                                                 fieldWidth={40}
@@ -410,6 +432,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldValue={numeroM}
                                                 onChangeText={(txt) => setNumeroM(txt)}
                                                 editable={true}
+                                                BorderColor={numeroM == '' ? 'red' : '#49B3BA'}
                                             />
                                         </ContainerInputRowOne>
 
@@ -421,6 +444,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldValue={cepM}
                                                 onChangeText={(txt) => setCepM(txt)}
                                                 editable={true}
+                                                BorderColor={cepM == '' ? 'red' : '#49B3BA'}
                                             />
                                             <BoxInput
                                                 fieldWidth={50}
@@ -429,6 +453,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldValue={cidadeM}
                                                 onChangeText={(txt) => setCidadeM(txt)}
                                                 editable={true}
+                                                BorderColor={cidadeM == '' ? 'red' : '#49B3BA'}
                                             />
                                         </ContainerInputRow>
                                     </ContainerInputPerfil>
@@ -440,6 +465,7 @@ export const Perfil = ({ navigation }) => {
                                             fieldValue={nomeP}
                                             onChangeText={(txt) => setNomeP(txt)}
                                             editable={true}
+                                            BorderColor={nomeP == '' ? 'red' : '#49B3BA'}
                                         />
                                         <BoxInput
                                             textLabel='RG:'
@@ -447,6 +473,7 @@ export const Perfil = ({ navigation }) => {
                                             fieldValue={rgP}
                                             onChangeText={(txt) => setRgP(txt)}
                                             editable={true}
+                                            BorderColor={rgP == '' ? 'red' : '#49B3BA'}
                                         />
                                         <BoxInput
                                             textLabel='Data de nascimento:'
@@ -454,6 +481,7 @@ export const Perfil = ({ navigation }) => {
                                             fieldValue={dataNascimentoP}
                                             onChangeText={(txt) => setDataNascimentoP(txt)}
                                             editable={true}
+                                            BorderColor={dataNascimentoP == '' ? 'red' : '#49B3BA'}
                                         />
                                         <BoxInput
                                             textLabel='CPF:'
@@ -461,6 +489,7 @@ export const Perfil = ({ navigation }) => {
                                             fieldValue={cpfP}
                                             onChangeText={(txt) => setCpfP(txt)}
                                             editable={true}
+                                            BorderColor={cpfP == '' ? 'red' : '#49B3BA'}
                                         />
                                         <ContainerInputRowOne>
                                             <BoxInput
@@ -470,6 +499,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldValue={logradouroP}
                                                 onChangeText={(txt) => setLogradouroP(txt)}
                                                 editable={true}
+                                                BorderColor={logradouroP == '' ? 'red' : '#49B3BA'}
                                             />
                                             <BoxInput
                                                 fieldWidth={40}
@@ -478,6 +508,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldValue={numeroP}
                                                 onChangeText={(txt) => setNumeroP(txt)}
                                                 editable={true}
+                                                BorderColor={numeroP == '' ? 'red' : '#49B3BA'}
                                             />
                                         </ContainerInputRowOne>
 
@@ -489,6 +520,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldValue={cepP}
                                                 onChangeText={(txt) => setCepP(txt)}
                                                 editable={true}
+                                                BorderColor={cepP == '' ? 'red' : '#49B3BA'}
                                             />
                                             <BoxInput
                                                 fieldWidth={50}
@@ -497,6 +529,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldValue={cidadeP}
                                                 onChangeText={(txt) => setCidadeP(txt)}
                                                 editable={true}
+                                                BorderColor={cidadeP == '' ? 'red' : '#49B3BA'}
                                             />
                                         </ContainerInputRow>
                                     </ContainerInputPerfil>
@@ -537,12 +570,11 @@ export const Perfil = ({ navigation }) => {
                 getMediaLibrary={true}
             />
 
-            {/* <UpdateProfileModal
-                // navigation={navigation}
-                visible={showModalUpdate}
-                setShowModalSchedule={setShowModalUpdate}
-            /> */}
-
+            <ModalAttention
+                visible={showModalAttention}
+                setShowModalAttention={setShowModalAttention}
+                setPreenchido={setPreenchido}
+            />
         </ContainerPerfil>
     )
 }

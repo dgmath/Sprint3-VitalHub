@@ -47,11 +47,13 @@ export const  ButtonGoogle = styled(Button)`
 
 export const  ButtonRecover = styled(Button)`
     margin-top: 25px;
+    margin-bottom: 30px;
 `
 export const  ButtonEditPerfil = styled(Button)`
     margin-bottom: 30px;
 `
 export const  ModalButton = styled(Button)`
+margin-bottom: 30px;
 `
 export const ButtonSairPerfil = styled.TouchableOpacity`
     width: 60%;

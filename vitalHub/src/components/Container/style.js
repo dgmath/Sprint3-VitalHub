@@ -95,16 +95,19 @@ export const ContainerHeader = styled(LinearGradient).attrs({
     width:100%;
     height: 150px;
     justify-content: center;
-    padding: 20px 20px 22px 20px;
+    padding: 20px 20px 20px 20px;
     border-radius: 0px 0px 15px 15px;
     flex-direction: row;
-    justify-content:space-between
+    justify-content:space-between;
+    align-items: 'center';
+
 `
 
 export const Container = styled.SafeAreaView`
     flex: 1;
     align-items: center;
     background-color: #49B3BA;
+    /* border-color: black; */
 `
 
 export const ContainerNavigation = styled(Container)`
@@ -156,6 +159,9 @@ export const MainContent = styled.View`
     align-items: center;
     background-color: #ffff;
     /* margin-top: 60px; */
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    
 `
 
 export const MainContentScroll = styled.ScrollView`

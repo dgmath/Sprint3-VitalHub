@@ -4,9 +4,10 @@ export const BoxUser = styled.View`
     flex-direction: row;
     align-items: center;
     gap: 10px;
+    /* border: 1px solid black; */
 `
 
-export const BoxIcon = styled.View`
+export const BoxIcon = styled.TouchableOpacity`
     align-items: center;
     /* border: 1px; */
     justify-content: center;

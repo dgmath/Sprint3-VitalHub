@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { BoxInput } from "../../components/BoxInput"
+import { BoxInput, BoxInput2 } from "../../components/BoxInput"
 import { ContainerMap, ContainerPerfil, MainContent, MainContentScroll } from "../../components/Container/style"
 import { LinkEndModal } from "../../components/Link/style"
 import { Maps } from "../../components/Maps/Maps"
@@ -33,19 +33,20 @@ export const PlaceConsult = ({ navigation, route }) => {
         <ContainerPerfil>
             {clinicaSelecionada != null ? (
                 <>
-                    <MainContentScroll>
-                        <MainContent>
-
                             <Maps
                                 longitude={clinicaSelecionada.endereco.longitude}
                                 latitude={clinicaSelecionada.endereco.latitude}
                                 endereco={clinicaSelecionada.endereco.logradouro}
                             />
+                    <MainContentScroll>
+                        
+                        <MainContent>
+
 
                             <TitleMap>{clinicaSelecionada.nomeFantasia}</TitleMap>
                             <TextMap>{clinicaSelecionada.endereco.cidade}</TextMap>
 
-                            <BoxInput
+                            <BoxInput2
                                 fieldWidth={90}
                                 fieldHeight={55}
                                 textLabel='Endereço'
@@ -53,14 +54,14 @@ export const PlaceConsult = ({ navigation, route }) => {
                             />
 
                             <ViewInputRow>
-                                <BoxInput
+                                <BoxInput2
                                     fieldWidth={40}
                                     fieldHeight={55}
                                     textLabel='Cep'
                                     fieldValue={clinicaSelecionada.endereco.cep}
                                 />
 
-                                <BoxInput
+                                <BoxInput2
                                     fieldWidth={40}
                                     fieldHeight={55}
                                     textLabel='Número'

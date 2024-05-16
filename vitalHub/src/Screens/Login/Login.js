@@ -13,26 +13,46 @@ import { useState } from "react"
 
 import api from "../../Services/Services"
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ActivityIndicator } from "react-native"
+import { ActivityIndicator, Text } from "react-native"
+import { ModalNotifications } from "../../components/ModalNotifications/ModalNotifications"
 //validar input
 //travar o botao
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
-export const Login = ({ navigation }) => {
+export const Login = ({ navigation, route }) => {
 
-    const [email, setEmail] = useState('paciente@email.com')
+    // const [email, setEmail] = useState('math29kiss@gmail.com')
     // const [email, setEmail] = useState('paciente2@email.com')
-    // const [email, setEmail] = useState('medico2@gmail.com')
+    const [email, setEmail] = useState('paciente@email.com')
+    // const [email, setEmail] = useState('medico@email.com')
+    // const [email, setEmail] = useState(route.params.email ? route.params.email : '')
+    // const [email, setEmail] = useState(route.params?.email || '');
+
     const [senha, setSenha] = useState('1234')
     const [loading, setLoading] = useState(false)
+    const [emailValido, setEmailValido] = useState(true);
+    const [senhaValida, setSenhaValida] = useState(true);
+
 
     // const [user, setUser] = useState({});
+    const validarCampos = () => {
+        setEmailValido(email.trim() !== '');
+        setSenhaValida(senha.length > 3);
+    };
 
-    async function Logar(e) {
+
+    async function Logar() {
 
         // email.length >= 8 && senha.length >= 3 ? 
-            
-            setLoading(true)
+
+        setLoading(true)
+        validarCampos()
+
+        if (emailValido && senhaValida) {
 
             await api.post('/Login', {
                 email: email,
@@ -47,8 +67,13 @@ export const Login = ({ navigation }) => {
                 console.log(error);
             })
             console.log(456);
+        }
+        else {
+            setLoading(false);
+            // alert('Por favor, preencha todos os campos.');
+        }
 
-            // : alert('Preencha os dados corretamente')
+        // : alert('Preencha os dados corretamente')
     }
 
 
@@ -65,17 +90,19 @@ export const Login = ({ navigation }) => {
                 value={email}
                 required={true}
                 inputMode='email'
+                style={{ borderColor: emailValido ? 'white' : 'red' }}
             />
             <Input
                 onChangeText={(txt) => setSenha(txt)}
                 value={senha}
                 placeholder="Senha"
                 secureTextEntry={true}
+                style={{ borderColor: senhaValida ? 'white' : 'red' }}
             />
 
             <LinkMedium onPress={() => navigation.navigate("RecoverSenha")}>Esqueceu sua senha?</LinkMedium>
 
-            <Button onPress={(e) => Logar()} disabled={loading}>
+            <Button onPress={() => Logar()} disabled={loading}>
                 {loading ? <ActivityIndicator /> : <ButtonTitle>Entrar</ButtonTitle>}
             </Button>
 
@@ -87,11 +114,14 @@ export const Login = ({ navigation }) => {
 
             <ContentAccount>
                 <TextAccount>Não tem conta?</TextAccount>
-                <LinkEnd onPress={() => navigation.navigate("Cadastro")}>
+                <LinkEnd onPress={() => navigation.replace("Cadastro")}>
                     <TextLink>Crie uma conta agora!</TextLink>
+                    {/* <Text>Crie uma conta agora!</Text> */}
                 </LinkEnd>
             </ContentAccount>
 
         </Container>
+
+
     )
 }

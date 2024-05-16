@@ -8,7 +8,10 @@ import { LinkEndModal } from "../../components/Link/style"
 import { TitleSelect } from "../../components/Title/style"
 import { LabelData } from "./style"
 import { ModalAgendarConsulta } from "../../components/ModalAgendarConsulta/ModalAgendarConsulta"
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 export const SelecionarData = ({
     navigation, route

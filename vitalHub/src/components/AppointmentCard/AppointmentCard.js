@@ -23,7 +23,7 @@ export const AppointmentCard = ({
                     </TouchableOpacity>
                 )
                 : (
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={onPressAppointment}>
                         <ProfileImage source={{ uri: consulta.paciente.idNavigation.foto }} />
                     </TouchableOpacity>
                 )}

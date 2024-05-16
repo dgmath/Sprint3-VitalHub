@@ -20,16 +20,16 @@ Notifications.requestPermissionsAsync();
 
 // 4º Definir como asnotificações devem ser tratadas qnd recebidas
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    //Mostar alerta quando a notificação for recebida
-    shouldShowAlert: true,
+    handleNotification: async () => ({
+        //Mostar alerta quando a notificação for recebida
+        shouldShowAlert: true,
 
-    // Reproduz som ao receber notificação
-    shouldPlaySound: true,
+        // Reproduz som ao receber notificação
+        shouldPlaySound: true,
 
-    // Número de notificações no icone do app
-    shouldSetBadge: false
-  })
+        // Número de notificações no icone do app
+        shouldSetBadge: false
+    })
 })
 
 export const CancelationModal = ({
@@ -42,19 +42,45 @@ export const CancelationModal = ({
 
 
     async function CancelarConsulta() {
-        await api.put(`/Consultas/Status`,{
-            id: consulta.id , situacaoId: '11215117-4485-4C02-82E7-C71AF491BA05'
+        await api.put(`/Consultas/Status?idConsulta=${consulta.id}&status=Canceladas`)
+            .then(response => {
+                console.log(123);
+                console.log(response.data);
+                // alert('Consulta cancelada')
+                console.log(456);
+                setShowModalCancel(false)
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+    //funçao para lidar com a chamada de notificaçao
+    const handleCallNotifications = async () => {
+
+        //obtem o status da permissao
+        const { status } = await Notifications.getPermissionsAsync();
+
+        //verifica se o usuario permitiu as notificaçoes
+        if (status != 'granted') {
+            alert('Você não ativou as notificações')
+            return;
+        }
+
+        //Agenda uma notificação
+        await Notifications.scheduleNotificationAsync({
+            content: {
+                title: "Consulta Cancelada",
+                body: "Sua consulta foi cancelada",
+                sound: "Notification.mp3"
+            },
+            trigger: null
+
         })
-        .then(response => {
-            console.log(123);
-            console.log(response.data);
-            alert('Consulta cancelada')
-            console.log(456);
-            setShowModalCancel(false)
-        })
-        .catch(error => {
-            console.log(error);
-        })
+    }
+
+    async function Chamada() {
+        CancelarConsulta()
+        handleCallNotifications()
     }
 
 
@@ -73,11 +99,83 @@ export const CancelationModal = ({
 
                     <ModalText>Ao cancelar essa consulta, abrirá uma possível disponibilidade no seu horário, deseja mesmo cancelar essa consulta?</ModalText>
 
-                    <ModalButton onPress={() => CancelarConsulta()}>
+                    <ModalButton onPress={() => Chamada()}>
                         <ButtonTitle>Confirmar</ButtonTitle>
                     </ModalButton>
 
                     <LinkEndModal onPress={() => setShowModalCancel(false)}>Cancelar</LinkEndModal>
+
+                </ModalContent>
+            </PatientModal>
+
+        </Modal>
+    )
+}
+
+export const ModalEmail = ({
+    visible,
+    consulta,
+    setShowModalEmail,
+    route,
+    ...rest
+}) => {
+
+    return (
+        <Modal
+            {...rest}
+            visible={visible}
+            transparent={true}
+            animationType="fade"
+        >
+
+            <PatientModal>
+                <ModalContent>
+
+                    <TitleModal>Atenção!</TitleModal>
+
+                    <ModalText>Por favor preencha com um email válido!</ModalText>
+
+                    <ModalButton onPress={() => setShowModalEmail(false)}>
+                        <ButtonTitle>Confirmar</ButtonTitle>
+                    </ModalButton>
+
+                </ModalContent>
+            </PatientModal>
+
+        </Modal>
+    )
+}
+
+export const ModalAttention = ({
+    visible,
+    consulta,
+    setShowModalAttention,
+    setPreenchido,
+    route,
+    ...rest
+}) => {
+
+    return (
+        <Modal
+            {...rest}
+            visible={visible}
+            transparent={true}
+            animationType="fade"
+        >
+
+            <PatientModal>
+                <ModalContent>
+
+                    <TitleModal>Atenção!</TitleModal>
+
+                    <ModalText>Por favor preencha todos os campos necessários!</ModalText>
+
+                    <ModalButton onPress={() => {
+                        setShowModalAttention(false)
+                        setPreenchido(false)
+                        }}>
+                        <ButtonTitle>Confirmar</ButtonTitle>
+                    </ModalButton>
 
                 </ModalContent>
             </PatientModal>

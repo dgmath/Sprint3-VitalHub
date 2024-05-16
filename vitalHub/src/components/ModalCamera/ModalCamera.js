@@ -1,5 +1,5 @@
 import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Camera, CameraType, CameraView } from 'expo-camera';
+import { Camera, CameraView } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library'
 import { useEffect, useState, useRef } from 'react';
 import { FontAwesome, Feather } from '@expo/vector-icons'
@@ -112,9 +112,11 @@ export const ModalCamera = ({
     <Modal visible={visible} style={styles.container}>
       <CameraView
         flash={flash}
+        facing={tipoCamera}
         ref={cameraRef}
         style={styles.camera}
-        facing={tipoCamera}
+        // type={tipoCamera}
+        // CameraType={tipoCamera}
       >
         <View style={
           { flexDirection: 'row', width: '100%',  justifyContent: 'space-between', alignItems:'center'}
@@ -153,7 +155,7 @@ export const ModalCamera = ({
               <FontAwesome name="camera" size={24} color="transparent" />
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => setTipoCamera(tipoCamera == 'back' ? 'front' : 'back')} style={styles.btnFlip}>
+            <TouchableOpacity onPress={() => setTipoCamera(current => (current === 'back' ? 'front' : 'back'))} style={styles.btnFlip}>
               <MaterialCommunityIcons
                 name="camera-retake"
                 size={40}
