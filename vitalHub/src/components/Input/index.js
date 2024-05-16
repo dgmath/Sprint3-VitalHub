@@ -6,7 +6,7 @@ export const InputForm = ({
     fieldHeight = 50,
     fieldValue = null,
     onChangeText = null,
-    keyType,
+    inputMode,
     maxLength,
     editable = false,
     multiline
@@ -17,11 +17,11 @@ export const InputForm = ({
             editable={editable}
             fieldHeight={fieldHeight}
             placeholder={placeholder}
-            keyBoardType={keyType}
             maxLength={maxLength}
             value={fieldValue}
             onChangeText={onChangeText}
             multiline={multiline}
+            inputMode={inputMode}
         />
     )
 }

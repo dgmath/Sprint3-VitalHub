@@ -11,7 +11,7 @@ export const BoxInput = ({
     placeholder,
     fieldValue = null,
     onChangeText = null,
-    keyType = 'default',
+    inputMode = 'default',
     maxLength,
     multiline
 }) => {
@@ -26,7 +26,7 @@ export const BoxInput = ({
                 fieldHeight={fieldHeight}
                 editable={editable}
                 placeholder={placeholder}
-                keyBoardType={keyType}
+                inputMode={inputMode}
                 maxLength={maxLength}
                 fieldValue={fieldValue}
                 onChangeText={onChangeText}

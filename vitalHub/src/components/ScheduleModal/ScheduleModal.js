@@ -8,6 +8,7 @@ import { ModalButton } from "../Button/style"
 import { ButtonTitle } from "../ButtonTitle/style"
 import { useState } from "react"
 import { ModalAttention } from "../CancelationModal/CancelationModal"
+import { InputSelectCity } from "../InputSelect"
 
 
 export const ScheduleModal = ({
@@ -25,21 +26,21 @@ export const ScheduleModal = ({
 
     // const [isValid, setIsValid] = useState(false);
 
-    const validarCampos = () => {        
+    const validarCampos = () => {
         if (agendamento.prioridadeId == null || agendamento.localizacao == null) {
             return false;
         } else {
-           return true;
+            return true;
         }
     };
-    
+
     async function HandleContinue() {
-       const isValid = validarCampos();
+        const isValid = validarCampos();
 
         if (isValid == false) {
-            return setShowModalAttention(true); 
+            return setShowModalAttention(true);
         }
-        else{
+        else {
             await setShowModalSchedule(false);
             navigation.replace("SelecionarClinica", { agendamento: agendamento })
         }
@@ -73,7 +74,7 @@ export const ScheduleModal = ({
                                     prioridadeId: 'ABBAD6A6-9644-44BF-8C50-24B3F55ED211',
                                     prioridadeLabel: 'Rotina'
                                 }) || setBorder(agendamento ? agendamento.prioridadeLabel : false)}>
-                                <TextButton  clickButton={agendamento ? agendamento.prioridadeLabel == 'Rotina' : false}>Rotina</TextButton>
+                                <TextButton clickButton={agendamento ? agendamento.prioridadeLabel == 'Rotina' : false}>Rotina</TextButton>
                             </Button>
 
                             {/* AE5B077D-F470-49F3-BADA-1FFF116769BF */}
@@ -103,17 +104,21 @@ export const ScheduleModal = ({
                             </Button>
                         </BoxButtonModal>
 
-                        <BoxInput
+                        {/* <BoxInput
                             BorderColor={"#49B3BA"}
                             fieldHeight={55}
                             textLabel='Informe a localização desejada:'
                             placeholder='Informe a localização'
-                            fieldValue={agendamento ? agendamento.localizacao : null}
-                            onChangeText={(txt) => setAgendamento({
-                                ...agendamento,
-                                localizacao: txt
-                            })}
+                            
                             editable={true}
+                        /> */}
+
+                        <InputSelectCity
+                            value={agendamento ? agendamento.localizacao : null}
+                            setCidadeSelecionada={(value) => setAgendamento({
+                                ...agendamento,
+                                localizacao: value
+                            })}
                         />
 
                     </ContainerForm>

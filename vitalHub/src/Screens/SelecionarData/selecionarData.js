@@ -3,13 +3,13 @@ import { ButtonRecover } from "../../components/Button/style"
 import { ButtonTitle } from "../../components/ButtonTitle/style"
 import CalendarSelectData from "../../components/CalendarSelectData/CalendarSelectData"
 import { ContainerForm, ContainerPerfil } from "../../components/Container/style"
-import InputSelect from "../../components/InputSelect"
 import { LinkEndModal } from "../../components/Link/style"
 import { TitleSelect } from "../../components/Title/style"
 import { LabelData } from "./style"
 import { ModalAgendarConsulta } from "../../components/ModalAgendarConsulta/ModalAgendarConsulta"
 import { LogBox } from 'react-native';
 import { ModalAttention } from "../../components/CancelationModal/CancelationModal"
+import { InputSelect } from "../../components/InputSelect"
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs();//Ignore all log notifications

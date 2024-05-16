@@ -7,7 +7,7 @@ export const Container = styled.View`
     justify-content: center;
     padding: 10px 0px 20px 0px;
     margin-top: 10px;
-    width: 80%;
+    width: 100%;
 `
 export const ButtonContent = styled.TouchableOpacity`
     width: 85%;

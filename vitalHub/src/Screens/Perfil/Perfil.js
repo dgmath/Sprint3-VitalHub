@@ -7,7 +7,7 @@ import { TitlePerfil } from "../../components/Title/style";
 import { ButtonTitle } from "../../components/ButtonTitle/style"
 import { Button, ButtonEditPerfil, ButtonSairPerfil } from "../../components/Button/style"
 import { useEffect, useState } from "react";
-import { tokenClean, userDecodeToken } from "../../utils/Auth";
+import { cepMasked, cpfMasked, rgMasked, tokenClean, userDecodeToken } from "../../utils/Auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
@@ -70,7 +70,7 @@ export const Perfil = ({ navigation }) => {
             setNomeM(userData.idNavigation.nome)
             setCrmM(userData.crm)
             setLogradouroM(userData.endereco.logradouro)
-            setNumeroM(userData.endereco.numero)
+            setNumeroM(JSON.stringify(userData.endereco.numero))
             setCepM(userData.endereco.cep)
             setCidadeM(userData.endereco.cidade)
 
@@ -82,7 +82,7 @@ export const Perfil = ({ navigation }) => {
             setCpfP(userData.cpf)
             setCepP(userData.endereco.cep)
             setLogradouroP(userData.endereco.logradouro)
-            setNumeroP(userData.endereco.numero)
+            setNumeroP(JSON.stringify(userData.endereco.numero))
             setCidadeP(userData.endereco.cidade)
         }
     }
@@ -330,7 +330,7 @@ export const Perfil = ({ navigation }) => {
                                         <BoxInput2
                                             textLabel='RG:'
                                             placeholder='Seu RG'
-                                            fieldValue={userData.rg}
+                                            fieldValue={rgMasked(userData.rg)}
                                         />
                                         <BoxInput2
                                             textLabel='Data de nascimento:'
@@ -340,7 +340,7 @@ export const Perfil = ({ navigation }) => {
                                         <BoxInput2
                                             textLabel='CPF:'
                                             placeholder='CPF'
-                                            fieldValue={userData.cpf}
+                                            fieldValue={cpfMasked(userData.cpf)}
                                         />
                                         <ContainerInputRowOne>
                                             <BoxInput2
@@ -362,7 +362,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldWidth={50}
                                                 textLabel='CEP:'
                                                 placeholder='CEP'
-                                                fieldValue={userData.endereco.cep}
+                                                fieldValue={cepMasked(userData.endereco.cep)}
                                             />
                                             <BoxInput2
                                                 fieldWidth={50}
@@ -396,6 +396,7 @@ export const Perfil = ({ navigation }) => {
                                             fieldValue={crm}
                                             onChangeText={(txt) => setCrmM(txt)}
                                             editable={true}
+                                            inputMode="numeric"
                                         />
 
                                         <ContainerInputRowOne>
@@ -414,6 +415,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldValue={numeroM}
                                                 onChangeText={(txt) => setNumeroM(txt)}
                                                 editable={true}
+                                                inputMode="numeric"
                                             />
                                         </ContainerInputRowOne>
 
@@ -423,8 +425,10 @@ export const Perfil = ({ navigation }) => {
                                                 textLabel='CEP:'
                                                 placeholder='CEP'
                                                 fieldValue={cepM}
-                                                onChangeText={(txt) => setCepM(txt)}
+                                                onChangeText={(txt) => setCepM(cepMasked(txt))}
                                                 editable={true}
+                                                maxLength={9}
+                                                inputMode="numeric"
                                             />
                                             <BoxInput
                                                 fieldWidth={50}
@@ -449,8 +453,10 @@ export const Perfil = ({ navigation }) => {
                                             textLabel='RG:'
                                             placeholder='Seu RG'
                                             fieldValue={rgP}
-                                            onChangeText={(txt) => setRgP(txt)}
+                                            onChangeText={(txt) => setRgP(rgMasked(txt))}
                                             editable={true}
+                                            maxLength={12}
+                                            inputMode='numeric'
                                         />
                                         <BoxInput
                                             textLabel='Data de nascimento:'
@@ -458,13 +464,17 @@ export const Perfil = ({ navigation }) => {
                                             fieldValue={dataNascimentoP}
                                             onChangeText={(txt) => setDataNascimentoP(txt)}
                                             editable={true}
+                                            maxLength={10}
+                                            inputMode="numeric"
                                         />
                                         <BoxInput
                                             textLabel='CPF:'
                                             placeholder='CPF'
                                             fieldValue={cpfP}
-                                            onChangeText={(txt) => setCpfP(txt)}
+                                            onChangeText={(txt) => setCpfP(cpfMasked(txt))}
                                             editable={true}
+                                            maxLength={14}
+                                            inputMode="numeric"
                                         />
                                         <ContainerInputRowOne>
                                             <BoxInput
@@ -482,6 +492,7 @@ export const Perfil = ({ navigation }) => {
                                                 fieldValue={numeroP}
                                                 onChangeText={(txt) => setNumeroP(txt)}
                                                 editable={true}
+                                                inputMode="numeric"
                                             />
                                         </ContainerInputRowOne>
 
@@ -491,8 +502,10 @@ export const Perfil = ({ navigation }) => {
                                                 textLabel='CEP:'
                                                 placeholder='CEP'
                                                 fieldValue={cepP}
-                                                onChangeText={(txt) => setCepP(txt)}
+                                                onChangeText={(txt) => setCepP(cepMasked(txt))}
                                                 editable={true}
+                                                maxLength={9}
+                                                inputMode="numeric"
                                             />
                                             <BoxInput
                                                 fieldWidth={50}

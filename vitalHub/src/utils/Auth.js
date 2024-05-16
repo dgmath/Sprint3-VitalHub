@@ -1,6 +1,21 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 import { encode, decode } from "base-64";
+import { mask, unMask } from 'remask';
+
+//máscara para input que receber cep
+// export const cepMasked = data => mask(unMask(data), ["99.999.999/9999-99"])
+export const cepMasked = (data) => mask(unMask(data), ["99999-999"]);
+
+export const cpfMasked = (data) => mask(unMask(data), ["999.999.999-99"]);
+
+export const rgMasked = (rg) => mask(unMask(rg), ["99.999.999-9"]);
+
+//tira a mascara do value que contém o cep
+export const unMasked = (data) => unMask(data);
+
+
+
 
 if( !global.atob ){
     global.atob = encode

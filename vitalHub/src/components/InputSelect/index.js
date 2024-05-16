@@ -6,7 +6,7 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import moment from "moment";
 import { useEffect, useState } from "react";
 
-const InputSelect = ({ setHoraSelecionada }) => {
+export const InputSelect = ({ setHoraSelecionada }) => {
 
   const dataAtual = moment().format('YYYY-MM-DD');
 
@@ -48,7 +48,7 @@ const InputSelect = ({ setHoraSelecionada }) => {
         <RNPickerSelect
           style={style}
           Icon={() => {
-            return <FontAwesomeIcon icon={faCaretDown} color='#34898F' size={22} />
+            return <FontAwesomeIcon icon={faCaretDown} color='#34898F' size={24} />
           }}
           placeholder={{
             label: 'Selecione horário',
@@ -85,7 +85,6 @@ const style = StyleSheet.create({
     color: '#34898F',
     alignItems: 'center',
     justifyContent: 'center',
-
     fontFamily: 'MontserratAlternates_600SemiBold'
   },
   iconContainer: {
@@ -97,5 +96,43 @@ const style = StyleSheet.create({
   }
 })
 
-export default InputSelect
+
+export const InputSelectCity = ({ setCidadeSelecionada }) => {
+
+  return (
+    <View style={{
+      // width: 350,
+      marginBottom: 20,
+      width: '103%',
+      borderWidth: 2,
+      borderColor: "#49B3BA",
+      borderRadius: 5
+    }}>
+      
+        <RNPickerSelect
+          style={style}
+          Icon={() => {
+            return <FontAwesomeIcon icon={faCaretDown} color='#34898F' size={24} />
+          }}
+          placeholder={{
+            label: 'Selecione a Localização',
+            value: null,
+            color: '#34898F'
+          }}
+          onValueChange={(value) => setCidadeSelecionada(value)}
+          items={[
+            { label: 'São Paulo', value: 'São Paulo' },
+            { label: 'Mauá', value: 'Mauá' },
+            { label: 'São Caetano do Sul', value: 'São Caetano do Sul' },
+            { label: 'Santo André', value: 'Santo André' },
+            { label: 'São Bernardo do Campo', value: 'São Bernardo do Campo' }
+          ]}
+        />
+
+    </View>
+  )
+}
+
+
+
 
