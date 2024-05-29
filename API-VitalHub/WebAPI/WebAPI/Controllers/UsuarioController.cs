@@ -67,7 +67,7 @@ namespace WebAPI.Controllers
 
                 //Lógica para o upload da imagem
 
-                //Define o nome a partir do seu container no blob
+                //Define o nome a partir do seu container no blob      
                 var containerName = "containervitalhubguilhermeg";
 
                 //Define a string de conexão
